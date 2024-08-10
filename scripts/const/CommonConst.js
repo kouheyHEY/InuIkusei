@@ -1,4 +1,4 @@
-C_COMMON = {
+const C_COMMON = {
     /** ゲームタイトル */
     GAME_TITLE: '犬と僕',
     /** 画面幅 */
@@ -19,14 +19,10 @@ C_COMMON = {
     /** シーン名 GameClearScene */
     SCENE_GAMECLEARSCENE: 'GameClearScene',
 
-    /** 背景色 TitleScene */
-    BGCOLOR_TITLESCENE: 'TitleScene',
-    /** 背景色 IkuseiScene */
-    BGCOLOR_IKUSEISCENE: 'IkuseiScene',
-    /** 背景色 BattleScene */
-    BGCOLOR_BATTLESCENE: 'BattleScene',
-    /** 背景色 GameClearScene */
-    BGCOLOR_GAMECLEARSCENE: 'GameClearScene',
+    /** 背景色 全シーン共通 */
+    BGCOLOR_COMMON: '#4b0082',
+    /** 文字色 全シーン共通 */
+    FONTCOLOR_COMMON: '#ffdead',
 
     /** 文字の大きさ 大 */
     FONT_SIZE_LARGE: 64,
@@ -34,4 +30,14 @@ C_COMMON = {
     FONT_SIZE_MEDIAM: 48,
     /** 文字の大きさ 小 */
     FONT_SIZE_SMALL: 32,
+
+    /** ウインドウ 枠の太さ */
+    WINDOW_FRAME_WEIGHT: 2,
+    /** ウインドウ 枠の色 */
+    WINDOW_FRAME_WEIGHT: '#ffdead',
+    /** ウインドウ 背景の色 */
+    WINDOW_BGCOLOR: '#4b0082',
+    /** ウインドウ 文字の色 */
+    WINDOW_FONTCOLOR: '#ffdead',
+
 };
