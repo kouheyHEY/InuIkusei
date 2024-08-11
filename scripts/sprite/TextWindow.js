@@ -58,15 +58,28 @@ class TextWindow {
 
     /**
      * ウインドウの文字列を別の文字列に変更する
-     * @param {Phaser.GameObjects.Graphics} grph 
      * @param {string[]} textList 表示対象の文字列のリスト
      * @param {boolean} isList 表示形式がリスト形式かどうか
      */
-    dispText(grph, textList, isList) {
+    dispText(textList, isList) {
+        // 既に表示されている文字列を消去する
+        if (this.dispTextGroup.getLength() !== 0) {
+            this.dispTextGroup.clear(true, true);
+        }
+
         if (!isList) {
             // 表示対象がリスト形式でない場合
 
-            // TODO: テキストを文章形式で表示する
+            // テキストを文章形式で表示する
+            let textObj = this.add.text(
+                startX, startY, textList[0],
+                {
+                    fontSize: C_COMMON.FONT_SIZE_SMALL,
+                    fill: C_COMMON.FONTCOLOR_COMMON
+                }
+            ).setOrigin(1);
+
+            this.dispTextGroup.add(textObj);
         } else {
             // 表示対象がリスト形式の場合
 

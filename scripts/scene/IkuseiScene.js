@@ -13,7 +13,7 @@ class IkuseiScene extends Phaser.Scene {
 
         // ２．各エリアの作成
 
-        // 
+        // TODO: 画面下部のテキストウインドウ作成
     }
 
     /**
