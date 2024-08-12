@@ -10,20 +10,20 @@ const C_IS = {
     CHARA1_H: 384,
 
     /** キャラ１ ステータスウインドウ X座標 */
-    CHARA1_STATUS_WINDOW_X: 384,
+    WINDOW_CHARA1_STATUS_X: 384,
     /** キャラ１ ステータスウインドウ Y座標 */
-    CHARA1_STATUS_WINDOW_Y: 48,
+    WINDOW_CHARA1_STATUS_Y: 48,
     /** キャラ１ ステータスウインドウ 幅 */
-    CHARA1_STATUS_WINDOW_W: 192,
+    WINDOW_CHARA1_STATUS_W: 192,
     /** キャラ１ ステータスウインドウ 高さ */
-    CHARA1_STATUS_WINDOW_H: 384,
+    WINDOW_CHARA1_STATUS_H: 384,
 
     /** メイン用テキストウインドウ X座標 */
     WINDOW_TEXT_MAIN_X: 384,
     /** メイン用テキストウインドウ Y座標 */
-    WINDOW_TEXT_MAIN_X: 384,
+    WINDOW_TEXT_MAIN_Y: 480,
     /** メイン用テキストウインドウ 幅 */
-    WINDOW_TEXT_MAIN_X: 384,
+    WINDOW_TEXT_MAIN_W: 832,
     /** メイン用テキストウインドウ 高さ */
-    WINDOW_TEXT_MAIN_X: 384,
+    WINDOW_TEXT_MAIN_H: 192,
 }

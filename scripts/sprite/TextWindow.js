@@ -1,17 +1,17 @@
 class TextWindow {
 
     /**
-     * 
+     * ウインドウを作成する
      * @param {number} startX ウインドウの左上のX座標
      * @param {number} startY ウインドウの左上のY座標
-     * @param {number} vSize 縦のサイズ
      * @param {number} hSize 横のサイズ
+     * @param {number} vSize 縦のサイズ
      * @param {string} frameColor ウインドウの枠の色
      * @param {string} bgColor ウインドウの背景の色
      * @param {string} fontColor 文字の色
      * @param {Phaser.Scene} scene ウインドウを作成するシーン
      */
-    constructor(startX, startY, vSize, hSize, scene) {
+    constructor(startX, startY, hSize, vSize, frameColor, bgColor, fontColor, scene) {
         /** @type {number} ウインドウの左上のX座標 */
         this.startX = startX;
         /** @type {number} ウインドウの左上のY座標 */
@@ -42,18 +42,20 @@ class TextWindow {
     drawWindow(grph) {
         // ウインドウの内部描画
         grph.fillStyle(
-            C_COMMON.WINDOW_BGCOLOR, 1.0);
+            Phaser.Display.Color.HexStringToColor(this.bgColor).color,
+            1.0);
         grph.fillRect(
             this.startX, this.startY,
             this.hSize, this.vSize);
 
         // ウインドウの枠線描画
-        grph.lineStyle(C_COMMON.WINDOW_FRAME_WEIGHT,
-            this.bgColor, 1.0)
+        grph.lineStyle(
+            C_COMMON.WINDOW_FRAME_WEIGHT,
+            Phaser.Display.Color.HexStringToColor(this.frameColor).color,
+            1.0);
         grph.strokeRect(
             this.startX, this.startY,
             this.hSize, this.vSize);
-
     }
 
     /**
@@ -71,14 +73,18 @@ class TextWindow {
             // 表示対象がリスト形式でない場合
 
             // テキストを文章形式で表示する
-            let textObj = this.add.text(
-                startX, startY, textList[0],
+            let textObj = this.scene.add.text(
+                this.startX + C_COMMON.WINDOW_PADDING_LINE,
+                this.startY + C_COMMON.WINDOW_PADDING_LINE,
+                textList[0],
                 {
                     fontSize: C_COMMON.FONT_SIZE_SMALL,
-                    fill: C_COMMON.FONTCOLOR_COMMON
+                    fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
+                    fontFamily: C_COMMON.FONT_FAMILY_BIT12
                 }
-            ).setOrigin(1);
+            ).setOrigin(0);
 
+            // テキストオブジェクトを表示
             this.dispTextGroup.add(textObj);
         } else {
             // 表示対象がリスト形式の場合

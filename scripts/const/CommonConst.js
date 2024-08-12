@@ -19,10 +19,10 @@ const C_COMMON = {
     /** シーン名 GameClearScene */
     SCENE_GAMECLEARSCENE: 'GameClearScene',
 
-    /** 背景色 全シーン共通 */
-    BGCOLOR_COMMON: '#4b0082',
-    /** 文字色 全シーン共通 */
-    FONTCOLOR_COMMON: '#ffdead',
+    /** フォント ビット太字 */
+    FONT_FAMILY_BIT12_BOLD: 'Bit12Bold',
+    /** フォント ビット通常 */
+    FONT_FAMILY_BIT12: 'Bit12',
 
     /** 文字の大きさ 大 */
     FONT_SIZE_LARGE: 64,
@@ -32,12 +32,29 @@ const C_COMMON = {
     FONT_SIZE_SMALL: 32,
 
     /** ウインドウ 枠の太さ */
-    WINDOW_FRAME_WEIGHT: 2,
-    /** ウインドウ 枠の色 */
-    WINDOW_FRAME_WEIGHT: '#ffdead',
-    /** ウインドウ 背景の色 */
-    WINDOW_BGCOLOR: '#4b0082',
-    /** ウインドウ 文字の色 */
-    WINDOW_FONTCOLOR: '#ffdead',
+    WINDOW_FRAME_WEIGHT: 4,
+
+    /** 共通色 白系 */
+    COMMON_COLOR_WHITE: '#faebd7',
+
+    /** 共通色 黒系１ */
+    COMMON_COLOR_BLACK_1: '#1e0033',
+    /** 共通色 黒系２ */
+    COMMON_COLOR_BLACK_2: '#3c0066',
+    /** 共通色 黒系３ */
+    COMMON_COLOR_BLACK_3: '#590099',
+    /** 共通色 黒系４ */
+    COMMON_COLOR_BLACK_4: '#7700cc',
+
+    /** 共通色 ウインドウ文字色 */
+    COMMON_COLOR_WINDOW_FONT: '#1e0033',
+    /** 共通色 ウインドウ背景色 */
+    COMMON_COLOR_WINDOW_BG: '#faebd7',
+    /** 共通色 ウインドウ枠色 */
+    COMMON_COLOR_WINDOW_FRAME: '#1e0033',
+
+    /** ウインドウ 行間 */
+    WINDOW_PADDING_LINE: 16,
+
 
 };
