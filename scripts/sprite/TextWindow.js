@@ -32,7 +32,6 @@ class TextWindow {
 
         /** 表示するテキストのオブジェクトグループ */
         this.dispTextGroup = this.scene.add.group();
-
     }
 
     /**
@@ -44,18 +43,20 @@ class TextWindow {
         grph.fillStyle(
             Phaser.Display.Color.HexStringToColor(this.bgColor).color,
             1.0);
-        grph.fillRect(
-            this.startX, this.startY,
-            this.hSize, this.vSize);
+        grph.fillRoundedRect(
+            this.startX, this.startY, this.hSize, this.vSize,
+            C_COMMON.WINDOW_ROUND
+        );
 
         // ウインドウの枠線描画
         grph.lineStyle(
             C_COMMON.WINDOW_FRAME_WEIGHT,
             Phaser.Display.Color.HexStringToColor(this.frameColor).color,
             1.0);
-        grph.strokeRect(
-            this.startX, this.startY,
-            this.hSize, this.vSize);
+        grph.strokeRoundedRect(
+            this.startX, this.startY, this.hSize, this.vSize,
+            C_COMMON.WINDOW_ROUND
+        );
     }
 
     /**
@@ -90,6 +91,24 @@ class TextWindow {
             // 表示対象がリスト形式の場合
 
             // TODO: テキストをリスト形式で表示する
+            let idx = 0;
+            for (let dispText of textList) {
+                let textObj = this.scene.add.text(
+                    this.startX + C_COMMON.WINDOW_PADDING_LINE,
+                    this.startY + C_COMMON.WINDOW_PADDING_LINE + idx++ * (
+                        C_COMMON.WINDOW_PADDING_LINE + C_COMMON.FONT_SIZE_SMALL
+                    ),
+                    dispText,
+                    {
+                        fontSize: C_COMMON.FONT_SIZE_SMALL,
+                        fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
+                        fontFamily: C_COMMON.FONT_FAMILY_BIT12
+                    }
+                ).setOrigin(0);
+
+                // テキストオブジェクトを表示
+                this.dispTextGroup.add(textObj);
+            }
 
         }
     }

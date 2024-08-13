@@ -1,40 +1,30 @@
-const C_IS = {
-
-    /** キャラ１ 立ち絵 X座標 */
-    CHARA1_X: 64,
-    /** キャラ１ 立ち絵 Y座標 */
-    CHARA1_Y: 48,
-    /** キャラ１ 立ち絵 幅 */
-    CHARA1_W: 320,
-    /** キャラ１ 立ち絵 高さ */
-    CHARA1_H: 384,
-
+const C_BS = {
     /** キャラ１ ステータスウインドウ X座標 */
-    WINDOW_CHARA1_STATUS_X: 384,
+    WINDOW_CHARA1_STATUS_X: 64,
     /** キャラ１ ステータスウインドウ Y座標 */
     WINDOW_CHARA1_STATUS_Y: 48,
     /** キャラ１ ステータスウインドウ 幅 */
-    WINDOW_CHARA1_STATUS_W: 192,
+    WINDOW_CHARA1_STATUS_W: 384,
     /** キャラ１ ステータスウインドウ 高さ */
-    WINDOW_CHARA1_STATUS_H: 384,
-
-    /** キャラ２ 立ち絵 X座標 */
-    CHARA2_X: 704,
-    /** キャラ２ 立ち絵 Y座標 */
-    CHARA2_Y: 48,
-    /** キャラ２ 立ち絵 幅 */
-    CHARA2_W: 320,
-    /** キャラ２ 立ち絵 高さ */
-    CHARA2_H: 384,
+    WINDOW_CHARA1_STATUS_H: 144,
 
     /** キャラ２ ステータスウインドウ X座標 */
-    WINDOW_CHARA2_STATUS_X: 1024,
+    WINDOW_CHARA2_STATUS_X: 512,
     /** キャラ２ ステータスウインドウ Y座標 */
     WINDOW_CHARA2_STATUS_Y: 48,
     /** キャラ２ ステータスウインドウ 幅 */
-    WINDOW_CHARA2_STATUS_W: 192,
+    WINDOW_CHARA2_STATUS_W: 384,
     /** キャラ２ ステータスウインドウ 高さ */
-    WINDOW_CHARA2_STATUS_H: 384,
+    WINDOW_CHARA2_STATUS_H: 144,
+
+    /** バトルフィールドウインドウ X座標 */
+    WINDOW_FIELD_STATUS_X: 960,
+    /** バトルフィールドウインドウ Y座標 */
+    WINDOW_FIELD_STATUS_Y: 48,
+    /** バトルフィールドウインドウ 幅 */
+    WINDOW_FIELD_STATUS_W: 256,
+    /** バトルフィールドウインドウ 高さ */
+    WINDOW_FIELD_STATUS_H: 144,
 
     /** メニュー用ウインドウ X座標 */
     WINDOW_MENU_X: 64,

@@ -1,4 +1,4 @@
-// 設定データ
+// Phaser3設定データ
 const config = {
 	type: Phaser.AUTO,
 	width: C_COMMON.D_WIDTH,
@@ -20,6 +20,7 @@ const config = {
 		PreLoadScene,
 		TitleScene,
 		IkuseiScene,
+		BattleScene,
 	],
 
 	fps: {
@@ -42,5 +43,5 @@ const config = {
 	},
 }
 
-// 2, Phaser3オブジェクトを作る
+// Phaser3オブジェクトを作る
 let phaser = new Phaser.Game(config);
