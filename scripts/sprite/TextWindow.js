@@ -113,4 +113,20 @@ class TextWindow {
         }
     }
 
+    /**
+     * 表示されている文字を更新する
+     * @param {string[]} textList 更新後の文字列
+     */
+    updateText(textList) {
+        if (this.dispTextGroup.getLength() === textList.length) {
+            // 表示する文字列の数と現在表示している文字列が同じ長さの場合
+
+            let idx = 0;
+            for (let textObj of this.dispTextGroup.getChildren()) {
+                // 文字列を更新する
+                textObj.setText(textList[idx++]);
+            }
+        }
+    }
+
 }

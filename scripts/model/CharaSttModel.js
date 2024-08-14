@@ -9,7 +9,7 @@ class CharaSttModel {
         /** @type {number} 防御 */
         this.def = null;
         /** @type {number} 体力 */
-        this.h = null;
+        this.hp = null;
         /** @type {number} やる気 */
         this.yp = null;
         /** @type {number} 運 */
