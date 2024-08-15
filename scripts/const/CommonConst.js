@@ -57,6 +57,8 @@ const C_COMMON = {
     WINDOW_PADDING_LINE: 12,
     /** ウインドウ 丸み */
     WINDOW_ROUND: 2,
+    /** ウインドウ メニュー表示時の左側の余白 */
+    WINDOW_PADDING_LEFT: 16,
 
     /** キー定数 上 */
     KEY_UP: "UP",

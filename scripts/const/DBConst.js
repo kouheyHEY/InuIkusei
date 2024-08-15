@@ -35,6 +35,10 @@ const C_DB = {
         TEXTID: "textId",
         /** テキスト本文 */
         TEXT: "text",
+        /** 前テキストID */
+        PREVTEXTID: "prevTextId",
+        /** 次テキストID */
+        NEXTTEXTID: "nextTextId",
     },
 
     /** 項目名 メニュー定義テーブル */

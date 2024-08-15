@@ -7,6 +7,9 @@ class InputManager {
         this.scene = scene;
         /** @type {Object} キーの状態を表すオブジェクト */
         this.keys = {};
+
+        // キーの初期化を行う
+        this.initializeKeys(initKeyList);
     }
 
     /**

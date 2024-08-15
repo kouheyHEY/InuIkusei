@@ -24,6 +24,17 @@ class IkuseiScene extends Phaser.Scene {
         this.grph = this.add.graphics();
         this.drawArea();
 
+        // ３．Phaser用メソッドの初期化
+        /** @type {InputManager} 入力マネージャ */
+        this.inputManager = new InputManager(this, [
+            C_COMMON.KEY_UP,
+            C_COMMON.KEY_DOWN,
+            C_COMMON.KEY_RIGHT,
+            C_COMMON.KEY_LEFT,
+            C_COMMON.KEY_ENTER,
+            C_COMMON.KEY_SPACE
+        ]);
+
     }
 
     /**
@@ -39,6 +50,62 @@ class IkuseiScene extends Phaser.Scene {
 
         this.updateCharaStt(0);
 
+        /** 各キー押下時の処理を記載 */
+
+        if (this.inputManager.isKeyPressed(C_COMMON.KEY_ENTER)) {
+            // エンターキー押下時
+
+            if (this.isTextMainActive) {
+                // テキストウインドウがアクティブの場合
+
+                // テキストウインドウの文字列を更新する
+                this.windowTextMain.updateText(["現在の秒：" + Math.floor(Date.now() / 1000) % 1000]);
+            }
+
+            if (this.isMenuActive) {
+                // メニューウインドウがアクティブの場合
+
+                // TODO: メニューウインドウの文字列を更新する
+            }
+        }
+
+        if (this.inputManager.isKeyPressed(C_COMMON.KEY_SPACE)) {
+            // スペースキー押下時
+
+            // TODO: デバッグ用
+            // フォーカスを切り替える
+            if (this.isTextMainActive) {
+                this.isTextMainActive = false;
+                this.isMenuActive = true;
+            } else {
+                this.isTextMainActive = true;
+                this.isMenuActive = false;
+
+            }
+        }
+
+        if (this.inputManager.isKeyPressed(C_COMMON.KEY_UP)) {
+            // 上キー押下時
+
+            if (this.isMenuActive) {
+                // メニューウインドウがアクティブの場合
+
+                // 上のメニュー項目を選択する
+                this.windowMenu.upMenu();
+            }
+        }
+
+        if (this.inputManager.isKeyPressed(C_COMMON.KEY_DOWN)) {
+            // 下キー押下時
+
+            if (this.isMenuActive) {
+                // メニューウインドウがアクティブの場合
+
+                // 下のメニュー項目を選択する
+                this.windowMenu.downMenu();
+            }
+        }
+
         console.log("update.");
     }
 
@@ -53,6 +120,10 @@ class IkuseiScene extends Phaser.Scene {
         // キャラのステータスなどを表示するかどうかのフラグ
         this.isDispChara1 = true;
         this.isDispChara2 = true;
+
+        // 各ウインドウがフォーカスされているかどうかのフラグ
+        this.isMenuActive = false;
+        this.isTextMainActive = true;
 
         /** @type {TextWindow} キャラ１のステータスウインドウ */
         this.windowChara1Stt = null;
@@ -70,19 +141,11 @@ class IkuseiScene extends Phaser.Scene {
 
         /** @type {MenuDefModel} キャラのステータス項目名のリスト */
         this.charaSttColModel = null;
+        /** @type {TextModel} */
+        this.TextModel = null;
 
         /** @type {string[]} デバッグ用 キャラステータス項目名メニュー */
         this.charaSttColList = ["HP", "やる気", "攻撃", "防御", "運"];
-
-        /** @type {InputManager} 入力マネージャ */
-        this.inputManager = new InputManager(this, [
-            C_COMMON.KEY_UP,
-            C_COMMON.KEY_DOWN,
-            C_COMMON.KEY_RIGHT,
-            C_COMMON.KEY_LEFT,
-            C_COMMON.KEY_ENTER,
-            C_COMMON.KEY_SPACE
-        ]);
     }
 
     /** 画面上の各オブジェクトを表示する
@@ -101,6 +164,7 @@ class IkuseiScene extends Phaser.Scene {
                 C_COMMON.COMMON_COLOR_WINDOW_FRAME,
                 C_COMMON.COMMON_COLOR_WINDOW_BG,
                 C_COMMON.COMMON_COLOR_WINDOW_FONT,
+                false, true, false,
                 this
             );
             this.windowChara1Stt.drawWindow(this.grph);
@@ -119,6 +183,7 @@ class IkuseiScene extends Phaser.Scene {
                 C_COMMON.COMMON_COLOR_WINDOW_FRAME,
                 C_COMMON.COMMON_COLOR_WINDOW_BG,
                 C_COMMON.COMMON_COLOR_WINDOW_FONT,
+                false, true, false,
                 this
             );
             this.windowChara2Stt.drawWindow(this.grph);
@@ -134,6 +199,7 @@ class IkuseiScene extends Phaser.Scene {
             C_COMMON.COMMON_COLOR_WINDOW_FRAME,
             C_COMMON.COMMON_COLOR_WINDOW_BG,
             C_COMMON.COMMON_COLOR_WINDOW_FONT,
+            false, true, true,
             this
         );
         this.windowMenu.drawWindow(this.grph);
@@ -148,6 +214,7 @@ class IkuseiScene extends Phaser.Scene {
             C_COMMON.COMMON_COLOR_WINDOW_FRAME,
             C_COMMON.COMMON_COLOR_WINDOW_BG,
             C_COMMON.COMMON_COLOR_WINDOW_FONT,
+            true, false, false,
             this
         );
         this.windowTextMain.drawWindow(this.grph);
