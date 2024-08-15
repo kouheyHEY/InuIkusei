@@ -73,6 +73,16 @@ class IkuseiScene extends Phaser.Scene {
 
         /** @type {string[]} デバッグ用 キャラステータス項目名メニュー */
         this.charaSttColList = ["HP", "やる気", "攻撃", "防御", "運"];
+
+        /** @type {InputManager} 入力マネージャ */
+        this.inputManager = new InputManager(this, [
+            C_COMMON.KEY_UP,
+            C_COMMON.KEY_DOWN,
+            C_COMMON.KEY_RIGHT,
+            C_COMMON.KEY_LEFT,
+            C_COMMON.KEY_ENTER,
+            C_COMMON.KEY_SPACE
+        ]);
     }
 
     /** 画面上の各オブジェクトを表示する

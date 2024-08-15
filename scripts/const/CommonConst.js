@@ -58,5 +58,16 @@ const C_COMMON = {
     /** ウインドウ 丸み */
     WINDOW_ROUND: 2,
 
-
+    /** キー定数 上 */
+    KEY_UP: "UP",
+    /** キー定数 下 */
+    KEY_DOWN: "DOWN",
+    /** キー定数 左 */
+    KEY_LEFT: "LEFT",
+    /** キー定数 右 */
+    KEY_RIGHT: "RIGHT",
+    /** キー定数 ENTER */
+    KEY_ENTER: "ENTER",
+    /** キー定数 スペースキー */
+    KEY_SPACE: "SPACE"
 };
