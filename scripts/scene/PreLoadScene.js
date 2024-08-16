@@ -22,6 +22,15 @@ class PreLoadScene extends Phaser.Scene {
     }
 
     create() {
+
+        // データを保持するデータマネージャ
+        const gameDataManager = new GameDataManager();
+
+        // データをjsonファイルから取得
+        // Electronを使ってJSONデータを読み込む
+
+        const gameData = window.electronAPI.loadJsonData(C_ASSET.FILEPATH_DB + '/' + C_ASSET.FILENAME_DB_TEXT);
+
         // タイトルシーンに遷移
         this.scene.start(C_COMMON.SCENE_TITLESCENE);
     }

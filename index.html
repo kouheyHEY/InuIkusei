@@ -21,8 +21,18 @@
             font-weight: 400;
         }
 
+        html,
         body {
-            margin: 0 auto;
+            margin: 0;
+            padding: 0;
+            /* overflow-x: hidden;
+            overflow-y: hidden; */
+        }
+
+        canvas {
+            margin: 0;
+            padding: 0;
+            display: block;
         }
     </style>
 </head>
@@ -36,6 +46,7 @@
 
         <!-- 定数クラス -->
         <script src="scripts/const/CommonConst.js"></script>
+        <script src="scripts/const/AssetConst.js"></script>
         <script src="scripts/const/TSConst.js"></script>
         <script src="scripts/const/ISConst.js"></script>
         <script src="scripts/const/BSConst.js"></script>
@@ -66,7 +77,7 @@
         <!-- ユーティルクラス-->
         <script src="scripts/util/GraphicUtil.js"></script>
 
-        <!-- 実行用 -->
+        <!-- phaser3実行用 -->
         <script src="scripts/main.js"></script>
     </main>
 

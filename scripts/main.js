@@ -5,6 +5,7 @@ const config = {
 	height: C_COMMON.D_HEIGHT,
 
 	// 画面設定
+	/*
 	scale: {
 		mode: Phaser.Scale.FIT,
 		parent: 'gameContainer',
@@ -12,6 +13,7 @@ const config = {
 		width: C_COMMON.D_WIDTH,
 		height: C_COMMON.D_HEIGHT
 	},
+	*/
 
 	// アンチエイリアス
 	antialias: false,
