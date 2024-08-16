@@ -8,7 +8,6 @@ class IkuseiScene extends Phaser.Scene {
         // データの読み込み
         this.chara1SttModel = new CharaSttModel();
 
-
     }
 
     /**
