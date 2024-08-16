@@ -59,7 +59,9 @@ class IkuseiScene extends Phaser.Scene {
                 // テキストウインドウがアクティブの場合
 
                 // テキストウインドウの文字列を更新する
-                this.windowTextMain.updateText(["現在の秒：" + Math.floor(Date.now() / 1000) % 1000]);
+                let textData = this.registry.get(C_DB.TABLE_NAME.TEXT);
+                console.log(textData);
+                this.windowTextMain.updateText([textData[0][C_DB.COL_NAME_TEXT.TEXT]]);
             }
 
             if (this.isMenuActive) {

@@ -18,8 +18,8 @@ function createWindow() {
 
     win.loadFile('index.html');
 
-    // メニューバーを非表示にする
-    Menu.setApplicationMenu(null);
+    // メニューバーを非表示にする TODO: リリース時は再表示
+    // Menu.setApplicationMenu(null);
 
     // ウインドウのフレームを含めたサイズの調整をする
     win.once('ready-to-show', () => {
@@ -44,6 +44,7 @@ app.whenReady().then(() => {
 ipcMain.handle('load-json-data', async (event, filePath) => {
     try {
         const data = fs.readFileSync(filePath, 'utf8');
+        console.log("load data:" + data);
         return JSON.parse(data);
     } catch (error) {
         console.error('Error reading JSON file:', error);
