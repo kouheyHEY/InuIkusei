@@ -29,17 +29,36 @@ class PreLoadScene extends Phaser.Scene {
         // データをjsonファイルから取得
         // Electronを使ってJSONデータを読み込む
 
-        const jsonTextTable = await window.electronAPI.loadJsonData(C_ASSET.FILEPATH_DB + '/' + C_ASSET.FILENAME_DB_TEXT);
-        if (jsonTextTable) {
-            // GameDataManagerを作成し、読み込んだデータをセット
-            gameDataManager.setTableData(C_DB.TABLE_NAME.TEXT, jsonTextTable);
+        try {
+            // テキストテーブルの読み込み
+            const jsonTextTable = await window.electronAPI.loadJsonData(C_ASSET.FILEPATH_DB + '/' + C_ASSET.FILENAME_DB_TEXT);
 
-            // GameDataManagerをレジストリに保存
-            this.registry.set(
-                C_DB.TABLE_NAME.TEXT,
-                gameDataManager.getTableData(C_DB.TABLE_NAME.TEXT)
-            );
-        } else {
+            if (jsonTextTable) {
+                // GameDataManagerに読み込んだデータをセット
+                gameDataManager.setTableData(C_DB.TABLE_NAME.TEXT, jsonTextTable);
+
+                // データをレジストリに保存
+                this.registry.set(
+                    C_DB.TABLE_NAME.TEXT,
+                    gameDataManager.getTableData(C_DB.TABLE_NAME.TEXT)
+                );
+            }
+
+            // メニュー定義テーブルの読み込み
+            const jsonMenuDefTable = await window.electronAPI.loadJsonData(C_ASSET.FILEPATH_DB + '/' + C_ASSET.FILENAME_DB_MENU_DEF);
+
+            if (jsonMenuDefTable) {
+                // GameDataManagerに読み込んだデータをセット
+                gameDataManager.setTableData(C_DB.TABLE_NAME.MENU_DEF, jsonMenuDefTable);
+
+                // データをレジストリに保存
+                this.registry.set(
+                    C_DB.TABLE_NAME.MENU_DEF,
+                    gameDataManager.getTableData(C_DB.TABLE_NAME.MENU_DEF)
+                );
+            }
+
+        } catch {
             console.error('Failed to load game data');
         }
 

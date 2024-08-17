@@ -29,7 +29,7 @@ const C_COMMON = {
     /** 文字の大きさ 中 */
     FONT_SIZE_MEDIAM: 48,
     /** 文字の大きさ 小 */
-    FONT_SIZE_SMALL: 32,
+    FONT_SIZE_SMALL: 24,
 
     /** ウインドウ 枠の太さ */
     WINDOW_FRAME_WEIGHT: 4,
@@ -54,7 +54,7 @@ const C_COMMON = {
     COMMON_COLOR_WINDOW_FRAME: '#1e0033',
 
     /** ウインドウ 行間 */
-    WINDOW_PADDING_LINE: 12,
+    WINDOW_PADDING_LINE: 19,
     /** ウインドウ 丸み */
     WINDOW_ROUND: 2,
     /** ウインドウ メニュー表示時の左側の余白 */

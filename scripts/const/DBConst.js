@@ -55,8 +55,29 @@ const C_DB = {
         PARENTMENUID: "parentMenuId",
         /** 親項目ID */
         PARENTCOLID: "parentColId",
+        /** 子メニューID */
+        CHILDMENUID: "childMenuId",
+        /** 子項目ID */
+        CHILDCOLID: "childColId",
 
     },
+
+    /** メニューID タイトル */
+    MENU_ID_TITLE: 0,
+    /** メニューID キャラステータス */
+    MENU_ID_CHARA_STT: 1,
+    /** メニューID 育成メニュー */
+    MENU_ID_IKUSEI_MENU: 2,
+    /** メニューID 外出メニュー */
+    MENU_ID_OUT_MENU: 3,
+    /** メニューID 通販 */
+    MENU_ID_SHOP: 4,
+    /** メニューID 育成2 */
+    MENU_ID_IKUSEI_2: 5,
+    /** メニューID 鍛錬 */
+    MENU_ID_TRA: 6,
+    /** メニューID 生活 */
+    MENU_ID_LIFE: 7,
 
     /** 項目名 進行状況テーブル */
     COL_NAME_PROG_STT: {
@@ -68,4 +89,5 @@ const C_DB = {
         FLGSTT: "FlgStt",
 
     },
+
 }

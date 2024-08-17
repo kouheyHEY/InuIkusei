@@ -12,6 +12,10 @@ class MenuDefModel {
         this.parentMenuId = null;
         /** @type {number} 親項目ID */
         this.parentColId = null;
+        /** @type {number} 子メニューID */
+        this.childMenuId = null;
+        /** @type {number} 子項目ID */
+        this.childColId = null;
     }
 
     /**
@@ -108,5 +112,37 @@ class MenuDefModel {
      */
     setParentColId(value) {
         this.parentColId = value;
+    }
+
+    /**
+     * 子メニューIDを取得します。
+     * @returns {number} 子メニューID
+     */
+    getChildMenuId() {
+        return this.childMenuId;
+    }
+
+    /**
+     * 子メニューIDを設定します。
+     * @param {number} value - 子メニューID
+     */
+    setChildMenuId(value) {
+        this.childMenuId = value;
+    }
+
+    /**
+     * 子項目IDを取得します。
+     * @returns {number} 親項目ID
+     */
+    getChildColId() {
+        return this.childColId;
+    }
+
+    /**
+     * 子項目IDを設定します。
+     * @param {number} value - 親項目ID
+     */
+    setChildColId(value) {
+        this.childColId = value;
     }
 }

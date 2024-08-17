@@ -2,18 +2,16 @@ class IkuseiScene extends Phaser.Scene {
     constructor() {
         super({ key: C_COMMON.SCENE_IKUSEISCENE });
 
-        // インスタンス変数などの初期化
-        this.initInstVal();
-
-        // データの読み込み
-        this.chara1SttModel = new CharaSttModel();
-
     }
 
     /**
      * 画面生成用メソッド
      */
     create() {
+
+        // ０．インスタンス変数などの初期化
+        this.initInstVal();
+
         // １．背景の作成
         this.cameras.main.setBackgroundColor(
             C_COMMON.COMMON_COLOR_WHITE);
@@ -21,7 +19,7 @@ class IkuseiScene extends Phaser.Scene {
         // ２．各エリアの作成
         // 描画を行う
         this.grph = this.add.graphics();
-        this.drawArea();
+        this.initArea();
 
         // ３．Phaser用メソッドの初期化
         /** @type {InputManager} 入力マネージャ */
@@ -33,6 +31,14 @@ class IkuseiScene extends Phaser.Scene {
             C_COMMON.KEY_ENTER,
             C_COMMON.KEY_SPACE
         ]);
+
+        // データの読み込み
+        this.chara1SttModel = new CharaSttModel();
+
+        // メニュー項目を初期化する
+        let defaultMenuList = this.menuIkuseiList.map(menu => menu[C_DB.COL_NAME_MENU_DEF.MENUCOLNAME]);
+
+        this.windowMenu.updateText(defaultMenuList);
 
     }
 
@@ -59,7 +65,6 @@ class IkuseiScene extends Phaser.Scene {
 
                 // テキストウインドウの文字列を更新する
                 let textData = this.registry.get(C_DB.TABLE_NAME.TEXT);
-                console.log(textData);
                 this.windowTextMain.updateText([textData[0][C_DB.COL_NAME_TEXT.TEXT]]);
             }
 
@@ -115,9 +120,6 @@ class IkuseiScene extends Phaser.Scene {
      * this.XXXはここに記載
      */
     initInstVal() {
-        /** @type {MenuDefDao} メニュー定義テーブルのDao */
-        this.menuDefDao = new MenuDefDao();
-
         // キャラのステータスなどを表示するかどうかのフラグ
         this.isDispChara1 = true;
         this.isDispChara2 = true;
@@ -135,6 +137,10 @@ class IkuseiScene extends Phaser.Scene {
         /** @type {TextWindow} 画面右下のテキストウインドウ */
         this.windowTextMain = null;
 
+        // 各Daoの取得
+        /** @type {MenuDefDao} メニュー定義テーブルDao */
+        this.menuDefDao = new MenuDefDao(this);
+
         /** @type {CharaSttModel} キャラ１のステータス */
         this.chara1SttModel = null;
         /** @type {CharaSttModel} キャラ２のステータス */
@@ -147,12 +153,18 @@ class IkuseiScene extends Phaser.Scene {
 
         /** @type {string[]} デバッグ用 キャラステータス項目名メニュー */
         this.charaSttColList = ["HP", "やる気", "攻撃", "防御", "運"];
+
+        // 育成メニュー
+        /** @type {MenuDefModel[]} 育成メニューリスト */
+        this.menuIkuseiList = this.menuDefDao.getMenuById(C_DB.MENU_ID_IKUSEI_MENU);
+
+
     }
 
     /** 画面上の各オブジェクトを表示する
      * （テキスト表示などは変動するため、適時別ロジックで表示）
      */
-    drawArea() {
+    initArea() {
         if (this.isDispChara1) {
             // キャラ１が存在する場合
 

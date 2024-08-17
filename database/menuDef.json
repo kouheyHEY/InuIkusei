@@ -1,0 +1,302 @@
+[
+    {
+        "menuId": 0,
+        "menuColId": 0,
+        "menuName": "タイトル",
+        "menuColName": "はじめから",
+        "parentMenuId": "",
+        "parentColId": "",
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 0,
+        "menuColId": 1,
+        "menuName": "タイトル",
+        "menuColName": "つづきから",
+        "parentMenuId": "",
+        "parentColId": "",
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 0,
+        "menuColId": 2,
+        "menuName": "タイトル",
+        "menuColName": "クレジット",
+        "parentMenuId": "",
+        "parentColId": "",
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 0,
+        "menuColId": 3,
+        "menuName": "タイトル",
+        "menuColName": "おわり",
+        "parentMenuId": "",
+        "parentColId": "",
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 1,
+        "menuColId": 0,
+        "menuName": "キャラステータス",
+        "menuColName": "体力",
+        "parentMenuId": "",
+        "parentColId": "",
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 1,
+        "menuColId": 1,
+        "menuName": "キャラステータス",
+        "menuColName": "やる気",
+        "parentMenuId": "",
+        "parentColId": "",
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 1,
+        "menuColId": 2,
+        "menuName": "キャラステータス",
+        "menuColName": "攻撃",
+        "parentMenuId": "",
+        "parentColId": "",
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 1,
+        "menuColId": 3,
+        "menuName": "キャラステータス",
+        "menuColName": "防御",
+        "parentMenuId": "",
+        "parentColId": "",
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 1,
+        "menuColId": 4,
+        "menuName": "キャラステータス",
+        "menuColName": "運",
+        "parentMenuId": "",
+        "parentColId": "",
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 2,
+        "menuColId": 0,
+        "menuName": "育成メニュー",
+        "menuColName": "外に出る",
+        "parentMenuId": "",
+        "parentColId": "",
+        "childMenuId": 3,
+        "childColId": 0
+    },
+    {
+        "menuId": 2,
+        "menuColId": 1,
+        "menuName": "育成メニュー",
+        "menuColName": "通信販売",
+        "parentMenuId": "",
+        "parentColId": "",
+        "childMenuId": 4,
+        "childColId": 0
+    },
+    {
+        "menuId": 2,
+        "menuColId": 2,
+        "menuName": "育成メニュー",
+        "menuColName": "育てる",
+        "parentMenuId": "",
+        "parentColId": "",
+        "childMenuId": 5,
+        "childColId": 0
+    },
+    {
+        "menuId": 2,
+        "menuColId": 3,
+        "menuName": "育成メニュー",
+        "menuColName": "終わる",
+        "parentMenuId": "",
+        "parentColId": "",
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 3,
+        "menuColId": 0,
+        "menuName": "外出メニュー",
+        "menuColName": "場所",
+        "parentMenuId": 2,
+        "parentColId": 0,
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 3,
+        "menuColId": 1,
+        "menuName": "外出メニュー",
+        "menuColName": "出発",
+        "parentMenuId": 2,
+        "parentColId": 0,
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 4,
+        "menuColId": 0,
+        "menuName": "通販",
+        "menuColName": "装備",
+        "parentMenuId": 2,
+        "parentColId": 1,
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 4,
+        "menuColId": 1,
+        "menuName": "通販",
+        "menuColName": "道具",
+        "parentMenuId": 2,
+        "parentColId": 1,
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 4,
+        "menuColId": 2,
+        "menuName": "通販",
+        "menuColName": "特別",
+        "parentMenuId": 2,
+        "parentColId": 1,
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 4,
+        "menuColId": 3,
+        "menuName": "通販",
+        "menuColName": "戻る",
+        "parentMenuId": 2,
+        "parentColId": 1,
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 5,
+        "menuColId": 0,
+        "menuName": "育成2",
+        "menuColName": "鍛える",
+        "parentMenuId": 2,
+        "parentColId": 2,
+        "childMenuId": 6,
+        "childColId": 0
+    },
+    {
+        "menuId": 5,
+        "menuColId": 1,
+        "menuName": "育成2",
+        "menuColName": "生活",
+        "parentMenuId": 2,
+        "parentColId": 2,
+        "childMenuId": 7,
+        "childColId": 0
+    },
+    {
+        "menuId": 5,
+        "menuColId": 2,
+        "menuName": "育成2",
+        "menuColName": "戻る",
+        "parentMenuId": 2,
+        "parentColId": 2,
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 6,
+        "menuColId": 0,
+        "menuName": "鍛錬",
+        "menuColName": "じゃれつく",
+        "parentMenuId": 5,
+        "parentColId": 0,
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 6,
+        "menuColId": 1,
+        "menuName": "鍛錬",
+        "menuColName": "ドッグラン",
+        "parentMenuId": 5,
+        "parentColId": 0,
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 6,
+        "menuColId": 2,
+        "menuName": "鍛錬",
+        "menuColName": "芸を仕込む",
+        "parentMenuId": 5,
+        "parentColId": 0,
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 6,
+        "menuColId": 3,
+        "menuName": "鍛錬",
+        "menuColName": "戻る",
+        "parentMenuId": 5,
+        "parentColId": 0,
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 7,
+        "menuColId": 0,
+        "menuName": "生活",
+        "menuColName": "ごはん",
+        "parentMenuId": 5,
+        "parentColId": 1,
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 7,
+        "menuColId": 1,
+        "menuName": "生活",
+        "menuColName": "寝る",
+        "parentMenuId": 5,
+        "parentColId": 1,
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 7,
+        "menuColId": 2,
+        "menuName": "生活",
+        "menuColName": "散歩",
+        "parentMenuId": 5,
+        "parentColId": 1,
+        "childMenuId": "",
+        "childColId": ""
+    },
+    {
+        "menuId": 7,
+        "menuColId": 3,
+        "menuName": "生活",
+        "menuColName": "戻る",
+        "parentMenuId": 5,
+        "parentColId": 1,
+        "childMenuId": "",
+        "childColId": ""
+    }
+]
