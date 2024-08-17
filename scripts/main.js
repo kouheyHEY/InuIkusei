@@ -5,18 +5,14 @@ const config = {
 	height: C_COMMON.D_HEIGHT,
 
 	// 画面設定
-	/*
-	scale: {
-		mode: Phaser.Scale.FIT,
-		parent: 'gameContainer',
-		autoCenter: Phaser.Scale.CENTER_BOTH,
-		width: C_COMMON.D_WIDTH,
-		height: C_COMMON.D_HEIGHT
-	},
-	*/
+	// scale: {
+	// 	mode: Phaser.Scale.FIT,
+	// 	parent: 'gameContainer',
+	// 	autoCenter: Phaser.Scale.CENTER_BOTH,
+	// },
 
 	// アンチエイリアス
-	antialias: false,
+	antialias: true,
 
 	scene: [
 		PreLoadScene,
