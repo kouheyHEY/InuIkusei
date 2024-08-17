@@ -2,13 +2,16 @@ const { app, BrowserWindow, ipcMain, Menu, contextBridge } = require('electron')
 const path = require('path');
 const fs = require('fs');
 
-const gameWidth = 1280;
-const gameHeight = 720;
+const gameScale = 0.8;
+const gameWidth = 1280 * gameScale;
+const gameHeight = 720 * gameScale;
+// const gameWidth = 1280;
+// const gameHeight = 720;
 
 function createWindow() {
     const win = new BrowserWindow({
-        width: gameWidth,  // Phaser 3と同じ幅
-        height: gameHeight, // Phaser 3と同じ高さ
+        width: gameWidth,  // ウインドウ幅
+        height: gameHeight, // ウインドウ高
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'), // Preload script for security
             nodeIntegration: false,
@@ -44,7 +47,6 @@ app.whenReady().then(() => {
 ipcMain.handle('load-json-data', async (event, filePath) => {
     try {
         const data = fs.readFileSync(filePath, 'utf8');
-        console.log("load data:" + data);
         return JSON.parse(data);
     } catch (error) {
         console.error('Error reading JSON file:', error);
