@@ -27,31 +27,26 @@ function createWindow() {
     // メニューバーを非表示にする TODO: リリース時は再表示
     // Menu.setApplicationMenu(null);
 
-    // ウインドウのフレームを含めたサイズの調整をする
-    win.once('ready-to-show', () => {
-        const windowSize = win.getSize(); // ウィンドウ全体のサイズ [width, height]
-        const contentBounds = win.getContentBounds(); // コンテンツ部分のサイズ {x, y, width, height}
-
-        // コンテンツのサイズに基づいてウィンドウのサイズを調整
-        const adjW = gameWidth + (windowSize[0] - contentBounds.width);
-        const adjH = gameHeight + (windowSize[1] - contentBounds.height);
-
-        // // ウィンドウのサイズを調整
-        // win.setSize(adjW, adjH);
-
-        console.log("DEBUG : OldWindowSize : " + windowSize);
-        console.log("DEBUG : OldBoundsSize : " + [contentBounds.width, contentBounds.height]);
-        console.log("DEBUG : NewWindowSize : " + win.getSize());
+    win.webContents.on('did-finish-load', () => {
+        // HTMLコンテンツのサイズを取得し、ウィンドウサイズを調整
+        win.webContents.executeJavaScript(`
+            new Promise((resolve) => {
+                const body = document.body;
+                const width = body.scrollWidth;
+                const height = body.scrollHeight;
+                resolve({ width, height });
+            });
+        `).then(size => {
+            win.setContentSize(size.width, size.height);
+        });
     });
 }
 
 // Electronの準備が完了したらウィンドウを作成
 app.whenReady().then(() => {
-    app.commandLine.appendSwitch('high-dpi-support', '1');
-    app.commandLine.appendSwitch('force-device-scale-factor', '1');
-
     createWindow();
 });
+
 
 // ファイル読み込みリクエストのハンドリング
 ipcMain.handle('load-json-data', async (event, filePath) => {
