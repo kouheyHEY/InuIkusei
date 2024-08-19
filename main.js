@@ -45,6 +45,8 @@ function createWindow() {
 
 // Electronの準備が完了したらウィンドウを作成
 app.whenReady().then(() => {
+    app.commandLine.appendSwitch('high-dpi-support', 'true');
+    app.commandLine.appendSwitch('force-device-scale-factor', '1');
     createWindow();
 });
 
