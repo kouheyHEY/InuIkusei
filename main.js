@@ -14,6 +14,7 @@ function createWindow() {
         height: gameHeight, // ウインドウ高
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'), // Preload script for security
+            zoomFactor: 1.0, // 100%に固定する
             nodeIntegration: false,
             contextIsolation: true,
         }
