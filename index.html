@@ -84,6 +84,16 @@
         <!-- phaser3実行用 -->
         <script src="scripts/main.js"></script>
     </main>
+    <script>
+        window.onload = function() {
+            var canvas = document.getElementsByTagName("canvas")[0];
+            var canvasWidth = canvas.width;
+            var canvasHeight = canvas.height;
+
+            document.body.style.width = canvasWidth + 'px';
+            document.body.style.height = canvasHeight + 'px';
+        };
+    </script>
 
 </body>
 
