@@ -8,6 +8,9 @@ const gameHeight = 720 * gameScale;
 // const gameWidth = 1280;
 // const gameHeight = 720;
 
+// debug
+console.log(1 / window.devicePixelRatio);
+
 function createWindow() {
     const win = new BrowserWindow({
         width: gameWidth,  // ウインドウ幅
