@@ -20,6 +20,8 @@ function createWindow() {
         }
     });
 
+    win.webContents.setZoomLevel(0); // ズームレベルをリセット
+
     win.loadFile('index.html');
 
     // メニューバーを非表示にする TODO: リリース時は再表示
@@ -45,6 +47,9 @@ function createWindow() {
 
 // Electronの準備が完了したらウィンドウを作成
 app.whenReady().then(() => {
+    app.commandLine.appendSwitch('high-dpi-support', '1');
+    app.commandLine.appendSwitch('force-device-scale-factor', '1');
+
     createWindow();
 });
 
