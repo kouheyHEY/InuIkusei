@@ -41,7 +41,9 @@ function createWindow() {
 }
 
 // Electronの準備が完了したらウィンドウを作成
-app.whenReady().then(() => {
+app.on('ready', () => {
+    app.commandLine.appendSwitch('disable-gpu-sandbox');
+    app.commandLine.appendSwitch('disable-software-rasterizer');
     createWindow();
 });
 
