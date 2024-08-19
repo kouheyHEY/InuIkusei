@@ -20,8 +20,6 @@ function createWindow() {
         }
     });
 
-    win.webContents.setZoomLevel(0); // ズームレベルをリセット
-
     win.loadFile('index.html');
 
     // メニューバーを非表示にする TODO: リリース時は再表示
