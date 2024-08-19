@@ -12,9 +12,9 @@ function createWindow() {
     const win = new BrowserWindow({
         width: gameWidth,  // ウインドウ幅
         height: gameHeight, // ウインドウ高
+        useContentSize: true,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'), // Preload script for security
-            zoomFactor: 1.0, // 100%に固定する
             nodeIntegration: false,
             contextIsolation: true,
         }
@@ -34,9 +34,8 @@ function createWindow() {
         const adjW = gameWidth + (windowSize[0] - contentBounds.width);
         const adjH = gameHeight + (windowSize[1] - contentBounds.height);
 
-        // ウィンドウのサイズを調整
-        win.setSize(adjW, adjH);
-
+        // // ウィンドウのサイズを調整
+        // win.setSize(adjW, adjH);
 
         console.log("DEBUG : OldWindowSize : " + windowSize);
         console.log("DEBUG : OldBoundsSize : " + [contentBounds.width, contentBounds.height]);

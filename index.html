@@ -26,16 +26,17 @@
         body {
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
-            overflow-y: hidden;
+            /* overflow: hidden; */
+            width: 100%;
+            height: 100%;
+            display: flex;
         }
 
-        html {
+        canvas {
             transform: scale(0.8);
             transform-origin: top left;
-            position: absolute;
-            top: 0;
-            left: 0;
+            width: 1280px;
+            height: 720px;
         }
 
     </style>
@@ -85,9 +86,6 @@
         <script src="scripts/main.js"></script>
     </main>
 
-    <footer>
-
-    </footer>
 </body>
 
 </html>
