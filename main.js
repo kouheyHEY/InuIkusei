@@ -8,9 +8,6 @@ const gameHeight = 720 * gameScale;
 // const gameWidth = 1280;
 // const gameHeight = 720;
 
-// debug
-console.log(1 / window.devicePixelRatio);
-
 function createWindow() {
     const win = new BrowserWindow({
         width: gameWidth,  // ウインドウ幅
@@ -48,8 +45,6 @@ function createWindow() {
 
 // Electronの準備が完了したらウィンドウを作成
 app.whenReady().then(() => {
-    app.commandLine.appendSwitch('high-dpi-support', 'true');
-    app.commandLine.appendSwitch('force-device-scale-factor', '1');
     createWindow();
 });
 
