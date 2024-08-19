@@ -24,21 +24,6 @@ function createWindow() {
 
     // メニューバーを非表示にする TODO: リリース時は再表示
     // Menu.setApplicationMenu(null);
-
-    win.webContents.on('did-finish-load', async () => {
-
-        // HTMLコンテンツのサイズを取得し、ウィンドウサイズを調整
-        // win.webContents.executeJavaScript(`
-        //     new Promise((resolve) => {
-        //         const body = document.body;
-        //         const width = body.scrollWidth;
-        //         const height = body.scrollHeight;
-        //         resolve({ width, height });
-        //     });
-        // `).then(size => {
-        //     win.setContentSize(size.width, size.height);
-        // });
-    });
 }
 
 // Electronの準備が完了したらウィンドウを作成
