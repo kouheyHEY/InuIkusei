@@ -42,7 +42,7 @@ const config = {
 }
 
 // Phaser3オブジェクトを作る
-let phaser = new Phaser.Game(config);
+const phaser = new Phaser.Game(config);
 
 
 // window.devicePixelRatioの逆数を計算

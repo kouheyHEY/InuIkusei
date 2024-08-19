@@ -28,23 +28,21 @@ function createWindow() {
     win.webContents.on('did-finish-load', async () => {
 
         // HTMLコンテンツのサイズを取得し、ウィンドウサイズを調整
-        win.webContents.executeJavaScript(`
-            new Promise((resolve) => {
-                const body = document.body;
-                const width = body.scrollWidth;
-                const height = body.scrollHeight;
-                resolve({ width, height });
-            });
-        `).then(size => {
-            win.setContentSize(size.width, size.height);
-        });
+        // win.webContents.executeJavaScript(`
+        //     new Promise((resolve) => {
+        //         const body = document.body;
+        //         const width = body.scrollWidth;
+        //         const height = body.scrollHeight;
+        //         resolve({ width, height });
+        //     });
+        // `).then(size => {
+        //     win.setContentSize(size.width, size.height);
+        // });
     });
 }
 
 // Electronの準備が完了したらウィンドウを作成
 app.on('ready', () => {
-    app.commandLine.appendSwitch('disable-gpu-sandbox');
-    app.commandLine.appendSwitch('disable-software-rasterizer');
     createWindow();
 });
 
