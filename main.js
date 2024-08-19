@@ -25,7 +25,8 @@ function createWindow() {
     // メニューバーを非表示にする TODO: リリース時は再表示
     // Menu.setApplicationMenu(null);
 
-    win.webContents.on('did-finish-load', () => {
+    win.webContents.on('did-finish-load', async () => {
+
         // HTMLコンテンツのサイズを取得し、ウィンドウサイズを調整
         win.webContents.executeJavaScript(`
             new Promise((resolve) => {

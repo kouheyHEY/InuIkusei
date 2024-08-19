@@ -43,3 +43,10 @@ const config = {
 
 // Phaser3オブジェクトを作る
 let phaser = new Phaser.Game(config);
+
+
+// window.devicePixelRatioの逆数を計算
+const inverseDevicePixelRatio = 1 / window.devicePixelRatio;
+
+// カスタムプロパティを設定
+document.documentElement.style.setProperty('--inverse-dpr', inverseDevicePixelRatio);
