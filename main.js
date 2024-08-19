@@ -35,6 +35,11 @@ function createWindow() {
 
         // ウィンドウのサイズを調整
         win.setSize(adjW, adjH);
+
+
+        console.log("DEBUG : OldWindowSize : " + windowSize);
+        console.log("DEBUG : OldBoundsSize : " + [contentBounds.width, contentBounds.height]);
+        console.log("DEBUG : NewWindowSize : " + win.getSize());
     });
 }
 
