@@ -55,7 +55,14 @@ class IkuseiScene extends Phaser.Scene {
 
         this.updateCharaStt(0);
 
-        /** 各キー押下時の処理を記載 */
+        /* メニュー選択時の処理 */
+        if (this.windowMenu.pressedMenu) {
+            // メニューが押された時
+
+            let menuIdx = this.windowMenu.choosedMenuIdx;
+        }
+
+        /* 各キー押下時の処理を記載 */
 
         if (this.inputManager.isKeyPressed(C_COMMON.KEY_ENTER)) {
             // エンターキー押下時
@@ -125,8 +132,8 @@ class IkuseiScene extends Phaser.Scene {
         this.isDispChara2 = true;
 
         // 各ウインドウがフォーカスされているかどうかのフラグ
-        this.isMenuActive = false;
-        this.isTextMainActive = true;
+        this.isMenuActive = true;
+        this.isTextMainActive = false;
 
         /** @type {TextWindow} キャラ１のステータスウインドウ */
         this.windowChara1Stt = null;
@@ -151,13 +158,11 @@ class IkuseiScene extends Phaser.Scene {
         /** @type {TextModel} */
         this.TextModel = null;
 
-        /** @type {string[]} デバッグ用 キャラステータス項目名メニュー */
-        this.charaSttColList = ["HP", "やる気", "攻撃", "防御", "運"];
+        /** @type {MenuDefModel[]} キャラステータス項目名メニュー */
+        this.charaSttColList = this.menuDefDao.getMenuById(C_DB.MENU_ID_CHARA_STT);
 
-        // 育成メニュー
         /** @type {MenuDefModel[]} 育成メニューリスト */
         this.menuIkuseiList = this.menuDefDao.getMenuById(C_DB.MENU_ID_IKUSEI_MENU);
-
 
     }
 
@@ -181,7 +186,7 @@ class IkuseiScene extends Phaser.Scene {
                 this
             );
             this.windowChara1Stt.drawWindow(this.grph);
-            this.windowChara1Stt.dispText(this.charaSttColList, true);
+            this.windowChara1Stt.setMenu(this.charaSttColList);
         }
 
         if (this.isDispChara2) {
@@ -200,7 +205,7 @@ class IkuseiScene extends Phaser.Scene {
                 this
             );
             this.windowChara2Stt.drawWindow(this.grph);
-            this.windowChara2Stt.dispText(this.charaSttColList, true);
+            this.windowChara2Stt.setMenu(this.charaSttColList);
         }
 
         // 画面左下のメニューウインドウを描画
@@ -216,7 +221,7 @@ class IkuseiScene extends Phaser.Scene {
             this
         );
         this.windowMenu.drawWindow(this.grph);
-        this.windowMenu.dispText(["MENU1", "MENU2", "MENU3", "MENU4"], true);
+        this.windowMenu.setMenu(this.menuIkuseiList);
 
         // 画面右下のテキストウインドウを描画
         this.windowTextMain = new TextWindow(
@@ -231,7 +236,7 @@ class IkuseiScene extends Phaser.Scene {
             this
         );
         this.windowTextMain.drawWindow(this.grph);
-        this.windowTextMain.dispText(["テスト文字列です。"], false);
+        this.windowTextMain.dispText(["テスト文字列です。"]);
     }
 
     /**
@@ -257,8 +262,6 @@ class IkuseiScene extends Phaser.Scene {
             let sttList = [
                 this.chara1SttModel.getHp(),
                 this.chara1SttModel.getYp(),
-                this.chara1SttModel.getAtk(),
-                this.chara1SttModel.getDef(),
                 this.chara1SttModel.getLuk()
             ];
 
@@ -267,7 +270,7 @@ class IkuseiScene extends Phaser.Scene {
             for (let i = 0; i < sttList.length; i++) {
                 // 項目名と値をウインドウの両端に配置する
                 sttTextList.push(GraphicUtil.adjust2StrBothEnd(
-                    this, this.charaSttColList[i], sttList[i],
+                    this, this.charaSttColList[i].getMenuColName(), sttList[i],
                     this.windowChara1Stt.hSize - C_COMMON.WINDOW_PADDING_LINE * 2,
                     {
                         fontSize: C_COMMON.FONT_SIZE_SMALL,

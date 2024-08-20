@@ -37,9 +37,11 @@ class TextWindow {
         this.dispTextGroup = this.scene.add.group();
 
         /** 現在選択しているメニュー項目の番号(0~) */
-        this.choicedMenuIdx = 0;
+        this.choosedMenuIdx = 0;
+        /** @type {Object[]} 現在表示しているメニューのオブジェクト */
+        this.menuObjList = null;
         /** 現在表示しているメニューの左側の三角形 */
-        this.choicedMark = null;
+        this.choosedMark = null;
 
         // テキスト形式かどうか
         this.isLine = isLine;
@@ -47,6 +49,8 @@ class TextWindow {
         this.isList = isList;
         // メニューとして機能させるかどうか
         this.isMenu = isMenu;
+        // メニューが選択されたかどうか
+        this.pressedMenu = false;
     }
 
     /**
@@ -101,52 +105,71 @@ class TextWindow {
 
             // テキストオブジェクトを表示
             this.dispTextGroup.add(textObj);
-        } else if (this.isList) {
-            // 表示対象がリスト形式の場合
+        }
+    }
 
-            // リストの左側の余白
-            let leftPadding = 0;
-            if (this.isMenu) {
-                // メニュー形式の場合
+    /**
+     * ウインドウにメニューをセットする
+     * @param {MenuDefModel[]} menuObjList メニューのリスト
+     */
+    setMenu(menuObjList) {
+        // メニューオブジェクトをセットする
+        this.menuObjList = menuObjList;
 
-                // 左側に選択されているマークを表示するための余白を設定する
-                leftPadding = C_COMMON.WINDOW_PADDING_LEFT;
-            }
+        // 既に表示されている文字列を消去する
+        if (this.dispTextGroup.getLength() !== 0) {
+            this.dispTextGroup.clear(true, true);
+        }
 
-            // テキストをリスト形式で表示する
-            let idx = 0;
-            for (let dispText of textList) {
-                let textObj = this.scene.add.text(
-                    this.startX + C_COMMON.WINDOW_PADDING_LINE + leftPadding,
-                    this.startY + C_COMMON.WINDOW_PADDING_LINE + idx++ * (
-                        C_COMMON.WINDOW_PADDING_LINE + C_COMMON.FONT_SIZE_SMALL
-                    ),
-                    dispText,
-                    {
-                        fontSize: C_COMMON.FONT_SIZE_SMALL,
-                        fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
-                        fontFamily: C_COMMON.FONT_FAMILY_BIT12
-                    }
-                ).setOrigin(0);
+        // リストの左側の余白
+        let leftPadding = 0;
+        if (this.isMenu) {
+            // メニュー形式の場合
 
-                // テキストオブジェクトを表示
-                this.dispTextGroup.add(textObj);
-            }
+            // 左側に選択されているマークを表示するための余白を設定する
+            leftPadding = C_COMMON.WINDOW_PADDING_LEFT;
+        }
 
-            if (this.isMenu) {
-                //　メニュー形式の場合
+        // テキストをリスト形式で表示する
+        let idx = 0;
+        for (let dispMenu of this.menuObjList) {
+            let textObj = this.scene.add.text(
+                this.startX + C_COMMON.WINDOW_PADDING_LINE + leftPadding,
+                this.startY + C_COMMON.WINDOW_PADDING_LINE + idx++ * (
+                    C_COMMON.WINDOW_PADDING_LINE + C_COMMON.FONT_SIZE_SMALL
+                ),
+                dispMenu.getMenuColName(),
+                {
+                    fontSize: C_COMMON.FONT_SIZE_SMALL,
+                    fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
+                    fontFamily: C_COMMON.FONT_FAMILY_BIT12
+                }
+            ).setOrigin(0);
 
-                // デフォルトで一番目のメニューが選択されている状態とする
-                this.dispChoiceMark(
-                    this.startX + C_COMMON.WINDOW_PADDING_LINE,
-                    this.startY + C_COMMON.WINDOW_PADDING_LINE +
-                    this.choicedMenuIdx * (
-                        C_COMMON.WINDOW_PADDING_LINE + C_COMMON.FONT_SIZE_SMALL
-                    ) + C_COMMON.FONT_SIZE_SMALL / 2,
-                    C_COMMON.WINDOW_PADDING_LEFT * 2 / 3,
-                    C_COMMON.FONT_SIZE_SMALL * 2 / 3
-                );
-            }
+            // クリックイベントのリスナーを追加
+            textObj.on('pointerdown', () => {
+                // クリックされたらクリックフラグをtrueにする
+                this.pressedMenu = true;
+            });
+
+            // テキストオブジェクトを表示
+            this.dispTextGroup.add(textObj);
+        }
+
+
+        if (this.isMenu) {
+            // メニュー形式の場合
+
+            // デフォルトで一番目のメニューが選択されている状態とする
+            this.dispChoiceMark(
+                this.startX + C_COMMON.WINDOW_PADDING_LINE,
+                this.startY + C_COMMON.WINDOW_PADDING_LINE +
+                this.choosedMenuIdx * (
+                    C_COMMON.WINDOW_PADDING_LINE + C_COMMON.FONT_SIZE_SMALL
+                ) + C_COMMON.FONT_SIZE_SMALL / 2,
+                C_COMMON.WINDOW_PADDING_LEFT * 2 / 3,
+                C_COMMON.FONT_SIZE_SMALL * 2 / 3
+            );
         }
     }
 
@@ -174,9 +197,9 @@ class TextWindow {
      * @param {number} h 表示する三角形の高さ
      */
     dispChoiceMark(x, y, w, h) {
-        if (this.choicedMark) {
+        if (this.choosedMark) {
             // 既に表示されている場合は、削除する
-            this.choicedMark.destroy();
+            this.choosedMark.destroy();
         }
 
         // 新たに三角形を表示する
@@ -198,22 +221,22 @@ class TextWindow {
         // 位置の調整
         triangle.y -= h / 2;
 
-        this.choicedMark = triangle;
+        this.choosedMark = triangle;
     }
 
     /** 直上のメニュー項目を選択状態にする */
     upMenu() {
-        if (this.choicedMenuIdx > 0) {
+        if (this.choosedMenuIdx > 0) {
             // 一番上のメニュー以外を選択している場合
 
             // 選択メニュー番号を更新する
-            this.choicedMenuIdx--;
+            this.choosedMenuIdx--;
 
             // 選択マークを更新する
             this.dispChoiceMark(
                 this.startX + C_COMMON.WINDOW_PADDING_LINE,
                 this.startY + C_COMMON.WINDOW_PADDING_LINE +
-                this.choicedMenuIdx * (
+                this.choosedMenuIdx * (
                     C_COMMON.WINDOW_PADDING_LINE + C_COMMON.FONT_SIZE_SMALL
                 ) + C_COMMON.FONT_SIZE_SMALL / 2,
                 C_COMMON.WINDOW_PADDING_LEFT * 2 / 3,
@@ -224,17 +247,17 @@ class TextWindow {
 
     /** 直下のメニュー項目を選択状態にする */
     downMenu() {
-        if (this.choicedMenuIdx < this.dispTextGroup.getLength() - 1) {
+        if (this.choosedMenuIdx < this.dispTextGroup.getLength() - 1) {
             // 一番下のメニュー以外を選択している場合
 
             // 選択メニュー番号を更新する
-            this.choicedMenuIdx++;
+            this.choosedMenuIdx++;
 
             // 選択マークを更新する
             this.dispChoiceMark(
                 this.startX + C_COMMON.WINDOW_PADDING_LINE,
                 this.startY + C_COMMON.WINDOW_PADDING_LINE +
-                this.choicedMenuIdx * (
+                this.choosedMenuIdx * (
                     C_COMMON.WINDOW_PADDING_LINE + C_COMMON.FONT_SIZE_SMALL
                 ) + C_COMMON.FONT_SIZE_SMALL / 2,
                 C_COMMON.WINDOW_PADDING_LEFT * 2 / 3,

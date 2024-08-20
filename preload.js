@@ -1,5 +1,5 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
-    loadJsonData: (filePath) => ipcRenderer.invoke('load-json-data', filePath)
+    readCSV: (filePath) => ipcRenderer.invoke('read-csv', filePath)
 });

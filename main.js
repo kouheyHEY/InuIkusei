@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, Menu, contextBridge } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const csv = require('csv-parser');
 
 const gameScale = 0.8;
 const gameWidth = 1280 * gameScale;
@@ -33,12 +34,13 @@ app.on('ready', () => {
 
 
 // ファイル読み込みリクエストのハンドリング
-ipcMain.handle('load-json-data', async (event, filePath) => {
-    try {
-        const data = fs.readFileSync(filePath, 'utf8');
-        return JSON.parse(data);
-    } catch (error) {
-        console.error('Error reading JSON file:', error);
-        return null;
-    }
+ipcMain.handle('read-csv', async (event, filePath) => {
+    return new Promise((resolve, reject) => {
+        const results = [];
+        fs.createReadStream(filePath)
+            .pipe(csv())
+            .on('data', (data) => results.push(data))
+            .on('end', () => resolve(results))
+            .on('error', (err) => reject(err));
+    });
 });

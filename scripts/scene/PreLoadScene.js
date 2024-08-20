@@ -31,7 +31,7 @@ class PreLoadScene extends Phaser.Scene {
 
         try {
             // テキストテーブルの読み込み
-            const jsonTextTable = await window.electronAPI.loadJsonData(C_ASSET.FILEPATH_DB + '/' + C_ASSET.FILENAME_DB_TEXT);
+            const jsonTextTable = await window.electronAPI.readCSV(C_ASSET.FILEPATH_DB + '/' + C_ASSET.FILENAME_DB_TEXT);
 
             if (jsonTextTable) {
                 // GameDataManagerに読み込んだデータをセット
@@ -45,7 +45,7 @@ class PreLoadScene extends Phaser.Scene {
             }
 
             // メニュー定義テーブルの読み込み
-            const jsonMenuDefTable = await window.electronAPI.loadJsonData(C_ASSET.FILEPATH_DB + '/' + C_ASSET.FILENAME_DB_MENU_DEF);
+            const jsonMenuDefTable = await window.electronAPI.readCSV(C_ASSET.FILEPATH_DB + '/' + C_ASSET.FILENAME_DB_MENU_DEF);
 
             if (jsonMenuDefTable) {
                 // GameDataManagerに読み込んだデータをセット
