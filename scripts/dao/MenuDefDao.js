@@ -31,6 +31,8 @@ class MenuDefDao {
             model.setMenuColName(data[C_DB.COL_NAME_MENU_DEF.MENUCOLNAME]);
             model.setParentMenuId(data[C_DB.COL_NAME_MENU_DEF.PARENTMENUID]);
             model.setParentColId(data[C_DB.COL_NAME_MENU_DEF.PARENTCOLID]);
+            model.setChildMenuId(data[C_DB.COL_NAME_MENU_DEF.CHILDMENUID]);
+            model.setChildColId(data[C_DB.COL_NAME_MENU_DEF.CHILDCOLID]);
 
             // モデルを配列にセット
             modelList.push(model);

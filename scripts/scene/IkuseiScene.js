@@ -34,12 +34,6 @@ class IkuseiScene extends Phaser.Scene {
 
         // データの読み込み
         this.chara1SttModel = new CharaSttModel();
-
-        // メニュー項目を初期化する
-        let defaultMenuList = this.menuIkuseiList.map(menu => menu[C_DB.COL_NAME_MENU_DEF.MENUCOLNAME]);
-
-        this.windowMenu.updateText(defaultMenuList);
-
     }
 
     /**
@@ -59,7 +53,11 @@ class IkuseiScene extends Phaser.Scene {
         if (this.windowMenu.pressedMenu) {
             // メニューが押された時
 
-            let menuIdx = this.windowMenu.choosedMenuIdx;
+            //　子メニューを取得
+            const childMenu = this.menuDefDao.getMenuById(this.windowMenu.pressedMenuDefModel.getChildMenuId());
+
+            // メニューの状態を更新する
+            this.windowMenu.updateMenu(childMenu);
         }
 
         /* 各キー押下時の処理を記載 */

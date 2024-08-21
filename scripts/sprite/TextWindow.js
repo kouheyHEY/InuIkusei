@@ -38,8 +38,10 @@ class TextWindow {
 
         /** 現在選択しているメニュー項目の番号(0~) */
         this.choosedMenuIdx = 0;
-        /** @type {Object[]} 現在表示しているメニューのオブジェクト */
-        this.menuObjList = null;
+        /** @type {MenuDefModel} 決定したメニューのメニューオブジェクト */
+        this.pressedMenuDefModel = null;
+        /** @type {MenuDefModel[]} 現在表示しているメニューのオブジェクト */
+        this.menuDefModelList = null;
         /** 現在表示しているメニューの左側の三角形 */
         this.choosedMark = null;
 
@@ -49,7 +51,7 @@ class TextWindow {
         this.isList = isList;
         // メニューとして機能させるかどうか
         this.isMenu = isMenu;
-        // メニューが選択されたかどうか
+        // メニューが決定されたかどうか
         this.pressedMenu = false;
     }
 
@@ -110,11 +112,11 @@ class TextWindow {
 
     /**
      * ウインドウにメニューをセットする
-     * @param {MenuDefModel[]} menuObjList メニューのリスト
+     * @param {MenuDefModel[]} menuDefModelList メニューのリスト
      */
-    setMenu(menuObjList) {
+    setMenu(menuDefModelList) {
         // メニューオブジェクトをセットする
-        this.menuObjList = menuObjList;
+        this.menuDefModelList = menuDefModelList;
 
         // 既に表示されている文字列を消去する
         if (this.dispTextGroup.getLength() !== 0) {
@@ -132,10 +134,10 @@ class TextWindow {
 
         // テキストをリスト形式で表示する
         let idx = 0;
-        for (let dispMenu of this.menuObjList) {
+        for (let dispMenu of this.menuDefModelList) {
             let textObj = this.scene.add.text(
                 this.startX + C_COMMON.WINDOW_PADDING_LINE + leftPadding,
-                this.startY + C_COMMON.WINDOW_PADDING_LINE + idx++ * (
+                this.startY + C_COMMON.WINDOW_PADDING_LINE + idx * (
                     C_COMMON.WINDOW_PADDING_LINE + C_COMMON.FONT_SIZE_SMALL
                 ),
                 dispMenu.getMenuColName(),
@@ -146,14 +148,36 @@ class TextWindow {
                 }
             ).setOrigin(0);
 
-            // クリックイベントのリスナーを追加
-            textObj.on('pointerdown', () => {
-                // クリックされたらクリックフラグをtrueにする
-                this.pressedMenu = true;
-            });
+            // メニュー項目にプロパティを設定する
+            textObj.menuProperty = {
+                menuObj: dispMenu,
+                menuIdx: idx
+            };
+
+            if (this.isMenu) {
+                // メニュー形式の場合
+
+                textObj.setInteractive();
+
+                // ホバーイベントのリスナーを追加
+                textObj.on('pointerover', () => {
+                    // マウスがホバーしたらそのメニュー項目を選択状態にする
+                    this.chooseMenu(textObj.menuProperty.menuIdx);
+                });
+
+                // クリックイベントのリスナーを追加
+                textObj.on('pointerdown', () => {
+                    // クリックされたらクリックフラグをtrueにする
+                    this.pressedMenu = true;
+                    // 決定したメニューのモデルを設定する
+                    this.pressedMenuDefModel = dispMenu;
+                });
+            }
 
             // テキストオブジェクトを表示
             this.dispTextGroup.add(textObj);
+
+            idx++;
         }
 
 
@@ -187,6 +211,23 @@ class TextWindow {
                 textObj.setText(textList[idx++]);
             }
         }
+    }
+
+    /**
+     * 表示されているメニューを更新する
+     * @param {MenuDefModel[]} menuDefModelList メニューのリスト
+     */
+    updateMenu(menuDefModelList) {
+        if (menuDefModelList != null && menuDefModelList.length != 0) {
+            // メニューが存在する場合
+
+            // メニューを更新する
+            this.setMenu(menuDefModelList);
+        }
+
+        // 決定時の設定を初期化する
+        this.pressedMenu = false;
+        this.pressedMenuDefModel = null;
     }
 
     /**
@@ -229,19 +270,8 @@ class TextWindow {
         if (this.choosedMenuIdx > 0) {
             // 一番上のメニュー以外を選択している場合
 
-            // 選択メニュー番号を更新する
-            this.choosedMenuIdx--;
-
             // 選択マークを更新する
-            this.dispChoiceMark(
-                this.startX + C_COMMON.WINDOW_PADDING_LINE,
-                this.startY + C_COMMON.WINDOW_PADDING_LINE +
-                this.choosedMenuIdx * (
-                    C_COMMON.WINDOW_PADDING_LINE + C_COMMON.FONT_SIZE_SMALL
-                ) + C_COMMON.FONT_SIZE_SMALL / 2,
-                C_COMMON.WINDOW_PADDING_LEFT * 2 / 3,
-                C_COMMON.FONT_SIZE_SMALL * 2 / 3
-            );
+            this.chooseMenu(this.choosedMenuIdx - 1);
         }
     }
 
@@ -250,20 +280,29 @@ class TextWindow {
         if (this.choosedMenuIdx < this.dispTextGroup.getLength() - 1) {
             // 一番下のメニュー以外を選択している場合
 
-            // 選択メニュー番号を更新する
-            this.choosedMenuIdx++;
-
             // 選択マークを更新する
-            this.dispChoiceMark(
-                this.startX + C_COMMON.WINDOW_PADDING_LINE,
-                this.startY + C_COMMON.WINDOW_PADDING_LINE +
-                this.choosedMenuIdx * (
-                    C_COMMON.WINDOW_PADDING_LINE + C_COMMON.FONT_SIZE_SMALL
-                ) + C_COMMON.FONT_SIZE_SMALL / 2,
-                C_COMMON.WINDOW_PADDING_LEFT * 2 / 3,
-                C_COMMON.FONT_SIZE_SMALL * 2 / 3
-            );
+            this.chooseMenu(this.choosedMenuIdx + 1);
         }
+    }
+
+    /**
+     * 指定したメニューを選択状態にする
+     * @param {number} menuIdx 選択状態にするメニューの番号
+     */
+    chooseMenu(menuIdx) {
+        // 選択メニュー番号を更新する
+        this.choosedMenuIdx = menuIdx;
+
+        // 選択マークを更新する
+        this.dispChoiceMark(
+            this.startX + C_COMMON.WINDOW_PADDING_LINE,
+            this.startY + C_COMMON.WINDOW_PADDING_LINE +
+            this.choosedMenuIdx * (
+                C_COMMON.WINDOW_PADDING_LINE + C_COMMON.FONT_SIZE_SMALL
+            ) + C_COMMON.FONT_SIZE_SMALL / 2,
+            C_COMMON.WINDOW_PADDING_LEFT * 2 / 3,
+            C_COMMON.FONT_SIZE_SMALL * 2 / 3
+        );
     }
 
 }
