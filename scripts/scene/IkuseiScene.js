@@ -49,6 +49,11 @@ class IkuseiScene extends Phaser.Scene {
 
         this.updateCharaStt(0);
 
+        /* メニュー項目の説明文の表示処理 */
+        this.windowTextMain.updateText(
+            [this.windowMenu.menuDefModelList[this.windowMenu.choosedMenuIdx].getColDetail()]
+        );
+
         /* メニュー選択時の処理 */
         if (this.windowMenu.pressedMenu) {
             // メニューが押された時

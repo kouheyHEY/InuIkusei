@@ -59,6 +59,8 @@ const C_DB = {
         CHILDMENUID: "childMenuId",
         /** 子項目ID */
         CHILDCOLID: "childColId",
+        /** 項目詳細 */
+        COLDETAIL: "colDetail",
 
     },
 

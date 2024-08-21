@@ -16,6 +16,8 @@ class MenuDefModel {
         this.childMenuId = null;
         /** @type {number} 子項目ID */
         this.childColId = null;
+        /** @type {string} 項目詳細 */
+        this.colDetail = null;
     }
 
     /**
@@ -144,5 +146,20 @@ class MenuDefModel {
      */
     setChildColId(value) {
         this.childColId = value;
+    }
+
+    /**
+     * 項目詳細を取得します。
+     * @returns {string} 項目詳細
+     */
+    getColDetail() {
+        return this.colDetail;
+    }
+    /**
+     * 項目詳細を設定します。
+     * @param {string} value - 項目詳細
+     */
+    setColDetail(value) {
+        this.colDetail = value;
     }
 }

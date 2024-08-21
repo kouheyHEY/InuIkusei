@@ -228,6 +228,10 @@ class TextWindow {
         // 決定時の設定を初期化する
         this.pressedMenu = false;
         this.pressedMenuDefModel = null;
+
+        if (this.menuDefModelList.length <= this.choosedMenuIdx) {
+            this.chooseMenu(0);
+        }
     }
 
     /**
