@@ -49,20 +49,28 @@ class IkuseiScene extends Phaser.Scene {
 
         this.updateCharaStt(0);
 
-        /* メニュー項目の説明文の表示処理 */
-        this.windowTextMain.updateText(
-            [this.windowMenu.menuDefModelList[this.windowMenu.choosedMenuIdx].getColDetail()]
-        );
+        /* メニューがアクティブの時の更新処理 */
+        if (this.isMenuActive) {
+            /* メニュー項目の説明文の表示処理 */
+            this.windowTextMain.updateText(
+                [this.windowMenu.menuDefModelList[this.windowMenu.choosedMenuIdx].getColDetail()]
+            );
 
-        /* メニュー選択時の処理 */
-        if (this.windowMenu.pressedMenu) {
-            // メニューが押された時
+            /* メニュー選択時の処理 */
+            if (this.windowMenu.pressedMenu) {
+                // メニューが押された時
 
-            //　子メニューを取得
-            const childMenu = this.menuDefDao.getMenuById(this.windowMenu.pressedMenuDefModel.getChildMenuId());
+                //　子メニューを取得
+                const childMenu = this.menuDefDao.getMenuById(this.windowMenu.pressedMenuDefModel.getChildMenuId());
 
-            // メニューの状態を更新する
-            this.windowMenu.updateMenu(childMenu);
+                // メニューの状態を更新する
+                this.windowMenu.updateMenu(childMenu);
+            }
+        }
+
+        /* テキストウインドウがアクティブの時の更新処理 */
+        if (this.isTextMainActive) {
+
         }
 
         /* 各キー押下時の処理を記載 */
@@ -182,6 +190,7 @@ class IkuseiScene extends Phaser.Scene {
                 C_IS.WINDOW_CHARA1_STATUS_Y,
                 C_IS.WINDOW_CHARA1_STATUS_W,
                 C_IS.WINDOW_CHARA1_STATUS_H,
+                1,
                 C_COMMON.COMMON_COLOR_WINDOW_FRAME,
                 C_COMMON.COMMON_COLOR_WINDOW_BG,
                 C_COMMON.COMMON_COLOR_WINDOW_FONT,
@@ -201,6 +210,7 @@ class IkuseiScene extends Phaser.Scene {
                 C_IS.WINDOW_CHARA2_STATUS_Y,
                 C_IS.WINDOW_CHARA2_STATUS_W,
                 C_IS.WINDOW_CHARA2_STATUS_H,
+                1,
                 C_COMMON.COMMON_COLOR_WINDOW_FRAME,
                 C_COMMON.COMMON_COLOR_WINDOW_BG,
                 C_COMMON.COMMON_COLOR_WINDOW_FONT,
@@ -217,6 +227,7 @@ class IkuseiScene extends Phaser.Scene {
             C_IS.WINDOW_MENU_Y,
             C_IS.WINDOW_MENU_W,
             C_IS.WINDOW_MENU_H,
+            1,
             C_COMMON.COMMON_COLOR_WINDOW_FRAME,
             C_COMMON.COMMON_COLOR_WINDOW_BG,
             C_COMMON.COMMON_COLOR_WINDOW_FONT,
@@ -232,6 +243,7 @@ class IkuseiScene extends Phaser.Scene {
             C_IS.WINDOW_TEXT_MAIN_Y,
             C_IS.WINDOW_TEXT_MAIN_W,
             C_IS.WINDOW_TEXT_MAIN_H,
+            1,
             C_COMMON.COMMON_COLOR_WINDOW_FRAME,
             C_COMMON.COMMON_COLOR_WINDOW_BG,
             C_COMMON.COMMON_COLOR_WINDOW_FONT,

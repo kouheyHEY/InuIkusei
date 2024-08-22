@@ -6,15 +6,16 @@ class TextWindow {
      * @param {number} startY ウインドウの左上のY座標
      * @param {number} hSize 横のサイズ
      * @param {number} vSize 縦のサイズ
+     * @param {number} menuColNum メニューの列数
      * @param {string} frameColor ウインドウの枠の色
      * @param {string} bgColor ウインドウの背景の色
      * @param {string} fontColor 文字の色
      * @param {boolean} isLine 文章かどうか
      * @param {boolean} isList リストかどうか
-     * @param {boolean} isMenu メニューかどうか 
+     * @param {boolean} isMenu メニューかどうか
      * @param {Phaser.Scene} scene ウインドウを作成するシーン
      */
-    constructor(startX, startY, hSize, vSize, frameColor, bgColor, fontColor, isLine, isList, isMenu, scene) {
+    constructor(startX, startY, hSize, vSize, menuColNum, frameColor, bgColor, fontColor, isLine, isList, isMenu, scene) {
         /** @type {number} ウインドウの左上のX座標 */
         this.startX = startX;
         /** @type {number} ウインドウの左上のY座標 */
@@ -51,6 +52,8 @@ class TextWindow {
         this.isList = isList;
         // メニューとして機能させるかどうか
         this.isMenu = isMenu;
+        // メニューの列数（通常は１）
+        this.menuColNum = menuColNum;
         // メニューが決定されたかどうか
         this.pressedMenu = false;
     }
@@ -134,12 +137,19 @@ class TextWindow {
 
         // テキストをリスト形式で表示する
         let idx = 0;
+        let textObjX = 0;
+        let textObjY = 0;
+
         for (let dispMenu of this.menuDefModelList) {
-            let textObj = this.scene.add.text(
-                this.startX + C_COMMON.WINDOW_PADDING_LINE + leftPadding,
-                this.startY + C_COMMON.WINDOW_PADDING_LINE + idx * (
-                    C_COMMON.WINDOW_PADDING_LINE + C_COMMON.FONT_SIZE_SMALL
-                ),
+            // テキストオブジェクト座標の計算
+            textObjX = this.startX + C_COMMON.WINDOW_PADDING_LINE +
+                leftPadding +
+                (idx % this.menuColNum) * this.hSize / this.menuColNum;
+            textObjY = this.startY + C_COMMON.WINDOW_PADDING_LINE +
+                Math.floor(idx / this.menuColNum) *
+                (C_COMMON.WINDOW_PADDING_LINE + C_COMMON.FONT_SIZE_SMALL);
+
+            let textObj = this.scene.add.text(textObjX, textObjY,
                 dispMenu.getMenuColName(),
                 {
                     fontSize: C_COMMON.FONT_SIZE_SMALL,
@@ -307,6 +317,48 @@ class TextWindow {
             C_COMMON.WINDOW_PADDING_LEFT * 2 / 3,
             C_COMMON.FONT_SIZE_SMALL * 2 / 3
         );
+    }
+
+    /**
+     * ウインドウをテキスト形式に変更する
+     */
+    changeToText() {
+        this.isLine = true;
+        this.isMenu = false;
+        this.isList = true;
+
+        // 既に表示されている文字列を消去する
+        if (this.dispTextGroup.getLength() !== 0) {
+            this.dispTextGroup.clear(true, true);
+        }
+
+        if (this.choosedMark) {
+            // 既に表示されている場合は、削除する
+            this.choosedMark.destroy();
+        }
+    }
+
+    /**
+     * ウインドウをリスト形式に変更する
+     * @param {boolean} isMenu メニューかどうか
+     * @param {number} menuColNum メニューの列数
+     */
+    changeToList(isMenu, menuColNum) {
+        this.isLine = false;
+        this.isMenu = isMenu;
+        this.isList = true;
+
+        this.menuColNum = menuColNum;
+
+        // 既に表示されている文字列を消去する
+        if (this.dispTextGroup.getLength() !== 0) {
+            this.dispTextGroup.clear(true, true);
+        }
+
+        if (this.choosedMark) {
+            // 既に表示されている場合は、削除する
+            this.choosedMark.destroy();
+        }
     }
 
 }
