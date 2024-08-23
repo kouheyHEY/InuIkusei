@@ -39,6 +39,13 @@ const C_DB = {
         EQP2: "eqp2",
     },
 
+    /** キャラID 仲間1 */
+    CHARAID_SPRT1: 0,
+    /** キャラID 仲間2 */
+    CHARAID_SPRT2: 1,
+
+    /** キャラ名 未登場 */
+    CHARANAME_NULL: "---",
 
     /** 項目名 テキストテーブル */
     COL_NAME_TEXT: {

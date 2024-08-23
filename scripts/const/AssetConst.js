@@ -2,6 +2,8 @@ C_ASSET = {
     /** jsonファイルのファイルパス */
     FILEPATH_DB: './database',
 
+    /** ファイル名 キャラステータステーブル */
+    FILENAME_DB_CHARA_STT: 'charaStt.csv',
     /** ファイル名 テキストテーブル */
     FILENAME_DB_TEXT: 'text.csv',
     /** ファイル名 メニュー定義テーブル */

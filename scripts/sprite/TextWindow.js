@@ -9,13 +9,14 @@ class TextWindow {
      * @param {number} menuColNum メニューの列数
      * @param {string} frameColor ウインドウの枠の色
      * @param {string} bgColor ウインドウの背景の色
+     * @param {number} fontSize フォントサイズ
      * @param {string} fontColor 文字の色
      * @param {boolean} isLine 文章かどうか
      * @param {boolean} isList リストかどうか
      * @param {boolean} isMenu メニューかどうか
      * @param {Phaser.Scene} scene ウインドウを作成するシーン
      */
-    constructor(startX, startY, hSize, vSize, menuColNum, frameColor, bgColor, fontColor, isLine, isList, isMenu, scene) {
+    constructor(startX, startY, hSize, vSize, menuColNum, frameColor, bgColor, fontColor, fontSize, isLine, isList, isMenu, scene) {
         /** @type {number} ウインドウの左上のX座標 */
         this.startX = startX;
         /** @type {number} ウインドウの左上のY座標 */
@@ -33,6 +34,8 @@ class TextWindow {
         this.bgColor = bgColor;
         /** @type {string} 文字の色 */
         this.fontColor = fontColor;
+        /** @type {number} 文字のサイズ */
+        this.fontSize = fontSize;
 
         /** 表示するテキストのオブジェクトグループ */
         this.dispTextGroup = this.scene.add.group();
@@ -102,7 +105,7 @@ class TextWindow {
                 this.startY + C_COMMON.WINDOW_PADDING_LINE,
                 textList[0],
                 {
-                    fontSize: C_COMMON.FONT_SIZE_SMALL,
+                    fontSize: this.fontSize,
                     fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
                     fontFamily: C_COMMON.FONT_FAMILY_BIT12
                 }
@@ -147,12 +150,12 @@ class TextWindow {
                 (idx % this.menuColNum) * this.hSize / this.menuColNum;
             textObjY = this.startY + C_COMMON.WINDOW_PADDING_LINE +
                 Math.floor(idx / this.menuColNum) *
-                (C_COMMON.WINDOW_PADDING_LINE + C_COMMON.FONT_SIZE_SMALL);
+                (C_COMMON.WINDOW_PADDING_LINE + this.fontSize);
 
             let textObj = this.scene.add.text(textObjX, textObjY,
                 dispMenu.getMenuColName(),
                 {
-                    fontSize: C_COMMON.FONT_SIZE_SMALL,
+                    fontSize: this.fontSize,
                     fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
                     fontFamily: C_COMMON.FONT_FAMILY_BIT12
                 }
@@ -190,7 +193,6 @@ class TextWindow {
             idx++;
         }
 
-
         if (this.isMenu) {
             // メニュー形式の場合
 
@@ -199,10 +201,10 @@ class TextWindow {
                 this.startX + C_COMMON.WINDOW_PADDING_LINE,
                 this.startY + C_COMMON.WINDOW_PADDING_LINE +
                 this.choosedMenuIdx * (
-                    C_COMMON.WINDOW_PADDING_LINE + C_COMMON.FONT_SIZE_SMALL
-                ) + C_COMMON.FONT_SIZE_SMALL / 2,
+                    C_COMMON.WINDOW_PADDING_LINE + this.fontSize
+                ) + this.fontSize / 2,
                 C_COMMON.WINDOW_PADDING_LEFT * 2 / 3,
-                C_COMMON.FONT_SIZE_SMALL * 2 / 3
+                this.fontSize * 2 / 3
             );
         }
     }
@@ -258,7 +260,12 @@ class TextWindow {
         }
 
         // 新たに三角形を表示する
-        let triangle = this.scene.add.graphics({ fillStyle: { color: C_COMMON.COMMON_COLOR_WINDOW_FONT } });
+        let triangle = this.scene.add.graphics(
+            {
+                fillStyle:
+                    { color: C_COMMON.COMMON_COLOR_WINDOW_FONT }
+            }
+        );
 
         // 三角形の形を描く
         triangle.beginPath();
@@ -312,10 +319,10 @@ class TextWindow {
             this.startX + C_COMMON.WINDOW_PADDING_LINE,
             this.startY + C_COMMON.WINDOW_PADDING_LINE +
             this.choosedMenuIdx * (
-                C_COMMON.WINDOW_PADDING_LINE + C_COMMON.FONT_SIZE_SMALL
-            ) + C_COMMON.FONT_SIZE_SMALL / 2,
+                C_COMMON.WINDOW_PADDING_LINE + this.fontSize
+            ) + this.fontSize / 2,
             C_COMMON.WINDOW_PADDING_LEFT * 2 / 3,
-            C_COMMON.FONT_SIZE_SMALL * 2 / 3
+            this.fontSize * 2 / 3
         );
     }
 

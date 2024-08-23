@@ -22,47 +22,31 @@ class PreLoadScene extends Phaser.Scene {
     }
 
     async create() {
-
         // データを保持するデータマネージャ
         const gameDataManager = new GameDataManager();
 
-        // データをjsonファイルから取得
-        // Electronを使ってJSONデータを読み込む
-
-        try {
-            // テキストテーブルの読み込み
-            const jsonTextTable = await window.electronAPI.readCSV(C_ASSET.FILEPATH_DB + '/' + C_ASSET.FILENAME_DB_TEXT);
-
-            if (jsonTextTable) {
-                // GameDataManagerに読み込んだデータをセット
-                gameDataManager.setTableData(C_DB.TABLE_NAME.TEXT, jsonTextTable);
-
-                // データをレジストリに保存
-                this.registry.set(
-                    C_DB.TABLE_NAME.TEXT,
-                    gameDataManager.getTableData(C_DB.TABLE_NAME.TEXT)
-                );
+        // JSONデータを読み込み、GameDataManagerとレジストリにセットする関数
+        const loadTableData = async (tableName, fileName) => {
+            try {
+                const jsonData = await window.electronAPI.readCSV(`${C_ASSET.FILEPATH_DB}/${fileName}`);
+                if (jsonData) {
+                    gameDataManager.setTableData(tableName, jsonData);
+                    this.registry.set(tableName, gameDataManager.getTableData(tableName));
+                }
+            } catch {
+                console.error(`Failed to load data for ${tableName}`);
             }
+        };
 
-            // メニュー定義テーブルの読み込み
-            const jsonMenuDefTable = await window.electronAPI.readCSV(C_ASSET.FILEPATH_DB + '/' + C_ASSET.FILENAME_DB_MENU_DEF);
-
-            if (jsonMenuDefTable) {
-                // GameDataManagerに読み込んだデータをセット
-                gameDataManager.setTableData(C_DB.TABLE_NAME.MENU_DEF, jsonMenuDefTable);
-
-                // データをレジストリに保存
-                this.registry.set(
-                    C_DB.TABLE_NAME.MENU_DEF,
-                    gameDataManager.getTableData(C_DB.TABLE_NAME.MENU_DEF)
-                );
-            }
-
-        } catch {
-            console.error('Failed to load game data');
-        }
+        // テーブルデータの読み込み
+        await loadTableData(C_DB.TABLE_NAME.TEXT, C_ASSET.FILENAME_DB_TEXT);
+        await loadTableData(C_DB.TABLE_NAME.MENU_DEF, C_ASSET.FILENAME_DB_MENU_DEF);
+        await loadTableData(C_DB.TABLE_NAME.CHARA_STT, C_ASSET.FILENAME_DB_CHARA_STT);
 
         // タイトルシーンに遷移
         this.scene.start(C_COMMON.SCENE_TITLESCENE);
     }
+
+
+
 }

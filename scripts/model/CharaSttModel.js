@@ -26,208 +26,237 @@ class CharaSttModel {
     }
 
     /**
-     * キャラID
-     * @returns {number}
+     * @returns {number} キャラID
      */
     getCharaId() {
         return this.charaId;
     }
 
     /**
-     * @param {number} value - キャラID
+     * @param {number} charaId キャラID
      */
-    setCharaId(value) {
-        this.charaId = value;
+    setCharaId(charaId) {
+        this.charaId = charaId;
     }
 
     /**
-     * キャラ名
-     * @returns {string}
+     * @returns {string} キャラ名
      */
     getCharaName() {
         return this.charaName;
     }
 
     /**
-     * @param {string} value - キャラ名
+     * @param {string} charaName キャラ名
      */
-    setCharaName(value) {
-        this.charaName = value;
+    setCharaName(charaName) {
+        this.charaName = charaName;
     }
 
     /**
-     * 最大体力
-     * @returns {number}
+     * @returns {number} 最大体力
      */
     getMaxHp() {
         return this.maxHp;
     }
 
     /**
-     * @param {number} value - 最大体力
+     * @param {number} maxHp 最大体力
      */
-    setMaxHp(value) {
-        this.maxHp = value;
+    setMaxHp(maxHp) {
+        this.maxHp = maxHp;
     }
 
     /**
-     * 体力
-     * @returns {number}
+     * @returns {number} 体力
      */
     getHp() {
         return this.hp;
     }
 
     /**
-     * @param {number} value - 体力
+     * @param {number} hp 体力
      */
-    setHp(value) {
-        this.hp = value;
+    setHp(hp) {
+        this.hp = hp;
     }
 
     /**
-     * 最大やる気
-     * @returns {number}
+     * @returns {number} 最大やる気
      */
     getMaxYp() {
         return this.maxYp;
     }
 
     /**
-     * @param {number} value - 最大やる気
+     * @param {number} maxYp 最大やる気
      */
-    setMaxYp(value) {
-        this.maxYp = value;
+    setMaxYp(maxYp) {
+        this.maxYp = maxYp;
     }
 
     /**
-     * やる気
-     * @returns {number}
+     * @returns {number} やる気
      */
     getYp() {
         return this.yp;
     }
 
     /**
-     * @param {number} value - やる気
+     * @param {number} yp やる気
      */
-    setYp(value) {
-        this.yp = value;
+    setYp(yp) {
+        this.yp = yp;
     }
 
     /**
-     * 運
-     * @returns {number}
+     * @returns {number} 運
      */
     getLuk() {
         return this.luk;
     }
 
     /**
-     * @param {number} value - 運
+     * @param {number} luk 運
      */
-    setLuk(value) {
-        this.luk = value;
+    setLuk(luk) {
+        this.luk = luk;
     }
 
     /**
-     * 攻撃力
-     * @returns {number}
+     * @returns {number} 攻撃力
      */
     getAtk() {
         return this.atk;
     }
 
     /**
-     * @param {number} value - 攻撃力
+     * @param {number} atk 攻撃力
      */
-    setAtk(value) {
-        this.atk = value;
+    setAtk(atk) {
+        this.atk = atk;
     }
 
     /**
-     * 防御力
-     * @returns {number}
+     * @returns {number} 防御力
      */
     getDef() {
         return this.def;
     }
 
     /**
-     * @param {number} value - 防御力
+     * @param {number} def 防御力
      */
-    setDef(value) {
-        this.def = value;
+    setDef(def) {
+        this.def = def;
     }
 
     /**
-     * 装備1id
-     * @returns {number}
+     * @returns {number} 装備1id
      */
     getEqp1() {
         return this.eqp1;
     }
 
     /**
-     * @param {number} value - 装備1id
+     * @param {number} eqp1 装備1id
      */
-    setEqp1(value) {
-        this.eqp1 = value;
+    setEqp1(eqp1) {
+        this.eqp1 = eqp1;
     }
 
     /**
-     * 装備2id
-     * @returns {number}
+     * @returns {number} 装備2id
      */
     getEqp2() {
         return this.eqp2;
     }
 
     /**
-     * @param {number} value - 装備2id
+     * @param {number} eqp2 装備2id
      */
-    setEqp2(value) {
-        this.eqp2 = value;
+    setEqp2(eqp2) {
+        this.eqp2 = eqp2;
     }
 
     /**
-     * オブジェクトのプロパティをモデルにセットします。
-     * @param {Object} obj - セットするオブジェクト
+     * クラスのプロパティとその値を持つオブジェクトを返す
+     * @returns {Object} プロパティと値を持つオブジェクト
+     */
+    getPropertiesObject() {
+        return {
+            charaId: this.charaId,
+            charaName: this.charaName,
+            maxHp: this.maxHp,
+            hp: this.hp,
+            maxYp: this.maxYp,
+            yp: this.yp,
+            luk: this.luk,
+            atk: this.atk,
+            def: this.def,
+            eqp1: this.eqp1,
+            eqp2: this.eqp2
+        };
+    }
+
+    /**
+     * オブジェクトからプロパティの値を設定する
+     * @param {Object} obj プロパティと値を持つオブジェクト
      */
     setPropertiesFromObject(obj) {
         if (obj.hasOwnProperty('charaId')) {
-            this.setCharaId(obj['charaId']);
+            this.charaId = obj.charaId;
         }
         if (obj.hasOwnProperty('charaName')) {
-            this.setCharaName(obj['charaName']);
+            this.charaName = obj.charaName;
         }
         if (obj.hasOwnProperty('maxHp')) {
-            this.setMaxHp(obj['maxHp']);
+            this.maxHp = obj.maxHp;
         }
         if (obj.hasOwnProperty('hp')) {
-            this.setHp(obj['hp']);
+            this.hp = obj.hp;
         }
         if (obj.hasOwnProperty('maxYp')) {
-            this.setMaxYp(obj['maxYp']);
+            this.maxYp = obj.maxYp;
         }
         if (obj.hasOwnProperty('yp')) {
-            this.setYp(obj['yp']);
+            this.yp = obj.yp;
         }
         if (obj.hasOwnProperty('luk')) {
-            this.setLuk(obj['luk']);
+            this.luk = obj.luk;
         }
         if (obj.hasOwnProperty('atk')) {
-            this.setAtk(obj['atk']);
+            this.atk = obj.atk;
         }
         if (obj.hasOwnProperty('def')) {
-            this.setDef(obj['def']);
+            this.def = obj.def;
         }
         if (obj.hasOwnProperty('eqp1')) {
-            this.setEqp1(obj['eqp1']);
+            this.eqp1 = obj.eqp1;
         }
         if (obj.hasOwnProperty('eqp2')) {
-            this.setEqp2(obj['eqp2']);
+            this.eqp2 = obj.eqp2;
         }
     }
 
+
+    /**
+     * クラスのプロパティ名を配列として返す
+     * @returns {string[]} プロパティ名の配列
+     */
+    getPropertyNames() {
+        return [
+            'charaId',
+            'charaName',
+            'maxHp',
+            'hp',
+            'maxYp',
+            'yp',
+            'luk',
+            'atk',
+            'def',
+            'eqp1',
+            'eqp2'
+        ];
+    }
 }

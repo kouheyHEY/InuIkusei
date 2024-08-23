@@ -30,6 +30,8 @@ const C_COMMON = {
     FONT_SIZE_MEDIAM: 48,
     /** 文字の大きさ 小 */
     FONT_SIZE_SMALL: 24,
+    /** 文字の大きさ 極小 */
+    FONT_SIZE_SMALL_2: 18,
 
     /** ウインドウ 枠の太さ */
     WINDOW_FRAME_WEIGHT: 4,
