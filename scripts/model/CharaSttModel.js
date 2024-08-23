@@ -1,31 +1,39 @@
 class CharaSttModel {
+    /** @constructor */
     constructor() {
         /** @type {number} キャラID */
         this.charaId = null;
         /** @type {string} キャラ名 */
         this.charaName = null;
-        /** @type {number} 攻撃 */
-        this.atk = null;
-        /** @type {number} 防御 */
-        this.def = null;
+        /** @type {number} 最大体力 */
+        this.maxHp = null;
         /** @type {number} 体力 */
         this.hp = null;
+        /** @type {number} 最大やる気 */
+        this.maxYp = null;
         /** @type {number} やる気 */
         this.yp = null;
         /** @type {number} 運 */
         this.luk = null;
+        /** @type {number} 攻撃力 */
+        this.atk = null;
+        /** @type {number} 防御力 */
+        this.def = null;
+        /** @type {number} 装備1id */
+        this.eqp1 = null;
+        /** @type {number} 装備2id */
+        this.eqp2 = null;
     }
 
     /**
-     * キャラIDを取得します。
-     * @returns {number} キャラID
+     * キャラID
+     * @returns {number}
      */
     getCharaId() {
         return this.charaId;
     }
 
     /**
-     * キャラIDを設定します。
      * @param {number} value - キャラID
      */
     setCharaId(value) {
@@ -33,15 +41,14 @@ class CharaSttModel {
     }
 
     /**
-     * キャラ名を取得します。
-     * @returns {string} キャラ名
+     * キャラ名
+     * @returns {string}
      */
     getCharaName() {
         return this.charaName;
     }
 
     /**
-     * キャラ名を設定します。
      * @param {string} value - キャラ名
      */
     setCharaName(value) {
@@ -49,47 +56,29 @@ class CharaSttModel {
     }
 
     /**
-     * 攻撃を取得します。
-     * @returns {number} 攻撃
+     * 最大体力
+     * @returns {number}
      */
-    getAtk() {
-        return this.atk;
+    getMaxHp() {
+        return this.maxHp;
     }
 
     /**
-     * 攻撃を設定します。
-     * @param {number} value - 攻撃
+     * @param {number} value - 最大体力
      */
-    setAtk(value) {
-        this.atk = value;
+    setMaxHp(value) {
+        this.maxHp = value;
     }
 
     /**
-     * 防御を取得します。
-     * @returns {number} 防御
-     */
-    getDef() {
-        return this.def;
-    }
-
-    /**
-     * 防御を設定します。
-     * @param {number} value - 防御
-     */
-    setDef(value) {
-        this.def = value;
-    }
-
-    /**
-     * 体力を取得します。
-     * @returns {number} 体力
+     * 体力
+     * @returns {number}
      */
     getHp() {
         return this.hp;
     }
 
     /**
-     * 体力を設定します。
      * @param {number} value - 体力
      */
     setHp(value) {
@@ -97,15 +86,29 @@ class CharaSttModel {
     }
 
     /**
-     * やる気を取得します。
-     * @returns {number} やる気
+     * 最大やる気
+     * @returns {number}
+     */
+    getMaxYp() {
+        return this.maxYp;
+    }
+
+    /**
+     * @param {number} value - 最大やる気
+     */
+    setMaxYp(value) {
+        this.maxYp = value;
+    }
+
+    /**
+     * やる気
+     * @returns {number}
      */
     getYp() {
         return this.yp;
     }
 
     /**
-     * やる気を設定します。
      * @param {number} value - やる気
      */
     setYp(value) {
@@ -113,18 +116,118 @@ class CharaSttModel {
     }
 
     /**
-     * 運を取得します。
-     * @returns {number} 運
+     * 運
+     * @returns {number}
      */
     getLuk() {
         return this.luk;
     }
 
     /**
-     * 運を設定します。
      * @param {number} value - 運
      */
     setLuk(value) {
         this.luk = value;
     }
+
+    /**
+     * 攻撃力
+     * @returns {number}
+     */
+    getAtk() {
+        return this.atk;
+    }
+
+    /**
+     * @param {number} value - 攻撃力
+     */
+    setAtk(value) {
+        this.atk = value;
+    }
+
+    /**
+     * 防御力
+     * @returns {number}
+     */
+    getDef() {
+        return this.def;
+    }
+
+    /**
+     * @param {number} value - 防御力
+     */
+    setDef(value) {
+        this.def = value;
+    }
+
+    /**
+     * 装備1id
+     * @returns {number}
+     */
+    getEqp1() {
+        return this.eqp1;
+    }
+
+    /**
+     * @param {number} value - 装備1id
+     */
+    setEqp1(value) {
+        this.eqp1 = value;
+    }
+
+    /**
+     * 装備2id
+     * @returns {number}
+     */
+    getEqp2() {
+        return this.eqp2;
+    }
+
+    /**
+     * @param {number} value - 装備2id
+     */
+    setEqp2(value) {
+        this.eqp2 = value;
+    }
+
+    /**
+     * オブジェクトのプロパティをモデルにセットします。
+     * @param {Object} obj - セットするオブジェクト
+     */
+    setPropertiesFromObject(obj) {
+        if (obj.hasOwnProperty('charaId')) {
+            this.setCharaId(obj['charaId']);
+        }
+        if (obj.hasOwnProperty('charaName')) {
+            this.setCharaName(obj['charaName']);
+        }
+        if (obj.hasOwnProperty('maxHp')) {
+            this.setMaxHp(obj['maxHp']);
+        }
+        if (obj.hasOwnProperty('hp')) {
+            this.setHp(obj['hp']);
+        }
+        if (obj.hasOwnProperty('maxYp')) {
+            this.setMaxYp(obj['maxYp']);
+        }
+        if (obj.hasOwnProperty('yp')) {
+            this.setYp(obj['yp']);
+        }
+        if (obj.hasOwnProperty('luk')) {
+            this.setLuk(obj['luk']);
+        }
+        if (obj.hasOwnProperty('atk')) {
+            this.setAtk(obj['atk']);
+        }
+        if (obj.hasOwnProperty('def')) {
+            this.setDef(obj['def']);
+        }
+        if (obj.hasOwnProperty('eqp1')) {
+            this.setEqp1(obj['eqp1']);
+        }
+        if (obj.hasOwnProperty('eqp2')) {
+            this.setEqp2(obj['eqp2']);
+        }
+    }
+
 }

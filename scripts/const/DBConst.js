@@ -9,25 +9,36 @@ const C_DB = {
         MENU_DEF: "menuDefTable",
         /** テーブル名 進行状況テーブル */
         PROG_STT: "progSttTable",
+        /* テーブル名 アイテムテーブル */
+        ITEM: "itemTable"
     },
 
-    /** 項目名 キャラステータステーブル */
-    COL_NAME_CHARA_STT: {
+    /** 項目名 CharaSttテーブル */
+    COL_NAME_CHARASTT: {
         /** キャラID */
-        CHARA_ID: "charaId",
+        CHARAID: "charaId",
         /** キャラ名 */
-        CHARA_NAME: "charaName",
-        /** 攻撃 */
-        ATK: "atk",
-        /** 防御 */
-        DEF: "def",
+        CHARANAME: "charaName",
+        /** 最大体力 */
+        MAXHP: "maxHp",
         /** 体力 */
         HP: "hp",
+        /** 最大やる気 */
+        MAXYP: "maxYp",
         /** やる気 */
         YP: "yp",
         /** 運 */
         LUK: "luk",
+        /** 攻撃力 */
+        ATK: "atk",
+        /** 防御力 */
+        DEF: "def",
+        /** 装備1id */
+        EQP1: "eqp1",
+        /** 装備2id */
+        EQP2: "eqp2",
     },
+
 
     /** 項目名 テキストテーブル */
     COL_NAME_TEXT: {
@@ -91,5 +102,20 @@ const C_DB = {
         FLGSTT: "FlgStt",
 
     },
+
+    /** 項目名 Itemテーブル */
+    COL_NAME_ITEM: {
+        /** アイテムID */
+        ITEMID: "itemId",
+        /** アイテム名 */
+        ITEMNAME: "itemName",
+        /** アイテム種別 */
+        ITEMTYPE: "itemType",
+        /** 効果対象項目ID */
+        TARGETCOLID: "targetColId",
+        /** 効果量 */
+        EFFECTVAL: "effectVal",
+    },
+
 
 }

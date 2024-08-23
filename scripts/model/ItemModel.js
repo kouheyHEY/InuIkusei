@@ -1,15 +1,13 @@
-class MenuDefModel {
+class ItemModel {
     /** @constructor */
     constructor() {
-        /** @type {number} メニューID */
-        this.menuId = null;
-        /** @type {number} 項目ID */
-        this.menuColId = null;
-        /** @type {string} メニュー名 */
-        this.menuName = null;
-        /** @type {string} 項目名 */
-        this.menuColName = null;
-        /** @type {number} 親メニューID */
+        /** @type {number} アイテムID */
+        this.itemId = null;
+        /** @type {string} アイテム名 */
+        this.itemName = null;
+        /** @type {number} アイテム種別 */
+        this.itemType = null;
+        /** @type {number} アイテム効果対象項目ID */
         this.parentMenuId = null;
         /** @type {number} 親項目ID */
         this.parentColId = null;
@@ -17,72 +15,55 @@ class MenuDefModel {
         this.childMenuId = null;
         /** @type {number} 子項目ID */
         this.childColId = null;
-        /** @type {string} 項目詳細 */
-        this.colDetail = null;
     }
 
     /**
-     * メニューID
+     * アイテムID
      * @returns {number}
      */
-    getMenuId() {
-        return this.menuId;
+    getItemId() {
+        return this.itemId;
     }
 
     /**
-     * @param {number} value - メニューID
+     * @param {number} value - アイテムID
      */
-    setMenuId(value) {
-        this.menuId = value;
+    setItemId(value) {
+        this.itemId = value;
     }
 
     /**
-     * 項目ID
+     * アイテム名
+     * @returns {string}
+     */
+    getItemName() {
+        return this.itemName;
+    }
+
+    /**
+     * @param {string} value - アイテム名
+     */
+    setItemName(value) {
+        this.itemName = value;
+    }
+
+    /**
+     * アイテム種別
      * @returns {number}
      */
-    getMenuColId() {
-        return this.menuColId;
+    getItemType() {
+        return this.itemType;
     }
 
     /**
-     * @param {number} value - 項目ID
+     * @param {number} value - アイテム種別
      */
-    setMenuColId(value) {
-        this.menuColId = value;
+    setItemType(value) {
+        this.itemType = value;
     }
 
     /**
-     * メニュー名
-     * @returns {string}
-     */
-    getMenuName() {
-        return this.menuName;
-    }
-
-    /**
-     * @param {string} value - メニュー名
-     */
-    setMenuName(value) {
-        this.menuName = value;
-    }
-
-    /**
-     * 項目名
-     * @returns {string}
-     */
-    getMenuColName() {
-        return this.menuColName;
-    }
-
-    /**
-     * @param {string} value - 項目名
-     */
-    setMenuColName(value) {
-        this.menuColName = value;
-    }
-
-    /**
-     * 親メニューID
+     * アイテム効果対象項目ID
      * @returns {number}
      */
     getParentMenuId() {
@@ -90,7 +71,7 @@ class MenuDefModel {
     }
 
     /**
-     * @param {number} value - 親メニューID
+     * @param {number} value - アイテム効果対象項目ID
      */
     setParentMenuId(value) {
         this.parentMenuId = value;
@@ -142,36 +123,18 @@ class MenuDefModel {
     }
 
     /**
-     * 項目詳細
-     * @returns {string}
-     */
-    getColDetail() {
-        return this.colDetail;
-    }
-
-    /**
-     * @param {string} value - 項目詳細
-     */
-    setColDetail(value) {
-        this.colDetail = value;
-    }
-
-    /**
      * オブジェクトのプロパティをモデルにセットします。
      * @param {Object} obj - セットするオブジェクト
      */
     setPropertiesFromObject(obj) {
-        if (obj.hasOwnProperty('menuId')) {
-            this.setMenuId(obj['menuId']);
+        if (obj.hasOwnProperty('itemId')) {
+            this.setItemId(obj['itemId']);
         }
-        if (obj.hasOwnProperty('menuColId')) {
-            this.setMenuColId(obj['menuColId']);
+        if (obj.hasOwnProperty('itemName')) {
+            this.setItemName(obj['itemName']);
         }
-        if (obj.hasOwnProperty('menuName')) {
-            this.setMenuName(obj['menuName']);
-        }
-        if (obj.hasOwnProperty('menuColName')) {
-            this.setMenuColName(obj['menuColName']);
+        if (obj.hasOwnProperty('itemType')) {
+            this.setItemType(obj['itemType']);
         }
         if (obj.hasOwnProperty('parentMenuId')) {
             this.setParentMenuId(obj['parentMenuId']);
@@ -184,9 +147,6 @@ class MenuDefModel {
         }
         if (obj.hasOwnProperty('childColId')) {
             this.setChildColId(obj['childColId']);
-        }
-        if (obj.hasOwnProperty('colDetail')) {
-            this.setColDetail(obj['colDetail']);
         }
     }
 
