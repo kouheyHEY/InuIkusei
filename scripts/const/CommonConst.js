@@ -56,7 +56,7 @@ const C_COMMON = {
     COMMON_COLOR_WINDOW_FRAME: '#1e0033',
 
     /** ウインドウ 行間 */
-    WINDOW_PADDING_LINE: 19,
+    WINDOW_PADDING_LINE: 18,
     /** ウインドウ 丸み */
     WINDOW_ROUND: 2,
     /** ウインドウ メニュー表示時の左側の余白 */

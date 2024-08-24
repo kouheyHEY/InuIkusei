@@ -147,6 +147,8 @@ class IkuseiScene extends Phaser.Scene {
         this.charaSttDao = new CharaSttDao(this);
         /** @type {MenuDefDao} メニュー定義テーブルDao */
         this.menuDefDao = new MenuDefDao(this);
+        /** @type {ItemDao} アイテムDao */
+        this.itemDao = new ItemDao(this);
 
         /** @type {CharaSttModel} キャラ１のステータス */
         this.chara1SttModel = this.charaSttDao.getById(C_DB.CHARAID_SPRT1);
@@ -185,7 +187,7 @@ class IkuseiScene extends Phaser.Scene {
                 C_COMMON.COMMON_COLOR_WINDOW_FRAME,
                 C_COMMON.COMMON_COLOR_WINDOW_BG,
                 C_COMMON.COMMON_COLOR_WINDOW_FONT,
-                C_COMMON.FONT_SIZE_SMALL,
+                C_COMMON.FONT_SIZE_SMALL_2,
                 false, true, false,
                 this
             );
@@ -206,7 +208,7 @@ class IkuseiScene extends Phaser.Scene {
                 C_COMMON.COMMON_COLOR_WINDOW_FRAME,
                 C_COMMON.COMMON_COLOR_WINDOW_BG,
                 C_COMMON.COMMON_COLOR_WINDOW_FONT,
-                C_COMMON.FONT_SIZE_SMALL,
+                C_COMMON.FONT_SIZE_SMALL_2,
                 false, true, false,
                 this
             );
@@ -255,32 +257,39 @@ class IkuseiScene extends Phaser.Scene {
      */
     updateCharaStt(charaIdx) {
         let window = null;
-        let charaSttObj = null;
+        let charaSttList = null;
         if (charaIdx === 0) {
             // キャラ１の場合
             window = this.windowChara1Stt;
-            charaSttObj = this.chara1SttModel.getPropertiesObject();
+            charaSttList = this.chara1SttModel.getDispValList();
         } else if (charaIdx === 1) {
             // キャラ２の場合
             window = this.windowChara2Stt;
-            charaSttObj = this.chara2SttModel.getPropertiesObject();
+            charaSttList = this.chara2SttModel.getDispValList();
         }
 
-        if (window != null && charaSttObj != null) {
+        if (window != null && charaSttList != null) {
 
             let sttTextList = [];
 
             for (let i = 0; i < this.charaSttColList.length; i++) {
-                console.log(this.charaSttColList[i].getMenuColName());
-                // ステータス項目の値
-                let sttVal = charaSttObj[this.charaSttColList[i].getMenuColName()];
+
+                let sttVal = null;
+                if (this.charaSttColList[i].getMenuColId() == C_DB.COL_ID_EQP1 ||
+                    this.charaSttColList[i].getMenuColId() == C_DB.COL_ID_EQP2) {
+
+                    let eqpItem = this.itemDao.getById();
+                    sttVal = eqpItem.length != 0 ? eqpItem[0].getItemName() : 'なし';
+                } else {
+                    sttVal = charaSttList[i];
+                }
 
                 // 項目名と値をウインドウの両端に配置する
                 sttTextList.push(GraphicUtil.adjust2StrBothEnd(
                     this, this.charaSttColList[i].getMenuColName(), sttVal,
                     this.windowChara1Stt.hSize - C_COMMON.WINDOW_PADDING_LINE * 2,
                     {
-                        fontSize: C_COMMON.FONT_SIZE_SMALL,
+                        fontSize: C_COMMON.FONT_SIZE_SMALL_2,
                         fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
                         fontFamily: C_COMMON.FONT_FAMILY_BIT12
                     }

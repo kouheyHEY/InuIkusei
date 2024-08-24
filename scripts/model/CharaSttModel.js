@@ -259,4 +259,20 @@ class CharaSttModel {
             'eqp2'
         ];
     }
+
+    /**
+     * キャラの表示用ステータス文字列を返す
+     */
+    getDispValList() {
+        return [
+            this.charaName,
+            `${this.hp}/${this.maxHp}`,
+            `${this.yp}/${this.maxYp}`,
+            this.luk,
+            this.atk,
+            this.def,
+            this.eqp1,
+            this.eqp2
+        ];
+    }
 }

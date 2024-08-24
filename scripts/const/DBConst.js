@@ -47,6 +47,9 @@ const C_DB = {
     /** キャラ名 未登場 */
     CHARANAME_NULL: "---",
 
+    /** キャラ装備 なし */
+    EQP_NULL: '-1',
+
     /** 項目名 テキストテーブル */
     COL_NAME_TEXT: {
         /** テキストID */
@@ -98,6 +101,11 @@ const C_DB = {
     MENU_ID_TRA: 6,
     /** メニューID 生活 */
     MENU_ID_LIFE: 7,
+
+    /** 項目ID 装備1 */
+    COL_ID_EQP1: 6,
+    /** 項目ID 装備2 */
+    COL_ID_EQP2: 7,
 
     /** 項目名 進行状況テーブル */
     COL_NAME_PROG_STT: {

@@ -8,4 +8,6 @@ C_ASSET = {
     FILENAME_DB_TEXT: 'text.csv',
     /** ファイル名 メニュー定義テーブル */
     FILENAME_DB_MENU_DEF: 'menuDef.csv',
+    /** ファイル名 アイテムテーブル */
+    FILENAME_DB_ITEM: 'item.csv',
 }
