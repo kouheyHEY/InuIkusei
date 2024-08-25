@@ -1,0 +1,34 @@
+{
+    "includesJs": [
+        "scripts/const/CommonConst.js",
+        "scripts/const/AssetConst.js",
+        "scripts/const/TSConst.js",
+        "scripts/const/ISConst.js",
+        "scripts/const/BSConst.js",
+        "scripts/const/DBConst.js",
+        "scripts/model/CharaSttModel.js",
+        "scripts/model/MenuDefModel.js",
+        "scripts/model/TextModel.js",
+        "scripts/model/ItemModel.js",
+        "scripts/sprite/TextWindow.js",
+        "scripts/manager/GameDataManager.js",
+        "scripts/manager/InputManager.js",
+        "scripts/dao/CharaSttDao.js",
+        "scripts/dao/MenuDefDao.js",
+        "scripts/dao/ItemDao.js",
+        "scripts/scene/PreLoadScene.js",
+        "scripts/scene/TitleScene.js",
+        "scripts/scene/IkuseiScene.js",
+        "scripts/scene/BattleScene.js",
+        "scripts/util/GraphicUtil.js",
+        "scripts/main.js"
+    ],
+    "assets": {
+        "csv": [
+            "charaStt.csv",
+            "text.csv",
+            "menuDef.csv",
+            "item.csv"
+        ]
+    }
+}
