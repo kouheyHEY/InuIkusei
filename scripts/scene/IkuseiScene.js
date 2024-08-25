@@ -50,12 +50,19 @@ class IkuseiScene extends Phaser.Scene {
             /* メニュー選択時の処理 */
             if (this.windowMenu.pressedMenu) {
                 // メニューが押された時
+                const pressedMenu = this.windowMenu.pressedMenuDefModel;
 
-                //　子メニューを取得
-                const childMenu = this.menuDefDao.getMenuById(this.windowMenu.pressedMenuDefModel.getChildMenuId());
+                if (pressedMenu.getChildColId == C_DB.CHILDCOLID_DETAILS) {
+                    // 詳細の表示を行う場合
 
-                // メニューの状態を更新する
-                this.windowMenu.updateMenu(childMenu);
+                } else {
+                    // 子メニューの表示を行う場合
+                    // 子メニューを取得
+                    const childMenu = this.menuDefDao.getMenuById(pressedMenu.getChildMenuId());
+
+                    // メニューの状態を更新する
+                    this.windowMenu.updateMenu(childMenu);
+                }
             }
         }
 
@@ -120,8 +127,6 @@ class IkuseiScene extends Phaser.Scene {
                 this.windowMenu.downMenu();
             }
         }
-
-        console.log("update.");
     }
 
     /**

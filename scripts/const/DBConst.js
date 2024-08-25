@@ -85,6 +85,9 @@ const C_DB = {
 
     },
 
+    /** 詳細へ飛ぶ項目の子項目ID */
+    CHILDCOLID_DETAILS: '-1',
+
     /** メニューID タイトル */
     MENU_ID_TITLE: 0,
     /** メニューID キャラステータス */

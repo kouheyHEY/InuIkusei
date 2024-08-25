@@ -13,7 +13,6 @@ class PreLoadScene extends Phaser.Scene {
         //     C_ASSETS.FILE_PATH_IMAGE_PLAYER +
         //     C_ASSETS.IMAGE_FILE_PLAYER);
 
-
         // 弾の発射音
         // this.load.audio(
         //     C_ASSETS.MUSIC_KEY_SHOOT_1,
@@ -47,7 +46,5 @@ class PreLoadScene extends Phaser.Scene {
         // タイトルシーンに遷移
         this.scene.start(C_COMMON.SCENE_TITLESCENE);
     }
-
-
 
 }
