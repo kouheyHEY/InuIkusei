@@ -31,4 +31,25 @@ class ItemDao {
 
         return modelList;
     }
+
+    /** typeで検索し、ItemModelのリストを取得する
+     * @param {number} type 取得するアイテムのtype
+     * @returns {ItemModel[]} ItemModelのリスト
+     */
+    getByType(type) {
+        let modelList = [];
+
+        // 一致するデータを取得
+        let dataList = this.tabData.filter(data => data[C_DB.COL_NAME_ITEM.ITEMTYPE] == type);
+
+        for (let data of dataList) {
+            // データの各項目をモデルにセットする
+            let model = new ItemModel();
+            model.setPropertiesFromObject(data);
+            // モデルを配列にセット
+            modelList.push(model);
+        }
+
+        return modelList;
+    }
 }

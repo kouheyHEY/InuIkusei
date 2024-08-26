@@ -9,6 +9,8 @@ const C_DB = {
         MENU_DEF: "menuDefTable",
         /** テーブル名 進行状況テーブル */
         PROG_STT: "progSttTable",
+        /* テーブル名 アイテム定義テーブル */
+        ITEM_DEF: "itemDefTable",
         /* テーブル名 アイテムテーブル */
         ITEM: "itemTable"
     },
@@ -85,8 +87,14 @@ const C_DB = {
 
     },
 
-    /** 詳細へ飛ぶ項目の子項目ID */
-    CHILDCOLID_DETAILS: '-1',
+    /** 所持消費アイテム一覧の子項目ID */
+    CHILDCOLID_USEITEM: '-1',
+    /** 所持装備アイテム一覧の子項目ID */
+    CHILDCOLID_EQPITEM: '-2',
+    /** 所持特別アイテム一覧の子項目ID */
+    CHILDCOLID_SPITEM: '-3',
+    /** 味方キャラ一覧の子項目ID */
+    CHILDCOLID_SPRT: '-4',
 
     /** メニューID タイトル */
     MENU_ID_TITLE: 0,
@@ -121,19 +129,40 @@ const C_DB = {
 
     },
 
-    /** 項目名 Itemテーブル */
-    COL_NAME_ITEM: {
+    /** 項目名 ItemDefテーブル */
+    COL_NAME_ITEM_DEF: {
         /** アイテムID */
         ITEMID: "itemId",
         /** アイテム名 */
         ITEMNAME: "itemName",
         /** アイテム種別 */
         ITEMTYPE: "itemType",
-        /** 効果対象項目ID */
-        TARGETCOLID: "targetColId",
+        /** 効果対象項目 */
+        TARGETCOL: "targetCol",
         /** 効果量 */
         EFFECTVAL: "effectVal",
+        /** アイテム詳細 */
+        ITEMDETAIL: "itemDetail",
     },
+
+
+    /** 項目名 Itemテーブル */
+    COL_NAME_ITEM: {
+        /** アイテムID */
+        ITEMID: "itemId",
+        /** アイテム種別 */
+        ITEMTYPE: "itemType",
+        /** 装備キャラID */
+        EQPCHARAID: "eqpCharaId",
+    },
+
+
+    /** 所持消費アイテムのタイプ */
+    ITEMTYPE_USEITEM: '1',
+    /** 所持装備アイテムのタイプ */
+    ITEMTYPE_EQPITEM: '2',
+    /** 所持特別アイテムのタイプ */
+    ITEMTYPE_SPITEM: '3',
 
 
 }

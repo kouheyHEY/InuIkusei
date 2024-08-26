@@ -3,151 +3,92 @@ class ItemModel {
     constructor() {
         /** @type {number} アイテムID */
         this.itemId = null;
-        /** @type {string} アイテム名 */
-        this.itemName = null;
         /** @type {number} アイテム種別 */
         this.itemType = null;
-        /** @type {number} アイテム効果対象項目ID */
-        this.parentMenuId = null;
-        /** @type {number} 親項目ID */
-        this.parentColId = null;
-        /** @type {number} 子メニューID */
-        this.childMenuId = null;
-        /** @type {number} 子項目ID */
-        this.childColId = null;
+        /** @type {number} 装備キャラID */
+        this.eqpCharaId = null;
     }
 
     /**
-     * アイテムID
-     * @returns {number}
+     * @returns {number} アイテムID
      */
     getItemId() {
         return this.itemId;
     }
 
     /**
-     * @param {number} value - アイテムID
+     * @param {number} itemId アイテムID
      */
-    setItemId(value) {
-        this.itemId = value;
+    setItemId(itemId) {
+        this.itemId = itemId;
     }
 
     /**
-     * アイテム名
-     * @returns {string}
-     */
-    getItemName() {
-        return this.itemName;
-    }
-
-    /**
-     * @param {string} value - アイテム名
-     */
-    setItemName(value) {
-        this.itemName = value;
-    }
-
-    /**
-     * アイテム種別
-     * @returns {number}
+     * @returns {number} アイテム種別
      */
     getItemType() {
         return this.itemType;
     }
 
     /**
-     * @param {number} value - アイテム種別
+     * @param {number} itemType アイテム種別
      */
-    setItemType(value) {
-        this.itemType = value;
+    setItemType(itemType) {
+        this.itemType = itemType;
     }
 
     /**
-     * アイテム効果対象項目ID
-     * @returns {number}
+     * @returns {number} 装備キャラID
      */
-    getParentMenuId() {
-        return this.parentMenuId;
+    getEqpCharaId() {
+        return this.eqpCharaId;
     }
 
     /**
-     * @param {number} value - アイテム効果対象項目ID
+     * @param {number} eqpCharaId 装備キャラID
      */
-    setParentMenuId(value) {
-        this.parentMenuId = value;
+    setEqpCharaId(eqpCharaId) {
+        this.eqpCharaId = eqpCharaId;
     }
 
     /**
-     * 親項目ID
-     * @returns {number}
+     * クラスのプロパティとその値を持つオブジェクトを返す
+     * @returns {Object} プロパティと値を持つオブジェクト
      */
-    getParentColId() {
-        return this.parentColId;
+    getPropertiesFromObject() {
+        return {
+            itemId: this.itemId,
+            itemType: this.itemType,
+            eqpCharaId: this.eqpCharaId
+        };
     }
 
     /**
-     * @param {number} value - 親項目ID
+     * オブジェクトからプロパティの値を設定する
+     * @param {Object} obj プロパティと値を持つオブジェクト
      */
-    setParentColId(value) {
-        this.parentColId = value;
-    }
-
-    /**
-     * 子メニューID
-     * @returns {number}
-     */
-    getChildMenuId() {
-        return this.childMenuId;
-    }
-
-    /**
-     * @param {number} value - 子メニューID
-     */
-    setChildMenuId(value) {
-        this.childMenuId = value;
-    }
-
-    /**
-     * 子項目ID
-     * @returns {number}
-     */
-    getChildColId() {
-        return this.childColId;
-    }
-
-    /**
-     * @param {number} value - 子項目ID
-     */
-    setChildColId(value) {
-        this.childColId = value;
-    }
-
-    /**
-     * オブジェクトのプロパティをモデルにセットします。
-     * @param {Object} obj - セットするオブジェクト
-     */
-    setPropertiesFromObject(obj) {
+    setPropertiesObject(obj) {
         if (obj.hasOwnProperty('itemId')) {
-            this.setItemId(obj['itemId']);
-        }
-        if (obj.hasOwnProperty('itemName')) {
-            this.setItemName(obj['itemName']);
+            this.itemId = obj.itemId;
         }
         if (obj.hasOwnProperty('itemType')) {
-            this.setItemType(obj['itemType']);
+            this.itemType = obj.itemType;
         }
-        if (obj.hasOwnProperty('parentMenuId')) {
-            this.setParentMenuId(obj['parentMenuId']);
+        if (obj.hasOwnProperty('eqpCharaId')) {
+            this.eqpCharaId = obj.eqpCharaId;
         }
-        if (obj.hasOwnProperty('parentColId')) {
-            this.setParentColId(obj['parentColId']);
-        }
-        if (obj.hasOwnProperty('childMenuId')) {
-            this.setChildMenuId(obj['childMenuId']);
-        }
-        if (obj.hasOwnProperty('childColId')) {
-            this.setChildColId(obj['childColId']);
-        }
+    }
+
+    /**
+     * クラスのプロパティ名を配列として返す
+     * @returns {string[]} プロパティ名の配列
+    */
+    getPropertyNames() {
+        return [
+            'itemId',
+            'itemType',
+            'eqpCharaId'
+        ];
     }
 
 }

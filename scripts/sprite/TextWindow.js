@@ -59,6 +59,9 @@ class TextWindow {
         this.menuColNum = menuColNum;
         // メニューが決定されたかどうか
         this.pressedMenu = false;
+
+        // ウインドウがアクティブかどうか
+        this.isActive = false;
     }
 
     /**
@@ -174,12 +177,20 @@ class TextWindow {
 
                 // ホバーイベントのリスナーを追加
                 textObj.on('pointerover', () => {
+                    // アクティブでない場合は処理をしない
+                    if (!this.isActive) {
+                        return;
+                    }
                     // マウスがホバーしたらそのメニュー項目を選択状態にする
                     this.chooseMenu(textObj.menuProperty.menuIdx);
                 });
 
                 // クリックイベントのリスナーを追加
                 textObj.on('pointerdown', () => {
+                    // アクティブでない場合は処理をしない
+                    if (!this.isActive) {
+                        return;
+                    }
                     // クリックされたらクリックフラグをtrueにする
                     this.pressedMenu = true;
                     // 決定したメニューのモデルを設定する

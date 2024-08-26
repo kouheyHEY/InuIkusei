@@ -21,6 +21,9 @@ class IkuseiScene extends Phaser.Scene {
         this.grph = this.add.graphics();
         this.initArea();
 
+        // 初期にアクティブにするウインドウの設定
+        this.windowMenu.isActive = true;
+
         // ３．Phaser用メソッドの初期化
         /** @type {InputManager} 入力マネージャ */
         this.inputManager = new InputManager(this, [
@@ -41,7 +44,7 @@ class IkuseiScene extends Phaser.Scene {
         // TODO: デバッグ用
         this.updateCharaStt(0);
         /* メニューがアクティブの時の更新処理 */
-        if (this.isMenuActive) {
+        if (this.windowMenu.isActive) {
             /* メニュー項目の説明文の表示処理 */
             this.windowTextMain.updateText(
                 [this.windowMenu.menuDefModelList[this.windowMenu.choosedMenuIdx].getColDetail()]
@@ -50,10 +53,31 @@ class IkuseiScene extends Phaser.Scene {
             /* メニュー選択時の処理 */
             if (this.windowMenu.pressedMenu) {
                 // メニューが押された時
+                /** @type {MenuDefModel} 選択されたメニュー */
                 const pressedMenu = this.windowMenu.pressedMenuDefModel;
 
-                if (pressedMenu.getChildColId == C_DB.CHILDCOLID_DETAILS) {
-                    // 詳細の表示を行う場合
+                if (pressedMenu.getChildColId() == C_DB.CHILDCOLID_USEITEM ||
+                    pressedMenu.getChildColId() == C_DB.CHILDCOLID_EQPITEM ||
+                    pressedMenu.getChildColId() == C_DB.CHILDCOLID_SPITEM ||
+                    pressedMenu.getChildColId() == C_DB.CHILDCOLID_SPRT
+                ) {
+                    // メインウインドウに詳細の表示を行う場合
+
+                    // フォーカスをメインウインドウに移動
+                    this.windowMenu.isActive = false;
+                    this.windowTextMain.isActive = true;
+
+                    /* メインウインドウ表示対象のリスト取得処理 */
+                    if (pressedMenu.getChildColId() == C_DB.CHILDCOLID_USEITEM) {
+                        // 消費アイテム一覧を取得する
+                        this.dispItemList = this.itemDao.getByType(C_DB.ITEMTYPE_USEITEM);
+                    } else if (pressedMenu.getChildColId() == C_DB.CHILDCOLID_EQPITEM) {
+                        // 装備アイテム一覧を取得する
+                        this.dispItemList = this.itemDao.getByType(C_DB.ITEMTYPE_EQPITEM);
+                    } else if (pressedMenu.getChildColId() == C_DB.CHILDCOLID_SPITEM) {
+                        // 特別アイテム一覧を取得する
+                        this.dispItemList = this.itemDao.getByType(C_DB.ITEMTYPE_SPITEM);
+                    }
 
                 } else {
                     // 子メニューの表示を行う場合
@@ -67,7 +91,7 @@ class IkuseiScene extends Phaser.Scene {
         }
 
         /* テキストウインドウがアクティブの時の更新処理 */
-        if (this.isTextMainActive) {
+        if (this.windowTextMain.isActive) {
 
         }
 
@@ -76,7 +100,7 @@ class IkuseiScene extends Phaser.Scene {
         if (this.inputManager.isKeyPressed(C_COMMON.KEY_ENTER)) {
             // エンターキー押下時
 
-            if (this.isTextMainActive) {
+            if (this.windowTextMain.isActive) {
                 // テキストウインドウがアクティブの場合
 
                 // テキストウインドウの文字列を更新する
@@ -84,7 +108,7 @@ class IkuseiScene extends Phaser.Scene {
                 this.windowTextMain.updateText([textData[0][C_DB.COL_NAME_TEXT.TEXT]]);
             }
 
-            if (this.isMenuActive) {
+            if (this.windowMenu.isActive) {
                 // メニューウインドウがアクティブの場合
 
                 // TODO: メニューウインドウの文字列を更新する
@@ -96,12 +120,12 @@ class IkuseiScene extends Phaser.Scene {
 
             // TODO: デバッグ用
             // フォーカスを切り替える
-            if (this.isTextMainActive) {
-                this.isTextMainActive = false;
-                this.isMenuActive = true;
+            if (this.windowTextMain.isActive) {
+                this.windowTextMain.isActive = false;
+                this.windowMenu.isActive = true;
             } else {
-                this.isTextMainActive = true;
-                this.isMenuActive = false;
+                this.windowTextMain.isActive = true;
+                this.windowMenu.isActive = false;
 
             }
         }
@@ -109,7 +133,7 @@ class IkuseiScene extends Phaser.Scene {
         if (this.inputManager.isKeyPressed(C_COMMON.KEY_UP)) {
             // 上キー押下時
 
-            if (this.isMenuActive) {
+            if (this.windowMenu.isActive) {
                 // メニューウインドウがアクティブの場合
 
                 // 上のメニュー項目を選択する
@@ -120,7 +144,7 @@ class IkuseiScene extends Phaser.Scene {
         if (this.inputManager.isKeyPressed(C_COMMON.KEY_DOWN)) {
             // 下キー押下時
 
-            if (this.isMenuActive) {
+            if (this.windowMenu.isActive) {
                 // メニューウインドウがアクティブの場合
 
                 // 下のメニュー項目を選択する
@@ -134,9 +158,10 @@ class IkuseiScene extends Phaser.Scene {
      * this.XXXはここに記載
      */
     initInstVal() {
-        // 各ウインドウがフォーカスされているかどうかのフラグ
-        this.isMenuActive = true;
-        this.isTextMainActive = false;
+        // メインウインドウに表示するアイテムのリスト
+        this.dispItemList = null;
+        // 処理を行うアイテム
+        this.useItem = null;
 
         /** @type {TextWindow} キャラ１のステータスウインドウ */
         this.windowChara1Stt = null;
@@ -164,8 +189,8 @@ class IkuseiScene extends Phaser.Scene {
         this.isDispChara1 = this.chara1SttModel.getCharaName() !== C_DB.CHARANAME_NULL;
         this.isDispChara2 = this.chara2SttModel.getCharaName() !== C_DB.CHARANAME_NULL;
 
-        /** @type {TextModel} */
-        this.TextModel = null;
+        /** @type {TextModel} テキストモデル */
+        this.textModel = null;
 
         /** @type {MenuDefModel[]} キャラステータス項目名メニュー */
         this.charaSttColList = this.menuDefDao.getMenuById(C_DB.MENU_ID_CHARA_STT);
