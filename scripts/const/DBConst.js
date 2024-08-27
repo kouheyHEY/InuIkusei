@@ -130,21 +130,34 @@ const C_DB = {
     },
 
     /** 項目名 ItemDefテーブル */
-    COL_NAME_ITEM_DEF: {
+    COL_NAME_ITEMDEF: {
         /** アイテムID */
         ITEMID: "itemId",
         /** アイテム名 */
         ITEMNAME: "itemName",
         /** アイテム種別 */
         ITEMTYPE: "itemType",
-        /** 効果対象項目 */
-        TARGETCOL: "targetCol",
-        /** 効果量 */
-        EFFECTVAL: "effectVal",
+        /** 効果対象項目1 */
+        TARGETCOL1: "targetCol1",
+        /** 効果量1 */
+        EFFECTVAL1: "effectVal1",
+        /** 効果対象項目2 */
+        TARGETCOL2: "targetCol2",
+        /** 効果量2 */
+        EFFECTVAL2: "effectVal2",
+        /** 効果対象項目3 */
+        TARGETCOL3: "targetCol3",
+        /** 効果量3 */
+        EFFECTVAL3: "effectVal3",
+        /** 効果対象項目4 */
+        TARGETCOL4: "targetCol4",
+        /** 効果量4 */
+        EFFECTVAL4: "effectVal4",
+        /** 使用アイテムフラグ */
+        USEITEMFLG: "useItemFlg",
         /** アイテム詳細 */
         ITEMDETAIL: "itemDetail",
     },
-
 
     /** 項目名 Itemテーブル */
     COL_NAME_ITEM: {
@@ -155,7 +168,6 @@ const C_DB = {
         /** 装備キャラID */
         EQPCHARAID: "eqpCharaId",
     },
-
 
     /** 所持消費アイテムのタイプ */
     ITEMTYPE_USEITEM: '1',

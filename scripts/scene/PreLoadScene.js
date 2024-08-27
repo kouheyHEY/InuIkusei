@@ -42,6 +42,7 @@ class PreLoadScene extends Phaser.Scene {
         await loadTableData(C_DB.TABLE_NAME.MENU_DEF, C_ASSET.FILENAME_DB_MENU_DEF);
         await loadTableData(C_DB.TABLE_NAME.CHARA_STT, C_ASSET.FILENAME_DB_CHARA_STT);
         await loadTableData(C_DB.TABLE_NAME.ITEM, C_ASSET.FILENAME_DB_ITEM);
+        await loadTableData(C_DB.TABLE_NAME.ITEM, C_ASSET.FILENAME_DB_ITEM_DEF);
 
         // タイトルシーンに遷移
         this.scene.start(C_COMMON.SCENE_TITLESCENE);
