@@ -73,5 +73,17 @@ const C_COMMON = {
     /** キー定数 ENTER */
     KEY_ENTER: "ENTER",
     /** キー定数 スペースキー */
-    KEY_SPACE: "SPACE"
+    KEY_SPACE: "SPACE",
+
+    /** ウインドウ 表示コンテンツ種類 文章 */
+    WINDOW_CONTENT_TYPE_LINE: 1,
+    /** ウインドウ 表示コンテンツ種類 メニューリスト */
+    WINDOW_CONTENT_TYPE_MENU: 2,
+    /** ウインドウ 表示コンテンツ種類 アイテムリスト */
+    WINDOW_CONTENT_TYPE_ITEM: 3,
+    /** ウインドウ 表示コンテンツ種類 キャラリスト */
+    WINDOW_CONTENT_TYPE_CHARA: 4,
+    /** ウインドウ 表示コンテンツ種類 テキストリスト */
+    WINDOW_CONTENT_TYPE_TEXTLIST: 5,
+
 };

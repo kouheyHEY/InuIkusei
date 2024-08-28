@@ -46,13 +46,82 @@ class TextWindow {
             : C_COMMON.COMMON_COLOR_WINDOW_FONT;
 
 
+        // 実際に表示する文字列オブジェクト
         this.dispTextGroup = this.scene.add.group();
+        // 選択されているメニューの番号
         this.choosedMenuIdx = 0;
         this.pressedMenuDefModel = null;
         this.menuDefModelList = null;
+        this.itemModelList = null;
         this.choosedMark = null;
         this.pressedMenu = false;
+
+        // 表示内容
+        this.dispContent = null;
+        this.dispType = null;
+
+        // ウインドウがアクティブかどうか
         this.isActive = false;
+    }
+
+    /**
+     * 
+     * @param {Object[]} content 表示内容
+     * @param {number} type 表示内容の形式（文章、テキストリスト、アイテムリスト、キャラリスト、メニュー）
+     */
+    setContent(content, type) {
+        // 表示コンテンツを保存する
+        this.dispContent = content;
+        this.dispType = type;
+
+        if (type == C_COMMON.WINDOW_CONTENT_TYPE_LINE) {
+            // 表示コンテンツが文章の場合
+            const textObj = this.scene.add.text(
+                this.startX + C_COMMON.WINDOW_PADDING_LINE,
+                this.startY + C_COMMON.WINDOW_PADDING_LINE,
+                content,
+                {
+                    fontSize: this.fontSize,
+                    fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
+                    fontFamily: C_COMMON.FONT_FAMILY_BIT12
+                }
+            ).setOrigin(0);
+
+            // テキストオブジェクトを表示
+            this.dispTextGroup.add(textObj);
+
+        } else {
+            // 表示コンテンツがリスト形式の場合
+
+            for (const elm of content) {
+                /** @type {string} 表示コンテンツ */
+                let dispText = null;
+                if (type == C_COMMON.WINDOW_CONTENT_TYPE_TEXTLIST) {
+                    // テキストリスト形式の場合
+                    dispText = elm;
+                } else if (type == C_COMMON.WINDOW_CONTENT_TYPE_MENU) {
+                    // メニューリストの場合
+                    dispText = elm.getMenuColName();
+                } else if (type == C_COMMON.WINDOW_CONTENT_TYPE_ITEM) {
+                    // アイテムリストの場合
+                    dispText = elm.;
+                }
+                const textObj = this.scene.add.text(
+                    this.startX + C_COMMON.WINDOW_PADDING_LINE,
+                    this.startY + C_COMMON.WINDOW_PADDING_LINE,
+                    text,
+                    {
+                        fontSize: this.fontSize,
+                        fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
+                        fontFamily: C_COMMON.FONT_FAMILY_BIT12
+                    }
+                ).setOrigin(0);
+
+                // テキストオブジェクトを表示
+                this.dispTextGroup.add(textObj);
+            }
+
+        }
     }
 
     /**
