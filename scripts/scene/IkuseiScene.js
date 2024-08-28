@@ -79,6 +79,12 @@ class IkuseiScene extends Phaser.Scene {
                         this.dispItemList = this.itemDao.getByType(C_DB.ITEMTYPE_SPITEM);
                     }
 
+                    // メインウインドウにリストを表示する
+                    this.windowTextMain.changeToList(true, C_IS.WINDOW_TEXT_MAIN_COL_NUM);
+                    this.windowTextMain.setMenu(this.dispItemList);
+
+                    console.log("disp List mainWindow ");
+
                 } else {
                     // 子メニューの表示を行う場合
                     // 子メニューを取得
@@ -90,9 +96,13 @@ class IkuseiScene extends Phaser.Scene {
             }
         }
 
-        /* テキストウインドウがアクティブの時の更新処理 */
+        /* メインウインドウがアクティブの時の更新処理 */
         if (this.windowTextMain.isActive) {
 
+            if (this.dispItemList != null) {
+                // リスト表示時
+
+            }
         }
 
         /* 各キー押下時の処理を記載 */
@@ -179,6 +189,8 @@ class IkuseiScene extends Phaser.Scene {
         this.menuDefDao = new MenuDefDao(this);
         /** @type {ItemDao} アイテムDao */
         this.itemDao = new ItemDao(this);
+        /** @type {ItemDefDao} アイテム定義Dao */
+        this.itemDefDao = new ItemDefDao(this);
 
         /** @type {CharaSttModel} キャラ１のステータス */
         this.chara1SttModel = this.charaSttDao.getById(C_DB.CHARAID_SPRT1);
@@ -209,18 +221,15 @@ class IkuseiScene extends Phaser.Scene {
 
             // キャラ１のステータスウインドウを描画
             this.windowChara1Stt = new TextWindow(
-                C_IS.WINDOW_CHARA1_STATUS_X,
-                C_IS.WINDOW_CHARA1_STATUS_Y,
-                C_IS.WINDOW_CHARA1_STATUS_W,
-                C_IS.WINDOW_CHARA1_STATUS_H,
-                1,
-                C_COMMON.COMMON_COLOR_WINDOW_FRAME,
-                C_COMMON.COMMON_COLOR_WINDOW_BG,
-                C_COMMON.COMMON_COLOR_WINDOW_FONT,
-                C_COMMON.FONT_SIZE_SMALL_2,
-                false, true, false,
-                this
-            );
+                {
+                    startX: C_IS.WINDOW_CHARA1_STATUS_X,
+                    startY: C_IS.WINDOW_CHARA1_STATUS_Y,
+                    hSize: C_IS.WINDOW_CHARA1_STATUS_W,
+                    vSize: C_IS.WINDOW_CHARA1_STATUS_H,
+                    menuColNum: 1,
+                    isLine: false, isList: true, isMenu: false
+                },
+                this);
             this.windowChara1Stt.drawWindow(this.grph);
             this.windowChara1Stt.setMenu(this.charaSttColList);
         }
@@ -230,53 +239,46 @@ class IkuseiScene extends Phaser.Scene {
 
             // キャラ２のステータスウインドウを描画
             this.windowChara2Stt = new TextWindow(
-                C_IS.WINDOW_CHARA2_STATUS_X,
-                C_IS.WINDOW_CHARA2_STATUS_Y,
-                C_IS.WINDOW_CHARA2_STATUS_W,
-                C_IS.WINDOW_CHARA2_STATUS_H,
-                1,
-                C_COMMON.COMMON_COLOR_WINDOW_FRAME,
-                C_COMMON.COMMON_COLOR_WINDOW_BG,
-                C_COMMON.COMMON_COLOR_WINDOW_FONT,
-                C_COMMON.FONT_SIZE_SMALL_2,
-                false, true, false,
-                this
-            );
+                {
+                    startX: C_IS.WINDOW_CHARA2_STATUS_X,
+                    startY: C_IS.WINDOW_CHARA2_STATUS_Y,
+                    hSize: C_IS.WINDOW_CHARA2_STATUS_W,
+                    vSize: C_IS.WINDOW_CHARA2_STATUS_H,
+                    menuColNum: 1,
+                    isLine: false, isList: true, isMenu: false
+                },
+                this);
             this.windowChara2Stt.drawWindow(this.grph);
             this.windowChara2Stt.setMenu(this.charaSttColList);
         }
 
         // 画面左下のメニューウインドウを描画
         this.windowMenu = new TextWindow(
-            C_IS.WINDOW_MENU_X,
-            C_IS.WINDOW_MENU_Y,
-            C_IS.WINDOW_MENU_W,
-            C_IS.WINDOW_MENU_H,
-            1,
-            C_COMMON.COMMON_COLOR_WINDOW_FRAME,
-            C_COMMON.COMMON_COLOR_WINDOW_BG,
-            C_COMMON.COMMON_COLOR_WINDOW_FONT,
-            C_COMMON.FONT_SIZE_SMALL,
-            false, true, true,
-            this
-        );
+            {
+                startX: C_IS.WINDOW_MENU_X,
+                startY: C_IS.WINDOW_MENU_Y,
+                hSize: C_IS.WINDOW_MENU_W,
+                vSize: C_IS.WINDOW_MENU_H,
+                menuColNum: 1,
+                fontSize: C_COMMON.FONT_SIZE_SMALL,
+                isLine: false, isList: true, isMenu: true
+            },
+            this);
         this.windowMenu.drawWindow(this.grph);
         this.windowMenu.setMenu(this.menuIkuseiList);
 
         // 画面右下のテキストウインドウを描画
         this.windowTextMain = new TextWindow(
-            C_IS.WINDOW_TEXT_MAIN_X,
-            C_IS.WINDOW_TEXT_MAIN_Y,
-            C_IS.WINDOW_TEXT_MAIN_W,
-            C_IS.WINDOW_TEXT_MAIN_H,
-            1,
-            C_COMMON.COMMON_COLOR_WINDOW_FRAME,
-            C_COMMON.COMMON_COLOR_WINDOW_BG,
-            C_COMMON.COMMON_COLOR_WINDOW_FONT,
-            C_COMMON.FONT_SIZE_SMALL,
-            true, false, false,
-            this
-        );
+            {
+                startX: C_IS.WINDOW_TEXT_MAIN_X,
+                startY: C_IS.WINDOW_TEXT_MAIN_Y,
+                hSize: C_IS.WINDOW_TEXT_MAIN_W,
+                vSize: C_IS.WINDOW_TEXT_MAIN_H,
+                menuCol: 1,
+                fontSize: C_COMMON.FONT_SIZE_SMALL,
+                isLine: true, isList: false, isMenu: false
+            },
+            this);
         this.windowTextMain.drawWindow(this.grph);
         this.windowTextMain.dispText(["テスト文字列です。"]);
     }
@@ -288,6 +290,7 @@ class IkuseiScene extends Phaser.Scene {
     updateCharaStt(charaIdx) {
         let window = null;
         let charaSttList = null;
+
         if (charaIdx === 0) {
             // キャラ１の場合
             window = this.windowChara1Stt;
@@ -304,11 +307,14 @@ class IkuseiScene extends Phaser.Scene {
 
             for (let i = 0; i < this.charaSttColList.length; i++) {
 
+                // 表示するステータス項目の値
                 let sttVal = null;
+                // 装備を表示する場合
                 if (this.charaSttColList[i].getMenuColId() == C_DB.COL_ID_EQP1 ||
                     this.charaSttColList[i].getMenuColId() == C_DB.COL_ID_EQP2) {
 
-                    let eqpItem = this.itemDao.getById();
+                    // 装備品をアイテム定義から取得する
+                    let eqpItem = this.itemDao.getById(charaSttList[i]);
                     sttVal = eqpItem.length != 0 ? eqpItem[0].getItemName() : 'なし';
                 } else {
                     sttVal = charaSttList[i];

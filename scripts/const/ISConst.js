@@ -53,4 +53,7 @@ const C_IS = {
     WINDOW_TEXT_MAIN_W: 832,
     /** メイン用テキストウインドウ 高さ */
     WINDOW_TEXT_MAIN_H: 192,
+
+    /** メインウインドウのメニュー表示時の列数 */
+    WINDOW_TEXT_MAIN_COL_NUM: 3,
 }

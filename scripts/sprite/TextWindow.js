@@ -2,65 +2,56 @@ class TextWindow {
 
     /**
      * ウインドウを作成する
-     * @param {number} startX ウインドウの左上のX座標
-     * @param {number} startY ウインドウの左上のY座標
-     * @param {number} hSize 横のサイズ
-     * @param {number} vSize 縦のサイズ
-     * @param {number} menuColNum メニューの列数
-     * @param {string} frameColor ウインドウの枠の色
-     * @param {string} bgColor ウインドウの背景の色
-     * @param {number} fontSize フォントサイズ
-     * @param {string} fontColor 文字の色
-     * @param {boolean} isLine 文章かどうか
-     * @param {boolean} isList リストかどうか
-     * @param {boolean} isMenu メニューかどうか
+     * @param {object} config ウインドウの設定
+     * @param {number} config.startX ウインドウの左上のX座標
+     * @param {number} config.startY ウインドウの左上のY座標
+     * @param {number} config.hSize 横のサイズ
+     * @param {number} config.vSize 縦のサイズ
+     * @param {number} config.menuColNum メニューの列数
+     * @param {string} config.frameColor ウインドウの枠の色
+     * @param {string} config.bgColor ウインドウの背景の色
+     * @param {number} config.fontSize フォントサイズ
+     * @param {string} config.fontColor 文字の色
+     * @param {boolean} config.isLine 文章かどうか
+     * @param {boolean} config.isList リストかどうか
+     * @param {boolean} config.isMenu メニューかどうか
      * @param {Phaser.Scene} scene ウインドウを作成するシーン
      */
-    constructor(startX, startY, hSize, vSize, menuColNum, frameColor, bgColor, fontColor, fontSize, isLine, isList, isMenu, scene) {
-        /** @type {number} ウインドウの左上のX座標 */
-        this.startX = startX;
-        /** @type {number} ウインドウの左上のY座標 */
-        this.startY = startY;
-        /** @type {number} 縦のサイズ（px） */
-        this.vSize = vSize;
-        /** @type {number} 横のサイズ（px） */
-        this.hSize = hSize;
-        /** @type {Phaser.Scene} ウインドウを作成するシーン */
+    constructor(config, scene) {
         this.scene = scene;
+        this.startX = config.startX;
+        this.startY = config.startY;
+        this.hSize = config.hSize;
+        this.vSize = config.vSize;
 
-        /** @type {string} ウインドウ枠の色 */
-        this.frameColor = frameColor;
-        /** @type {string} ウインドウ背景の色 */
-        this.bgColor = bgColor;
-        /** @type {string} 文字の色 */
-        this.fontColor = fontColor;
-        /** @type {number} 文字のサイズ */
-        this.fontSize = fontSize;
+        this.isLine = config.isLine;
+        this.isList = config.isList;
+        this.isMenu = config.isMenu;
+        this.menuColNum = config.menuColNum || 1;
 
-        /** 表示するテキストのオブジェクトグループ */
+        this.frameColor = ('frameColor' in config)
+            ? config.frameColor
+            : C_COMMON.COMMON_COLOR_WINDOW_FRAME;
+
+        this.bgColor = ('bgColor' in config)
+            ? config.bgColor
+            : C_COMMON.COMMON_COLOR_WINDOW_BG;
+
+        this.fontSize = ('fontSize' in config)
+            ? config.fontSize
+            : C_COMMON.FONT_SIZE_SMALL_2;
+
+        this.fontColor = ('fontColor' in config)
+            ? config.fontColor
+            : C_COMMON.COMMON_COLOR_WINDOW_FONT;
+
+
         this.dispTextGroup = this.scene.add.group();
-
-        /** 現在選択しているメニュー項目の番号(0~) */
         this.choosedMenuIdx = 0;
-        /** @type {MenuDefModel} 決定したメニューのメニューオブジェクト */
         this.pressedMenuDefModel = null;
-        /** @type {MenuDefModel[]} 現在表示しているメニューのオブジェクト */
         this.menuDefModelList = null;
-        /** 現在表示しているメニューの左側の三角形 */
         this.choosedMark = null;
-
-        // テキスト形式かどうか
-        this.isLine = isLine;
-        // リスト形式かどうか
-        this.isList = isList;
-        // メニューとして機能させるかどうか
-        this.isMenu = isMenu;
-        // メニューの列数（通常は１）
-        this.menuColNum = menuColNum;
-        // メニューが決定されたかどうか
         this.pressedMenu = false;
-
-        // ウインドウがアクティブかどうか
         this.isActive = false;
     }
 
