@@ -14,7 +14,7 @@ class TextWindow {
      * @param {string} config.fontColor 文字の色
      * @param {boolean} config.isLine 文章かどうか
      * @param {boolean} config.isList リストかどうか
-     * @param {boolean} config.isMenu メニューかどうか
+     * @param {boolean} config.isMenu メニューかどうか（選択可能か）
      * @param {Phaser.Scene} scene ウインドウを作成するシーン
      */
     constructor(config, scene) {
@@ -50,26 +50,48 @@ class TextWindow {
         this.dispTextGroup = this.scene.add.group();
         // 選択されているメニューの番号
         this.choosedMenuIdx = 0;
-        this.pressedMenuDefModel = null;
-        this.menuDefModelList = null;
-        this.itemModelList = null;
         this.choosedMark = null;
         this.pressedMenu = false;
 
         // 表示内容
         this.dispContent = null;
         this.dispType = null;
+        this.pressedObj = null;
 
         // ウインドウがアクティブかどうか
         this.isActive = false;
     }
 
     /**
-     * 
+     * 表示コンテンツを初期化する
+     */
+    resetContent() {
+        this.pressedMenu = false;
+
+        this.dispContent = null;
+        this.dispType = null;
+        this.pressedObj = null;
+
+        this.dispTextGroup.clear(true, true);
+
+        if (this.choosedMark) {
+            // 既に表示されている場合は、削除する
+            this.choosedMark.destroy();
+        }
+    }
+
+    /**
+     * コンテンツを表示する
      * @param {Object[]} content 表示内容
      * @param {number} type 表示内容の形式（文章、テキストリスト、アイテムリスト、キャラリスト、メニュー）
+     * @param {boolean} clear 表示内容をクリアするかどうか
      */
-    setContent(content, type) {
+    setContent(content, type, clear = true) {
+        if (clear) {
+            // 表示コンテンツをリセットする
+            this.resetContent();
+        }
+
         // 表示コンテンツを保存する
         this.dispContent = content;
         this.dispType = type;
@@ -93,23 +115,47 @@ class TextWindow {
         } else {
             // 表示コンテンツがリスト形式の場合
 
-            for (const elm of content) {
+            // 選択中メニューの番号の調整
+            this.choosedMenuIdx = Math.min(this.choosedMenuIdx, content.length - 1);
+
+            let leftPadding = 0;
+            let idx = 0;
+
+            for (const dispElm of content) {
                 /** @type {string} 表示コンテンツ */
                 let dispText = null;
+
                 if (type == C_COMMON.WINDOW_CONTENT_TYPE_TEXTLIST) {
                     // テキストリスト形式の場合
-                    dispText = elm;
+                    dispText = dispElm;
                 } else if (type == C_COMMON.WINDOW_CONTENT_TYPE_MENU) {
                     // メニューリストの場合
-                    dispText = elm.getMenuColName();
+                    dispText = dispElm.getMenuColName();
                 } else if (type == C_COMMON.WINDOW_CONTENT_TYPE_ITEM) {
                     // アイテムリストの場合
-                    dispText = elm.;
+                    dispText = dispElm.getItemName();
+                } else if (type == C_COMMON.WINDOW_CONTENT_TYPE_CHARA) {
+                    // キャラリストの場合
+                    dispText = dispElm.getCharaName();
                 }
+
+                if (this.isMenu) {
+                    // 選択可能なリストの場合
+
+                    // 表示項目の左側に、カーソルを表示するための余白を設定する
+                    leftPadding = C_COMMON.WINDOW_PADDING_LEFT;
+                }
+
+                // テキストオブジェクト座標の計算
+                const textObjX = this.startX + C_COMMON.WINDOW_PADDING_LINE +
+                    leftPadding +
+                    (idx % this.menuColNum) * this.hSize / this.menuColNum;
+                const textObjY = this.startY + C_COMMON.WINDOW_PADDING_LINE +
+                    Math.floor(idx / this.menuColNum) *
+                    (C_COMMON.WINDOW_PADDING_LINE + this.fontSize);
+
                 const textObj = this.scene.add.text(
-                    this.startX + C_COMMON.WINDOW_PADDING_LINE,
-                    this.startY + C_COMMON.WINDOW_PADDING_LINE,
-                    text,
+                    textObjX, textObjY, dispText,
                     {
                         fontSize: this.fontSize,
                         fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
@@ -117,10 +163,62 @@ class TextWindow {
                     }
                 ).setOrigin(0);
 
+                if (this.isMenu) {
+                    // 選択可能なリストの場合
+
+                    // メニュー項目にプロパティを設定する
+                    textObj.menuProperty = {
+                        menuObj: dispElm,
+                        menuIdx: idx
+                    };
+
+                    textObj.setInteractive();
+
+                    // ホバーイベントのリスナーを追加
+                    textObj.on('pointerover', () => {
+                        // アクティブでない場合は処理をしない
+                        if (!this.isActive) {
+                            return;
+                        }
+                        // マウスがホバーしたらそのメニュー項目を選択状態にする
+                        this.chooseMenu(textObj.menuProperty.menuIdx);
+                    });
+
+                    // クリックイベントのリスナーを追加
+                    textObj.on('pointerdown', () => {
+                        // アクティブでない場合は処理をしない
+                        if (!this.isActive) {
+                            return;
+                        }
+                        // クリックされたらクリックフラグをtrueにする
+                        this.pressedMenu = true;
+
+                        // 決定したメニューのモデルを設定する
+                        this.pressedObj = textObj.menuProperty.menuObj;
+                    });
+                }
+
                 // テキストオブジェクトを表示
                 this.dispTextGroup.add(textObj);
+
+                idx++;
             }
 
+
+            if (this.isMenu) {
+                // メニュー形式の場合
+
+                // デフォルトで一番目のメニューが選択されている状態とする
+                this.dispChoiceMark(
+                    this.startX + C_COMMON.WINDOW_PADDING_LINE,
+                    this.startY + C_COMMON.WINDOW_PADDING_LINE +
+                    this.choosedMenuIdx * (
+                        C_COMMON.WINDOW_PADDING_LINE + this.fontSize
+                    ) + this.fontSize / 2,
+                    C_COMMON.WINDOW_PADDING_LEFT * 2 / 3,
+                    this.fontSize * 2 / 3
+                );
+            }
         }
     }
 
@@ -147,174 +245,6 @@ class TextWindow {
             this.startX, this.startY, this.hSize, this.vSize,
             C_COMMON.WINDOW_ROUND
         );
-    }
-
-    /**
-     * ウインドウの文字列を別の文字列に変更する
-     * @param {string[]} textList 表示対象の文字列のリスト
-     */
-    dispText(textList) {
-        // 既に表示されている文字列を消去する
-        if (this.dispTextGroup.getLength() !== 0) {
-            this.dispTextGroup.clear(true, true);
-        }
-
-        if (!this.isList) {
-            // 表示対象がリスト形式でない場合
-
-            // テキストを文章形式で表示する
-            let textObj = this.scene.add.text(
-                this.startX + C_COMMON.WINDOW_PADDING_LINE,
-                this.startY + C_COMMON.WINDOW_PADDING_LINE,
-                textList[0],
-                {
-                    fontSize: this.fontSize,
-                    fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
-                    fontFamily: C_COMMON.FONT_FAMILY_BIT12
-                }
-            ).setOrigin(0);
-
-            // テキストオブジェクトを表示
-            this.dispTextGroup.add(textObj);
-        }
-    }
-
-    /**
-     * ウインドウにメニューをセットする
-     * @param {MenuDefModel[]} menuDefModelList メニューのリスト
-     */
-    setMenu(menuDefModelList) {
-        // メニューオブジェクトをセットする
-        this.menuDefModelList = menuDefModelList;
-
-        // 既に表示されている文字列を消去する
-        if (this.dispTextGroup.getLength() !== 0) {
-            this.dispTextGroup.clear(true, true);
-        }
-
-        // リストの左側の余白
-        let leftPadding = 0;
-        if (this.isMenu) {
-            // メニュー形式の場合
-
-            // 左側に選択されているマークを表示するための余白を設定する
-            leftPadding = C_COMMON.WINDOW_PADDING_LEFT;
-        }
-
-        // テキストをリスト形式で表示する
-        let idx = 0;
-        let textObjX = 0;
-        let textObjY = 0;
-
-        for (let dispMenu of this.menuDefModelList) {
-            // テキストオブジェクト座標の計算
-            textObjX = this.startX + C_COMMON.WINDOW_PADDING_LINE +
-                leftPadding +
-                (idx % this.menuColNum) * this.hSize / this.menuColNum;
-            textObjY = this.startY + C_COMMON.WINDOW_PADDING_LINE +
-                Math.floor(idx / this.menuColNum) *
-                (C_COMMON.WINDOW_PADDING_LINE + this.fontSize);
-
-            let textObj = this.scene.add.text(textObjX, textObjY,
-                dispMenu.getMenuColName(),
-                {
-                    fontSize: this.fontSize,
-                    fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
-                    fontFamily: C_COMMON.FONT_FAMILY_BIT12
-                }
-            ).setOrigin(0);
-
-            // メニュー項目にプロパティを設定する
-            textObj.menuProperty = {
-                menuObj: dispMenu,
-                menuIdx: idx
-            };
-
-            if (this.isMenu) {
-                // メニュー形式の場合
-
-                textObj.setInteractive();
-
-                // ホバーイベントのリスナーを追加
-                textObj.on('pointerover', () => {
-                    // アクティブでない場合は処理をしない
-                    if (!this.isActive) {
-                        return;
-                    }
-                    // マウスがホバーしたらそのメニュー項目を選択状態にする
-                    this.chooseMenu(textObj.menuProperty.menuIdx);
-                });
-
-                // クリックイベントのリスナーを追加
-                textObj.on('pointerdown', () => {
-                    // アクティブでない場合は処理をしない
-                    if (!this.isActive) {
-                        return;
-                    }
-                    // クリックされたらクリックフラグをtrueにする
-                    this.pressedMenu = true;
-                    // 決定したメニューのモデルを設定する
-                    this.pressedMenuDefModel = dispMenu;
-                });
-            }
-
-            // テキストオブジェクトを表示
-            this.dispTextGroup.add(textObj);
-
-            idx++;
-        }
-
-        if (this.isMenu) {
-            // メニュー形式の場合
-
-            // デフォルトで一番目のメニューが選択されている状態とする
-            this.dispChoiceMark(
-                this.startX + C_COMMON.WINDOW_PADDING_LINE,
-                this.startY + C_COMMON.WINDOW_PADDING_LINE +
-                this.choosedMenuIdx * (
-                    C_COMMON.WINDOW_PADDING_LINE + this.fontSize
-                ) + this.fontSize / 2,
-                C_COMMON.WINDOW_PADDING_LEFT * 2 / 3,
-                this.fontSize * 2 / 3
-            );
-        }
-    }
-
-    /**
-     * 表示されている文字を更新する
-     * @param {string[]} textList 更新後の文字列
-     */
-    updateText(textList) {
-        if (this.dispTextGroup.getLength() === textList.length) {
-            // 表示する文字列の数と現在表示している文字列が同じ長さの場合
-
-            let idx = 0;
-            for (let textObj of this.dispTextGroup.getChildren()) {
-                // 文字列を更新する
-                textObj.setText(textList[idx++]);
-            }
-        }
-    }
-
-    /**
-     * 表示されているメニューを更新する
-     * @param {MenuDefModel[]} menuDefModelList メニューのリスト
-     */
-    updateMenu(menuDefModelList) {
-        if (menuDefModelList != null && menuDefModelList.length != 0) {
-            // メニューが存在する場合
-
-            // メニューを更新する
-            this.setMenu(menuDefModelList);
-        }
-
-        // 決定時の設定を初期化する
-        this.pressedMenu = false;
-        this.pressedMenuDefModel = null;
-
-        if (this.menuDefModelList.length <= this.choosedMenuIdx) {
-            this.chooseMenu(0);
-        }
     }
 
     /**
@@ -355,26 +285,6 @@ class TextWindow {
         triangle.y -= h / 2;
 
         this.choosedMark = triangle;
-    }
-
-    /** 直上のメニュー項目を選択状態にする */
-    upMenu() {
-        if (this.choosedMenuIdx > 0) {
-            // 一番上のメニュー以外を選択している場合
-
-            // 選択マークを更新する
-            this.chooseMenu(this.choosedMenuIdx - 1);
-        }
-    }
-
-    /** 直下のメニュー項目を選択状態にする */
-    downMenu() {
-        if (this.choosedMenuIdx < this.dispTextGroup.getLength() - 1) {
-            // 一番下のメニュー以外を選択している場合
-
-            // 選択マークを更新する
-            this.chooseMenu(this.choosedMenuIdx + 1);
-        }
     }
 
     /**

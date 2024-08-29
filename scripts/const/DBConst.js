@@ -163,6 +163,8 @@ const C_DB = {
     COL_NAME_ITEM: {
         /** アイテムID */
         ITEMID: "itemId",
+        /** アイテム名 */
+        ITEMNAME: "itemName",
         /** アイテム種別 */
         ITEMTYPE: "itemType",
         /** 装備キャラID */

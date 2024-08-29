@@ -43,18 +43,20 @@ class IkuseiScene extends Phaser.Scene {
 
         // TODO: デバッグ用
         this.updateCharaStt(0);
+
         /* メニューがアクティブの時の更新処理 */
         if (this.windowMenu.isActive) {
             /* メニュー項目の説明文の表示処理 */
-            this.windowTextMain.updateText(
-                [this.windowMenu.menuDefModelList[this.windowMenu.choosedMenuIdx].getColDetail()]
+            this.windowTextMain.setContent(
+                this.windowMenu.dispContent[this.windowMenu.choosedMenuIdx].getColDetail(),
+                C_COMMON.WINDOW_CONTENT_TYPE_LINE
             );
 
             /* メニュー選択時の処理 */
             if (this.windowMenu.pressedMenu) {
                 // メニューが押された時
                 /** @type {MenuDefModel} 選択されたメニュー */
-                const pressedMenu = this.windowMenu.pressedMenuDefModel;
+                const pressedMenu = this.windowMenu.pressedObj;
 
                 if (pressedMenu.getChildColId() == C_DB.CHILDCOLID_USEITEM ||
                     pressedMenu.getChildColId() == C_DB.CHILDCOLID_EQPITEM ||
@@ -66,6 +68,8 @@ class IkuseiScene extends Phaser.Scene {
                     // フォーカスをメインウインドウに移動
                     this.windowMenu.isActive = false;
                     this.windowTextMain.isActive = true;
+
+                    console.log(this.itemDao);
 
                     /* メインウインドウ表示対象のリスト取得処理 */
                     if (pressedMenu.getChildColId() == C_DB.CHILDCOLID_USEITEM) {
@@ -81,9 +85,7 @@ class IkuseiScene extends Phaser.Scene {
 
                     // メインウインドウにリストを表示する
                     this.windowTextMain.changeToList(true, C_IS.WINDOW_TEXT_MAIN_COL_NUM);
-                    this.windowTextMain.setMenu(this.dispItemList);
-
-                    console.log("disp List mainWindow ");
+                    this.windowTextMain.setContent(this.dispItemList, C_COMMON.WINDOW_CONTENT_TYPE_ITEM);
 
                 } else {
                     // 子メニューの表示を行う場合
@@ -91,7 +93,7 @@ class IkuseiScene extends Phaser.Scene {
                     const childMenu = this.menuDefDao.getMenuById(pressedMenu.getChildMenuId());
 
                     // メニューの状態を更新する
-                    this.windowMenu.updateMenu(childMenu);
+                    this.windowMenu.setContent(childMenu, C_COMMON.WINDOW_CONTENT_TYPE_MENU);
                 }
             }
         }
@@ -231,7 +233,6 @@ class IkuseiScene extends Phaser.Scene {
                 },
                 this);
             this.windowChara1Stt.drawWindow(this.grph);
-            this.windowChara1Stt.setMenu(this.charaSttColList);
         }
 
         if (this.isDispChara2) {
@@ -249,7 +250,6 @@ class IkuseiScene extends Phaser.Scene {
                 },
                 this);
             this.windowChara2Stt.drawWindow(this.grph);
-            this.windowChara2Stt.setMenu(this.charaSttColList);
         }
 
         // 画面左下のメニューウインドウを描画
@@ -265,7 +265,7 @@ class IkuseiScene extends Phaser.Scene {
             },
             this);
         this.windowMenu.drawWindow(this.grph);
-        this.windowMenu.setMenu(this.menuIkuseiList);
+        this.windowMenu.setContent(this.menuIkuseiList, C_COMMON.WINDOW_CONTENT_TYPE_MENU);
 
         // 画面右下のテキストウインドウを描画
         this.windowTextMain = new TextWindow(
@@ -280,7 +280,7 @@ class IkuseiScene extends Phaser.Scene {
             },
             this);
         this.windowTextMain.drawWindow(this.grph);
-        this.windowTextMain.dispText(["テスト文字列です。"]);
+        this.windowTextMain.setContent("テスト文字列です。");
     }
 
     /**
@@ -333,7 +333,7 @@ class IkuseiScene extends Phaser.Scene {
             }
 
             // ウインドウの文字列を更新する
-            window.updateText(sttTextList);
+            window.setContent(sttTextList, C_COMMON.WINDOW_CONTENT_TYPE_TEXTLIST, true);
         }
     }
 

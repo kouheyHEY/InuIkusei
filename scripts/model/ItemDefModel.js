@@ -237,7 +237,7 @@ class ItemDefModel {
      * オブジェクトからプロパティの値を設定する
      * @param {Object} obj プロパティと値を持つオブジェクト
      */
-    setPropertiesObject(obj) {
+    setPropertiesFromObject(obj) {
         if (obj.hasOwnProperty('itemId')) {
             this.itemId = obj.itemId;
         }

@@ -3,6 +3,8 @@ class ItemModel {
     constructor() {
         /** @type {number} アイテムID */
         this.itemId = null;
+        /** @type {string} アイテム名 */
+        this.itemName = null;
         /** @type {number} アイテム種別 */
         this.itemType = null;
         /** @type {number} 装備キャラID */
@@ -21,6 +23,20 @@ class ItemModel {
      */
     setItemId(itemId) {
         this.itemId = itemId;
+    }
+
+    /**
+     * @returns {string} アイテム名
+     */
+    getItemName() {
+        return this.itemName;
+    }
+
+    /**
+     * @param {string} itemName アイテム名
+     */
+    setItemName(itemName) {
+        this.itemName = itemName;
     }
 
     /**
@@ -58,6 +74,7 @@ class ItemModel {
     getPropertiesFromObject() {
         return {
             itemId: this.itemId,
+            itemName: this.itemName,
             itemType: this.itemType,
             eqpCharaId: this.eqpCharaId
         };
@@ -70,6 +87,9 @@ class ItemModel {
     setPropertiesFromObject(obj) {
         if (obj.hasOwnProperty('itemId')) {
             this.itemId = obj.itemId;
+        }
+        if (obj.hasOwnProperty('itemName')) {
+            this.itemName = obj.itemName;
         }
         if (obj.hasOwnProperty('itemType')) {
             this.itemType = obj.itemType;
@@ -86,6 +106,7 @@ class ItemModel {
     getPropertyNames() {
         return [
             'itemId',
+            'itemName',
             'itemType',
             'eqpCharaId'
         ];
