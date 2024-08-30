@@ -83,6 +83,9 @@ class IkuseiScene extends Phaser.Scene {
                         this.dispItemList = this.itemDao.getByType(C_DB.ITEMTYPE_SPITEM);
                     }
 
+                    // TODO:「戻る」選択肢を追加する
+                    this.dispItemList.push(C_COMMON.WINDOW_MENU_BACK);
+
                     // メインウインドウにリストを表示する
                     this.windowTextMain.changeToList(true, C_IS.WINDOW_TEXT_MAIN_COL_NUM);
                     this.windowTextMain.setContent(this.dispItemList, C_COMMON.WINDOW_CONTENT_TYPE_ITEM);
@@ -103,7 +106,7 @@ class IkuseiScene extends Phaser.Scene {
 
             if (this.dispItemList != null) {
                 // リスト表示時
-
+                // TODO: 処理を記載
             }
         }
 

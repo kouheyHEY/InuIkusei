@@ -86,4 +86,8 @@ const C_COMMON = {
     /** ウインドウ 表示コンテンツ種類 テキストリスト */
     WINDOW_CONTENT_TYPE_TEXTLIST: 5,
 
+    /** メニュー選択肢 戻る */
+    WINDOW_MENU_BACK: "戻る",
+
+
 };

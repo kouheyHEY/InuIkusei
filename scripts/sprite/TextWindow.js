@@ -125,18 +125,23 @@ class TextWindow {
                 /** @type {string} 表示コンテンツ */
                 let dispText = null;
 
-                if (type == C_COMMON.WINDOW_CONTENT_TYPE_TEXTLIST) {
-                    // テキストリスト形式の場合
+                if (dispElm == C_COMMON.WINDOW_MENU_BACK) {
+                    // 戻る選択肢の場合
                     dispText = dispElm;
-                } else if (type == C_COMMON.WINDOW_CONTENT_TYPE_MENU) {
-                    // メニューリストの場合
-                    dispText = dispElm.getMenuColName();
-                } else if (type == C_COMMON.WINDOW_CONTENT_TYPE_ITEM) {
-                    // アイテムリストの場合
-                    dispText = dispElm.getItemName();
-                } else if (type == C_COMMON.WINDOW_CONTENT_TYPE_CHARA) {
-                    // キャラリストの場合
-                    dispText = dispElm.getCharaName();
+                } else {
+                    if (type == C_COMMON.WINDOW_CONTENT_TYPE_TEXTLIST) {
+                        // テキストリスト形式の場合
+                        dispText = dispElm;
+                    } else if (type == C_COMMON.WINDOW_CONTENT_TYPE_MENU) {
+                        // メニューリストの場合
+                        dispText = dispElm.getMenuColName();
+                    } else if (type == C_COMMON.WINDOW_CONTENT_TYPE_ITEM) {
+                        // アイテムリストの場合
+                        dispText = dispElm.getItemName();
+                    } else if (type == C_COMMON.WINDOW_CONTENT_TYPE_CHARA) {
+                        // キャラリストの場合
+                        dispText = dispElm.getCharaName();
+                    }
                 }
 
                 if (this.isMenu) {
@@ -295,15 +300,15 @@ class TextWindow {
         // 選択メニュー番号を更新する
         this.choosedMenuIdx = menuIdx;
 
+        // 選択マークの位置の計算
+        const markX = this.startX + C_COMMON.WINDOW_PADDING_LINE + (this.choosedMenuIdx % this.menuColNum) * this.hSize / this.menuColNum;
+
+        const markY = this.startY + C_COMMON.WINDOW_PADDING_LINE + Math.floor(this.choosedMenuIdx / this.menuColNum) * (C_COMMON.WINDOW_PADDING_LINE + this.fontSize) + this.fontSize / 2;
+
         // 選択マークを更新する
         this.dispChoiceMark(
-            this.startX + C_COMMON.WINDOW_PADDING_LINE,
-            this.startY + C_COMMON.WINDOW_PADDING_LINE +
-            this.choosedMenuIdx * (
-                C_COMMON.WINDOW_PADDING_LINE + this.fontSize
-            ) + this.fontSize / 2,
-            C_COMMON.WINDOW_PADDING_LEFT * 2 / 3,
-            this.fontSize * 2 / 3
+            markX, markY,
+            C_COMMON.WINDOW_PADDING_LEFT * 2 / 3, this.fontSize * 2 / 3
         );
     }
 
