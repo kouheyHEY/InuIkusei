@@ -60,6 +60,12 @@ class TextWindow {
 
         // ウインドウがアクティブかどうか
         this.isActive = false;
+
+        // ウインドウのオブジェクト
+        this.windowObj = null;
+
+        // ウインドウ関連のオブジェクトのコンテナ
+        this.windowContainer = this.scene.add.container(0, 0);
     }
 
     /**
@@ -81,6 +87,14 @@ class TextWindow {
     }
 
     /**
+     * 表示内容を維持したまま、選択状態などを初期化する
+     */
+    resetPressedState() {
+        this.pressedMenu = false;
+        this.pressedObj = null;
+    }
+
+    /**
      * コンテンツを表示する
      * @param {Object[]} content 表示内容
      * @param {number} type 表示内容の形式（文章、テキストリスト、アイテムリスト、キャラリスト、メニュー）
@@ -98,6 +112,10 @@ class TextWindow {
 
         if (type == C_COMMON.WINDOW_CONTENT_TYPE_LINE) {
             // 表示コンテンツが文章の場合
+
+            // 選択中メニューの番号の調整
+            this.choosedMenuIdx = 0;
+
             const textObj = this.scene.add.text(
                 this.startX + C_COMMON.WINDOW_PADDING_LINE,
                 this.startY + C_COMMON.WINDOW_PADDING_LINE,
@@ -209,29 +227,31 @@ class TextWindow {
                 idx++;
             }
 
-
             if (this.isMenu) {
-                // メニュー形式の場合
+                // 選択マークの位置調整
+                const markX = this.startX + C_COMMON.WINDOW_PADDING_LINE + (this.choosedMenuIdx % this.menuColNum) * this.hSize / this.menuColNum;
+                const markY = this.startY + C_COMMON.WINDOW_PADDING_LINE + Math.floor(this.choosedMenuIdx / this.menuColNum) * (C_COMMON.WINDOW_PADDING_LINE + this.fontSize) + this.fontSize / 2;
 
-                // デフォルトで一番目のメニューが選択されている状態とする
+                // 選択マークを表示する
                 this.dispChoiceMark(
-                    this.startX + C_COMMON.WINDOW_PADDING_LINE,
-                    this.startY + C_COMMON.WINDOW_PADDING_LINE +
-                    this.choosedMenuIdx * (
-                        C_COMMON.WINDOW_PADDING_LINE + this.fontSize
-                    ) + this.fontSize / 2,
+                    markX, markY,
                     C_COMMON.WINDOW_PADDING_LEFT * 2 / 3,
                     this.fontSize * 2 / 3
                 );
             }
         }
+
+        // ウインドウコンテナに追加
+        for (const textObj of this.dispTextGroup.getChildren()) {
+            this.windowContainer.add(textObj);
+        }
     }
 
     /**
      * ウインドウを描画する
-     * @param {Phaser.GameObjects.Graphics} grph 描画用オブジェクト
      */
-    drawWindow(grph) {
+    drawWindow() {
+        const grph = this.scene.add.graphics();
         // ウインドウの内部描画
         grph.fillStyle(
             Phaser.Display.Color.HexStringToColor(this.bgColor).color,
@@ -250,6 +270,10 @@ class TextWindow {
             this.startX, this.startY, this.hSize, this.vSize,
             C_COMMON.WINDOW_ROUND
         );
+
+        // ウインドウコンテナに追加
+        this.windowObj = grph;
+        this.windowContainer.add(grph);
     }
 
     /**
@@ -290,6 +314,9 @@ class TextWindow {
         triangle.y -= h / 2;
 
         this.choosedMark = triangle;
+
+        // ウインドウコンテナに追加
+        this.windowContainer.add(this.choosedMark);
     }
 
     /**
@@ -352,6 +379,39 @@ class TextWindow {
             // 既に表示されている場合は、削除する
             this.choosedMark.destroy();
         }
+    }
+
+    /**
+     * アクティブ状態を設定する。表示内容はそのままに押下状態関連を初期化する
+     * @param {boolean} active フォーカスの状態
+     * @param {boolean} reset 状態のリセット
+     */
+    setActive(active, reset) {
+        this.isActive = active;
+        this.resetPressedState();
+
+        if (reset) {
+            this.resetContent();
+        }
+    }
+
+    /** 自身を完全削除する */
+    destroy() {
+        // ウインドウコンテナの削除
+        this.windowContainer.destroy();
+
+        // テキストグループの削除
+        this.dispTextGroup.clear(true, true);
+    }
+
+    /**
+     * ウインドウの座標を変更する
+     * @param {number} posX ウインドウのx座標
+     * @param {number} posY ウインドウのy座標
+     */
+    setWindowPosition(posX, posY) {
+        this.windowContainer.x = posX;
+        this.windowContainer.y = posY;
     }
 
 }

@@ -18,7 +18,6 @@ class IkuseiScene extends Phaser.Scene {
 
         // ２．各エリアの作成
         // 描画を行う
-        this.grph = this.add.graphics();
         this.initArea();
 
         // 初期にアクティブにするウインドウの設定
@@ -47,6 +46,7 @@ class IkuseiScene extends Phaser.Scene {
         /* メニューがアクティブの時の更新処理 */
         if (this.windowMenu.isActive) {
             /* メニュー項目の説明文の表示処理 */
+            this.windowTextMain.changeToText();
             this.windowTextMain.setContent(
                 this.windowMenu.dispContent[this.windowMenu.choosedMenuIdx].getColDetail(),
                 C_COMMON.WINDOW_CONTENT_TYPE_LINE
@@ -55,7 +55,6 @@ class IkuseiScene extends Phaser.Scene {
             /* メニュー選択時の処理 */
             if (this.windowMenu.pressedMenu) {
                 // メニューが押された時
-                /** @type {MenuDefModel} 選択されたメニュー */
                 const pressedMenu = this.windowMenu.pressedObj;
 
                 if (pressedMenu.getChildColId() == C_DB.CHILDCOLID_USEITEM ||
@@ -66,10 +65,10 @@ class IkuseiScene extends Phaser.Scene {
                     // メインウインドウに詳細の表示を行う場合
 
                     // フォーカスをメインウインドウに移動
-                    this.windowMenu.isActive = false;
-                    this.windowTextMain.isActive = true;
+                    this.windowMenu.setActive(false);
+                    this.windowTextMain.setActive(true);
 
-                    console.log(this.itemDao);
+                    console.log(pressedMenu.getChildColId());
 
                     /* メインウインドウ表示対象のリスト取得処理 */
                     if (pressedMenu.getChildColId() == C_DB.CHILDCOLID_USEITEM) {
@@ -83,7 +82,7 @@ class IkuseiScene extends Phaser.Scene {
                         this.dispItemList = this.itemDao.getByType(C_DB.ITEMTYPE_SPITEM);
                     }
 
-                    // TODO:「戻る」選択肢を追加する
+                    // 「戻る」選択肢を追加する
                     this.dispItemList.push(C_COMMON.WINDOW_MENU_BACK);
 
                     // メインウインドウにリストを表示する
@@ -104,68 +103,95 @@ class IkuseiScene extends Phaser.Scene {
         /* メインウインドウがアクティブの時の更新処理 */
         if (this.windowTextMain.isActive) {
 
-            if (this.dispItemList != null) {
-                // リスト表示時
-                // TODO: 処理を記載
+            if (this.windowTextMain.pressedMenu) {
+                // メニューが押された時
+                const pressedMenu = this.windowTextMain.pressedObj;
+
+                if (pressedMenu == C_COMMON.WINDOW_MENU_BACK) {
+                    // 「戻る」押下時
+
+                    if (this.dispCharaList != null) {
+                        // メインウインドウに表示するキャラリストが作成されている場合
+
+                        if (this.dispItemList != null) {
+                            // メインウインドウに表示するアイテムリストが作成されている場合
+
+                            // キャラリストをnullにする
+                            this.dispCharaList = null;
+
+                            // 表示をアイテムリストに戻す
+                            this.windowTextMain.changeToList(true, C_IS.WINDOW_TEXT_MAIN_COL_NUM);
+                            this.windowTextMain.setContent(this.dispItemList, C_COMMON.WINDOW_CONTENT_TYPE_ITEM);
+                        } else {
+                            // メインウインドウに表示するアイテムリストが作成されていない場合
+
+                            // キャラリストをnullにする
+                            this.dispCharaList = null;
+
+                            // フォーカスをメニューウインドウに戻す
+                            this.windowTextMain.setActive(false, true);
+                            this.windowMenu.setActive(true);
+                        }
+                    } else {
+                        // メインウインドウに表示するキャラリストが作成されていない場合
+
+                        if (this.dispItemList != null) {
+                            // メインウインドウに表示するアイテムリストが作成されている場合
+
+                            // アイテムリストをnullにする
+                            this.dispItemList = null;
+
+                            // フォーカスをメニューウインドウに戻す
+                            this.windowTextMain.setActive(false, true);
+                            this.windowMenu.setActive(true);
+                        }
+                    }
+                } else {
+                    // TODO:「戻る」以外押下時
+
+                }
+            }
+        }
+
+        /* 各項目フォーカス時のカーソルウインドウの表示 */
+        if (this.cursorText != null) {
+            // カーソルウインドウのテキストがセットされている場合
+
+            if (this.windowCursor == null) {
+                // カーソルウインドウが作成されていない場合
+
+                // カーソルウインドウを作成
+                this.windowCursor = new TextWindow(
+                    {
+                        startX: 0,
+                        startY: 0,
+                        hSize: C_COMMON.WINDOW_CURSOR_W,
+                        vSize: C_COMMON.WINDOW_CURSOR_H,
+                        isLine: true, isList: false, isMenu: false
+                    },
+                    this);
+                this.windowCursor.drawWindow();
+
+                // カーソルウインドウに内容を表示
+                this.windowCursor.setContent(this.cursorText);
+            }
+
+            // ウインドウの位置を調整
+            this.windowCursor.setWindowPosition(this.input.activePointer.x, this.input.activePointer.y);
+
+        } else {
+            // カーソルウインドウのテキストがセットされていない場合
+
+            if (this.windowCursor != null) {
+                // カーソルウインドウが作成されている場合
+
+                // カーソルウインドウを削除
+                this.windowCursor.destroy();
             }
         }
 
         /* 各キー押下時の処理を記載 */
 
-        if (this.inputManager.isKeyPressed(C_COMMON.KEY_ENTER)) {
-            // エンターキー押下時
-
-            if (this.windowTextMain.isActive) {
-                // テキストウインドウがアクティブの場合
-
-                // テキストウインドウの文字列を更新する
-                let textData = this.registry.get(C_DB.TABLE_NAME.TEXT);
-                this.windowTextMain.updateText([textData[0][C_DB.COL_NAME_TEXT.TEXT]]);
-            }
-
-            if (this.windowMenu.isActive) {
-                // メニューウインドウがアクティブの場合
-
-                // TODO: メニューウインドウの文字列を更新する
-            }
-        }
-
-        if (this.inputManager.isKeyPressed(C_COMMON.KEY_SPACE)) {
-            // スペースキー押下時
-
-            // TODO: デバッグ用
-            // フォーカスを切り替える
-            if (this.windowTextMain.isActive) {
-                this.windowTextMain.isActive = false;
-                this.windowMenu.isActive = true;
-            } else {
-                this.windowTextMain.isActive = true;
-                this.windowMenu.isActive = false;
-
-            }
-        }
-
-        if (this.inputManager.isKeyPressed(C_COMMON.KEY_UP)) {
-            // 上キー押下時
-
-            if (this.windowMenu.isActive) {
-                // メニューウインドウがアクティブの場合
-
-                // 上のメニュー項目を選択する
-                this.windowMenu.upMenu();
-            }
-        }
-
-        if (this.inputManager.isKeyPressed(C_COMMON.KEY_DOWN)) {
-            // 下キー押下時
-
-            if (this.windowMenu.isActive) {
-                // メニューウインドウがアクティブの場合
-
-                // 下のメニュー項目を選択する
-                this.windowMenu.downMenu();
-            }
-        }
     }
 
     /**
@@ -175,8 +201,12 @@ class IkuseiScene extends Phaser.Scene {
     initInstVal() {
         // メインウインドウに表示するアイテムのリスト
         this.dispItemList = null;
+        // メインウインドウに表示するキャラのリスト
+        this.dispCharaList = null;
         // 処理を行うアイテム
         this.useItem = null;
+        // カーソルウインドウに表示する文
+        this.cursorText = null;
 
         /** @type {TextWindow} キャラ１のステータスウインドウ */
         this.windowChara1Stt = null;
@@ -186,6 +216,8 @@ class IkuseiScene extends Phaser.Scene {
         this.windowMenu = null;
         /** @type {TextWindow} 画面右下のテキストウインドウ */
         this.windowTextMain = null;
+        /** @type {TextWindow} マウスに追従するカーソルウインドウ */
+        this.windowCursor = null;
 
         // 各Daoの取得
         /** @type {CharaSttDao} キャラステータステーブルDao */
@@ -235,7 +267,7 @@ class IkuseiScene extends Phaser.Scene {
                     isLine: false, isList: true, isMenu: false
                 },
                 this);
-            this.windowChara1Stt.drawWindow(this.grph);
+            this.windowChara1Stt.drawWindow();
         }
 
         if (this.isDispChara2) {
@@ -252,7 +284,7 @@ class IkuseiScene extends Phaser.Scene {
                     isLine: false, isList: true, isMenu: false
                 },
                 this);
-            this.windowChara2Stt.drawWindow(this.grph);
+            this.windowChara2Stt.drawWindow();
         }
 
         // 画面左下のメニューウインドウを描画
@@ -267,7 +299,7 @@ class IkuseiScene extends Phaser.Scene {
                 isLine: false, isList: true, isMenu: true
             },
             this);
-        this.windowMenu.drawWindow(this.grph);
+        this.windowMenu.drawWindow();
         this.windowMenu.setContent(this.menuIkuseiList, C_COMMON.WINDOW_CONTENT_TYPE_MENU);
 
         // 画面右下のテキストウインドウを描画
@@ -282,7 +314,7 @@ class IkuseiScene extends Phaser.Scene {
                 isLine: true, isList: false, isMenu: false
             },
             this);
-        this.windowTextMain.drawWindow(this.grph);
+        this.windowTextMain.drawWindow();
         this.windowTextMain.setContent("テスト文字列です。");
     }
 

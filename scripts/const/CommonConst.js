@@ -89,5 +89,10 @@ const C_COMMON = {
     /** メニュー選択肢 戻る */
     WINDOW_MENU_BACK: "戻る",
 
+    /** カーソルウインドウ 幅 */
+    WINDOW_CURSOR_W: 192,
+    /** カーソルウインドウ 高さ */
+    WINDOW_CURSOR_H: 48,
+
 
 };
