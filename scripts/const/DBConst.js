@@ -19,6 +19,8 @@ const C_DB = {
     COL_NAME_CHARASTT: {
         /** キャラID */
         CHARAID: "charaId",
+        /** キャラタイプ */
+        CHARATYPE: "charaType",
         /** キャラ名 */
         CHARANAME: "charaName",
         /** 最大体力 */
@@ -41,10 +43,14 @@ const C_DB = {
         EQP2: "eqp2",
     },
 
+
     /** キャラID 仲間1 */
     CHARAID_SPRT1: 0,
     /** キャラID 仲間2 */
     CHARAID_SPRT2: 1,
+
+    /** キャラタイプ 仲間 */
+    CHARATYPE_SPRT: 1,
 
     /** キャラ名 未登場 */
     CHARANAME_NULL: "---",

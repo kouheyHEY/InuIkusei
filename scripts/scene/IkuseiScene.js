@@ -68,8 +68,6 @@ class IkuseiScene extends Phaser.Scene {
                     this.windowMenu.setActive(false);
                     this.windowTextMain.setActive(true);
 
-                    console.log(pressedMenu.getChildColId());
-
                     /* メインウインドウ表示対象のリスト取得処理 */
                     if (pressedMenu.getChildColId() == C_DB.CHILDCOLID_USEITEM) {
                         // 消費アイテム一覧を取得する
@@ -147,8 +145,51 @@ class IkuseiScene extends Phaser.Scene {
                         }
                     }
                 } else {
-                    // TODO:「戻る」以外押下時
+                    // 「戻る」以外押下時
 
+                    if (this.dispCharaList != null) {
+                        // メインウインドウに表示するキャラリストが作成されている場合
+
+                        if (this.dispItemList != null) {
+                            // メインウインドウに表示するアイテムリストが作成されている場合
+
+                            // キャラリストをnullにする
+                            this.dispCharaList = null;
+
+                            // 表示をアイテムリストに戻す
+                            this.windowTextMain.changeToList(true, C_IS.WINDOW_TEXT_MAIN_COL_NUM);
+                            this.windowTextMain.setContent(this.dispItemList, C_COMMON.WINDOW_CONTENT_TYPE_ITEM);
+
+                            // TODO: キャラに効果を適用する
+                        } else {
+                            // メインウインドウに表示するアイテムリストが作成されていない場合
+
+                            // キャラリストをnullにする
+                            this.dispCharaList = null;
+
+                            // フォーカスをメニューウインドウに戻す
+                            this.windowTextMain.setActive(false, true);
+                            this.windowMenu.setActive(true);
+
+                            // TODO: キャラに効果を適用する
+                        }
+                    } else {
+                        // メインウインドウに表示するキャラリストが作成されていない場合
+
+                        if (this.dispItemList != null) {
+                            // メインウインドウに表示するアイテムリストが作成されている場合
+
+                            // キャラリストを作成しセットする
+                            this.dispCharaList = this.charaSttDao.getByType(C_DB.CHARATYPE_SPRT);
+
+                            // 「戻る」選択肢を追加する
+                            this.dispCharaList.push(C_COMMON.WINDOW_MENU_BACK);
+
+                            // メインウインドウにリストを表示する
+                            this.windowTextMain.changeToList(true, C_IS.WINDOW_TEXT_MAIN_COL_NUM);
+                            this.windowTextMain.setContent(this.dispCharaList, C_COMMON.WINDOW_CONTENT_TYPE_CHARA);
+                        }
+                    }
                 }
             }
         }
@@ -230,9 +271,9 @@ class IkuseiScene extends Phaser.Scene {
         this.itemDefDao = new ItemDefDao(this);
 
         /** @type {CharaSttModel} キャラ１のステータス */
-        this.chara1SttModel = this.charaSttDao.getById(C_DB.CHARAID_SPRT1);
+        this.chara1SttModel = this.charaSttDao.getById(C_DB.CHARAID_SPRT1)[0];
         /** @type {CharaSttModel} キャラ２のステータス */
-        this.chara2SttModel = this.charaSttDao.getById(C_DB.CHARAID_SPRT2);
+        this.chara2SttModel = this.charaSttDao.getById(C_DB.CHARAID_SPRT2)[0];
 
         // キャラのステータスなどを表示するかどうかのフラグ
         this.isDispChara1 = this.chara1SttModel.getCharaName() !== C_DB.CHARANAME_NULL;
@@ -345,8 +386,7 @@ class IkuseiScene extends Phaser.Scene {
                 // 表示するステータス項目の値
                 let sttVal = null;
                 // 装備を表示する場合
-                if (this.charaSttColList[i].getMenuColId() == C_DB.COL_ID_EQP1 ||
-                    this.charaSttColList[i].getMenuColId() == C_DB.COL_ID_EQP2) {
+                if (this.charaSttColList[i].getMenuColId() == C_DB.COL_ID_EQP1 || this.charaSttColList[i].getMenuColId() == C_DB.COL_ID_EQP2) {
 
                     // 装備品をアイテム定義から取得する
                     let eqpItem = this.itemDao.getById(charaSttList[i]);

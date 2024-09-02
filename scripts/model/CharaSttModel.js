@@ -3,6 +3,8 @@ class CharaSttModel {
     constructor() {
         /** @type {number} キャラID */
         this.charaId = null;
+        /** @type {number} キャラタイプ */
+        this.charaType = null;
         /** @type {string} キャラ名 */
         this.charaName = null;
         /** @type {number} 最大体力 */
@@ -37,6 +39,20 @@ class CharaSttModel {
      */
     setCharaId(charaId) {
         this.charaId = charaId;
+    }
+
+    /**
+     * @returns {number} キャラタイプ
+     */
+    getCharaType() {
+        return this.charaType;
+    }
+
+    /**
+     * @param {number} charaType キャラタイプ
+     */
+    setCharaType(charaType) {
+        this.charaType = charaType;
     }
 
     /**
@@ -183,9 +199,10 @@ class CharaSttModel {
      * クラスのプロパティとその値を持つオブジェクトを返す
      * @returns {Object} プロパティと値を持つオブジェクト
      */
-    getPropertiesObject() {
+    getPropertiesFromObject() {
         return {
             charaId: this.charaId,
+            charaType: this.charaType,
             charaName: this.charaName,
             maxHp: this.maxHp,
             hp: this.hp,
@@ -206,6 +223,9 @@ class CharaSttModel {
     setPropertiesFromObject(obj) {
         if (obj.hasOwnProperty('charaId')) {
             this.charaId = obj.charaId;
+        }
+        if (obj.hasOwnProperty('charaType')) {
+            this.charaType = obj.charaType;
         }
         if (obj.hasOwnProperty('charaName')) {
             this.charaName = obj.charaName;
@@ -239,7 +259,6 @@ class CharaSttModel {
         }
     }
 
-
     /**
      * クラスのプロパティ名を配列として返す
      * @returns {string[]} プロパティ名の配列
@@ -248,6 +267,7 @@ class CharaSttModel {
         return [
             'charaId',
             'charaName',
+            'charaType',
             'maxHp',
             'hp',
             'maxYp',
