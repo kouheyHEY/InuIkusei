@@ -5,6 +5,40 @@ class GraphicUtil {
     constructor() { }
 
     /**
+     * 文字列を任意の幅で改行する
+     * @param {Phaser.Scene} scene シーンオブジェクト
+     * @param {string} text 改行したい文字列
+     * @param {Object} textStyle 文字列の表示スタイル
+     * @param {number} maxWidth 文字列の表示幅
+     * @returns 改行された文字列
+     */
+    static wrapText(scene, text, textStyle, maxWidth) {
+        // フォント設定を元にテキストオブジェクトを一時作成
+        const tempText = scene.add.text(0, 0, "", textStyle);
+
+        const words = text.split('');
+        let wrappedText = "";
+        let line = "";
+
+        for (let i = 0; i < words.length; i++) {
+            const testLine = line + words[i];
+            tempText.setText(testLine);
+
+            if (tempText.width > maxWidth && i > 0) {
+                wrappedText += line.trim() + "\n";
+                line = words[i];
+            } else {
+                line = testLine;
+            }
+        }
+
+        wrappedText += line.trim();
+        tempText.destroy();  // 一時テキストオブジェクトを破棄
+
+        return wrappedText;
+    }
+
+    /**
      * 2つの文字列を、指定されたピクセル幅に基づいて両端に配置されるように文字数を調整する
      * @param {Phaser.Scene} scene シーンオブジェクト
      * @param {string} str1 文字列1

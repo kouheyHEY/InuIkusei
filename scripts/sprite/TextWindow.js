@@ -45,6 +45,21 @@ class TextWindow {
             ? config.fontColor
             : C_COMMON.COMMON_COLOR_WINDOW_FONT;
 
+        // フォントのスタイル
+        this.fontStyle = {
+            fontSize: this.fontSize,
+            fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
+            fontFamily: C_COMMON.FONT_FAMILY_BIT12
+        };
+
+        // テキスト間の幅やパディング
+        this.paddingLine = ('paddingLine' in config)
+            ? config.paddingLine
+            : C_COMMON.WINDOW_PADDING_LINE_SMALL;
+        this.paddingLeft = ('paddingLeft' in config)
+            ? config.paddingLeft
+            : C_COMMON.WINDOW_PADDING_LEFT_SMALL;
+
 
         // 実際に表示する文字列オブジェクト
         this.dispTextGroup = this.scene.add.group();
@@ -57,6 +72,7 @@ class TextWindow {
         this.dispContent = null;
         this.dispType = null;
         this.pressedObj = null;
+        this.isFocused = false;
 
         // ウインドウがアクティブかどうか
         this.isActive = false;
@@ -77,6 +93,7 @@ class TextWindow {
         this.dispContent = null;
         this.dispType = null;
         this.pressedObj = null;
+        this.isFocused = false;
 
         this.dispTextGroup.clear(true, true);
 
@@ -92,6 +109,7 @@ class TextWindow {
     resetPressedState() {
         this.pressedMenu = false;
         this.pressedObj = null;
+        this.isFocused = false;
     }
 
     /**
@@ -116,15 +134,12 @@ class TextWindow {
             // 選択中メニューの番号の調整
             this.choosedMenuIdx = 0;
 
+            const dispContent = GraphicUtil.wrapText(this.scene, content, this.fontStyle, this.hSize - C_COMMON.WINDOW_PADDING_LEFT_SMALL * 2);
+
             const textObj = this.scene.add.text(
-                this.startX + C_COMMON.WINDOW_PADDING_LINE,
-                this.startY + C_COMMON.WINDOW_PADDING_LINE,
-                content,
-                {
-                    fontSize: this.fontSize,
-                    fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
-                    fontFamily: C_COMMON.FONT_FAMILY_BIT12
-                }
+                this.startX + C_COMMON.WINDOW_PADDING_LINE_SMALL,
+                this.startY + C_COMMON.WINDOW_PADDING_LINE_SMALL,
+                dispContent, this.fontStyle
             ).setOrigin(0);
 
             // テキストオブジェクトを表示
@@ -166,24 +181,19 @@ class TextWindow {
                     // 選択可能なリストの場合
 
                     // 表示項目の左側に、カーソルを表示するための余白を設定する
-                    leftPadding = C_COMMON.WINDOW_PADDING_LEFT;
+                    leftPadding = C_COMMON.WINDOW_PADDING_LEFT_SMALL;
                 }
 
                 // テキストオブジェクト座標の計算
-                const textObjX = this.startX + C_COMMON.WINDOW_PADDING_LINE +
+                const textObjX = this.startX + C_COMMON.WINDOW_PADDING_LINE_SMALL +
                     leftPadding +
                     (idx % this.menuColNum) * this.hSize / this.menuColNum;
-                const textObjY = this.startY + C_COMMON.WINDOW_PADDING_LINE +
+                const textObjY = this.startY + C_COMMON.WINDOW_PADDING_LINE_SMALL +
                     Math.floor(idx / this.menuColNum) *
-                    (C_COMMON.WINDOW_PADDING_LINE + this.fontSize);
+                    (C_COMMON.WINDOW_PADDING_LINE_SMALL + this.fontSize);
 
                 const textObj = this.scene.add.text(
-                    textObjX, textObjY, dispText,
-                    {
-                        fontSize: this.fontSize,
-                        fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
-                        fontFamily: C_COMMON.FONT_FAMILY_BIT12
-                    }
+                    textObjX, textObjY, dispText, this.fontStyle
                 ).setOrigin(0);
 
                 if (this.isMenu) {
@@ -205,6 +215,17 @@ class TextWindow {
                         }
                         // マウスがホバーしたらそのメニュー項目を選択状態にする
                         this.chooseMenu(textObj.menuProperty.menuIdx);
+                        this.isFocused = true;
+                    });
+
+                    // 非ホバーイベントのリスナーを追加
+                    textObj.on('pointerout', () => {
+                        // アクティブでない場合は処理をしない
+                        if (!this.isActive) {
+                            return;
+                        }
+                        // 非ホバー状態になったらフラグをfalseにする
+                        this.isFocused = false;
                     });
 
                     // クリックイベントのリスナーを追加
@@ -229,13 +250,13 @@ class TextWindow {
 
             if (this.isMenu) {
                 // 選択マークの位置調整
-                const markX = this.startX + C_COMMON.WINDOW_PADDING_LINE + (this.choosedMenuIdx % this.menuColNum) * this.hSize / this.menuColNum;
-                const markY = this.startY + C_COMMON.WINDOW_PADDING_LINE + Math.floor(this.choosedMenuIdx / this.menuColNum) * (C_COMMON.WINDOW_PADDING_LINE + this.fontSize) + this.fontSize / 2;
+                const markX = this.startX + C_COMMON.WINDOW_PADDING_LINE_SMALL + (this.choosedMenuIdx % this.menuColNum) * this.hSize / this.menuColNum;
+                const markY = this.startY + C_COMMON.WINDOW_PADDING_LINE_SMALL + Math.floor(this.choosedMenuIdx / this.menuColNum) * (C_COMMON.WINDOW_PADDING_LINE_SMALL + this.fontSize) + this.fontSize / 2;
 
                 // 選択マークを表示する
                 this.dispChoiceMark(
                     markX, markY,
-                    C_COMMON.WINDOW_PADDING_LEFT * 2 / 3,
+                    C_COMMON.WINDOW_PADDING_LEFT_SMALL * 2 / 3,
                     this.fontSize * 2 / 3
                 );
             }
@@ -328,14 +349,14 @@ class TextWindow {
         this.choosedMenuIdx = menuIdx;
 
         // 選択マークの位置の計算
-        const markX = this.startX + C_COMMON.WINDOW_PADDING_LINE + (this.choosedMenuIdx % this.menuColNum) * this.hSize / this.menuColNum;
+        const markX = this.startX + C_COMMON.WINDOW_PADDING_LINE_SMALL + (this.choosedMenuIdx % this.menuColNum) * this.hSize / this.menuColNum;
 
-        const markY = this.startY + C_COMMON.WINDOW_PADDING_LINE + Math.floor(this.choosedMenuIdx / this.menuColNum) * (C_COMMON.WINDOW_PADDING_LINE + this.fontSize) + this.fontSize / 2;
+        const markY = this.startY + C_COMMON.WINDOW_PADDING_LINE_SMALL + Math.floor(this.choosedMenuIdx / this.menuColNum) * (C_COMMON.WINDOW_PADDING_LINE_SMALL + this.fontSize) + this.fontSize / 2;
 
         // 選択マークを更新する
         this.dispChoiceMark(
             markX, markY,
-            C_COMMON.WINDOW_PADDING_LEFT * 2 / 3, this.fontSize * 2 / 3
+            C_COMMON.WINDOW_PADDING_LEFT_SMALL * 2 / 3, this.fontSize * 2 / 3
         );
     }
 

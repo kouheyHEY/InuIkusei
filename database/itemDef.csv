@@ -1,3 +1,4 @@
+itemId,itemName,itemType,targetCol1,effectVal1,targetCol2,effectVal2,targetCol3,effectVal3,targetCol4,effectVal4,useItemFlg,itemDetail
 0,月刊ワンのきもち,3,,,,,,,,,1,ワンを1回鍛えることができる。
 1,ワン用ダンベル,3,atk,1,,,,,,,1,ワンの攻撃力が永続的に1上がる。
 2,ワン用プロテイン,3,def,1,,,,,,,1,ワンの防御力が永続的に1上がる。

@@ -19,7 +19,7 @@ class ItemDefDao {
         let modelList = [];
 
         // 一致するデータを取得
-        let dataList = this.tabData.filter(data => data[C_DB.COL_NAME_ITEM_DEF.ITEMID] == id);
+        let dataList = this.tabData.filter(data => data[C_DB.COL_NAME_ITEMDEF.ITEMID] == id);
 
         for (let data of dataList) {
             // データの各項目をモデルにセットする

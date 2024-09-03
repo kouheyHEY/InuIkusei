@@ -55,12 +55,16 @@ const C_COMMON = {
     /** 共通色 ウインドウ枠色 */
     COMMON_COLOR_WINDOW_FRAME: '#1e0033',
 
-    /** ウインドウ 行間 */
-    WINDOW_PADDING_LINE: 18,
+    /** ウインドウ 行間 小 */
+    WINDOW_PADDING_LINE_SMALL: 18,
+    /** ウインドウ 行間 極小 */
+    WINDOW_PADDING_LINE_SMALL_2: 12,
     /** ウインドウ 丸み */
     WINDOW_ROUND: 2,
-    /** ウインドウ メニュー表示時の左側の余白 */
-    WINDOW_PADDING_LEFT: 16,
+    /** ウインドウ メニュー表示時の左側の余白 小 */
+    WINDOW_PADDING_LEFT_SMALL: 16,
+    /** ウインドウ メニュー表示時の左側の余白 極小 */
+    WINDOW_PADDING_LEFT_SMALL_2: 12,
 
     /** キー定数 上 */
     KEY_UP: "UP",
@@ -89,10 +93,13 @@ const C_COMMON = {
     /** メニュー選択肢 戻る */
     WINDOW_MENU_BACK: "戻る",
 
+    /** カーソルウインドウ マウスとの相対的なx座標 */
+    WINDOW_CURSOR_X: 24,
+    /** カーソルウインドウ y座標 */
+    WINDOW_CURSOR_Y: -96,
     /** カーソルウインドウ 幅 */
-    WINDOW_CURSOR_W: 192,
+    WINDOW_CURSOR_W: 256,
     /** カーソルウインドウ 高さ */
-    WINDOW_CURSOR_H: 48,
-
+    WINDOW_CURSOR_H: 72,
 
 };

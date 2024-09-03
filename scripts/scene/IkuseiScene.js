@@ -40,9 +40,6 @@ class IkuseiScene extends Phaser.Scene {
      */
     update() {
 
-        // TODO: デバッグ用
-        this.updateCharaStt(0);
-
         /* メニューがアクティブの時の更新処理 */
         if (this.windowMenu.isActive) {
             /* メニュー項目の説明文の表示処理 */
@@ -194,6 +191,24 @@ class IkuseiScene extends Phaser.Scene {
             }
         }
 
+        // メインウインドウの項目がフォーカスされている場合
+        if (this.windowTextMain.isFocused) {
+            const dispContent = this.windowTextMain.dispContent[this.windowTextMain.choosedMenuIdx];
+
+            // 表示コンテンツがアイテムの場合
+            if (dispContent instanceof ItemModel) {
+                console.log(this.itemDefDao);
+                /** @type {ItemDefModel} */
+                const itemDef = this.itemDefDao.getById(dispContent.getItemId())[0];
+                this.cursorText = itemDef.getItemDetail();
+            }
+
+        } else if (this.windowMenu.isFocused) {
+            this.cursorText = this.windowMenu.dispContent[this.windowMenu.choosedMenuIdx].getColDetail();
+        } else {
+            this.cursorText = null;
+        }
+
         /* 各項目フォーカス時のカーソルウインドウの表示 */
         if (this.cursorText != null) {
             // カーソルウインドウのテキストがセットされている場合
@@ -204,8 +219,8 @@ class IkuseiScene extends Phaser.Scene {
                 // カーソルウインドウを作成
                 this.windowCursor = new TextWindow(
                     {
-                        startX: 0,
-                        startY: 0,
+                        startX: C_COMMON.WINDOW_CURSOR_X,
+                        startY: C_COMMON.WINDOW_CURSOR_Y,
                         hSize: C_COMMON.WINDOW_CURSOR_W,
                         vSize: C_COMMON.WINDOW_CURSOR_H,
                         isLine: true, isList: false, isMenu: false
@@ -214,7 +229,7 @@ class IkuseiScene extends Phaser.Scene {
                 this.windowCursor.drawWindow();
 
                 // カーソルウインドウに内容を表示
-                this.windowCursor.setContent(this.cursorText);
+                this.windowCursor.setContent(this.cursorText, C_COMMON.WINDOW_CONTENT_TYPE_LINE);
             }
 
             // ウインドウの位置を調整
@@ -228,6 +243,7 @@ class IkuseiScene extends Phaser.Scene {
 
                 // カーソルウインドウを削除
                 this.windowCursor.destroy();
+                this.windowCursor = null;
             }
         }
 
@@ -309,6 +325,7 @@ class IkuseiScene extends Phaser.Scene {
                 },
                 this);
             this.windowChara1Stt.drawWindow();
+            this.updateCharaStt(C_DB.CHARAID_SPRT1);
         }
 
         if (this.isDispChara2) {
@@ -326,6 +343,7 @@ class IkuseiScene extends Phaser.Scene {
                 },
                 this);
             this.windowChara2Stt.drawWindow();
+            this.updateCharaStt(C_DB.CHARAID_SPRT2);
         }
 
         // 画面左下のメニューウインドウを描画
@@ -367,11 +385,11 @@ class IkuseiScene extends Phaser.Scene {
         let window = null;
         let charaSttList = null;
 
-        if (charaIdx === 0) {
+        if (charaIdx === C_DB.CHARAID_SPRT1) {
             // キャラ１の場合
             window = this.windowChara1Stt;
             charaSttList = this.chara1SttModel.getDispValList();
-        } else if (charaIdx === 1) {
+        } else if (charaIdx === C_DB.CHARAID_SPRT2) {
             // キャラ２の場合
             window = this.windowChara2Stt;
             charaSttList = this.chara2SttModel.getDispValList();
@@ -398,7 +416,7 @@ class IkuseiScene extends Phaser.Scene {
                 // 項目名と値をウインドウの両端に配置する
                 sttTextList.push(GraphicUtil.adjust2StrBothEnd(
                     this, this.charaSttColList[i].getMenuColName(), sttVal,
-                    this.windowChara1Stt.hSize - C_COMMON.WINDOW_PADDING_LINE * 2,
+                    this.windowChara1Stt.hSize - C_COMMON.WINDOW_PADDING_LINE_SMALL * 2,
                     {
                         fontSize: C_COMMON.FONT_SIZE_SMALL_2,
                         fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
