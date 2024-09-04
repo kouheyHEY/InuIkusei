@@ -45,13 +45,6 @@ class TextWindow {
             ? config.fontColor
             : C_COMMON.COMMON_COLOR_WINDOW_FONT;
 
-        // フォントのスタイル
-        this.fontStyle = {
-            fontSize: this.fontSize,
-            fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
-            fontFamily: C_COMMON.FONT_FAMILY_BIT12
-        };
-
         // テキスト間の幅やパディング
         this.paddingLine = ('paddingLine' in config)
             ? config.paddingLine
@@ -59,6 +52,14 @@ class TextWindow {
         this.paddingLeft = ('paddingLeft' in config)
             ? config.paddingLeft
             : C_COMMON.WINDOW_PADDING_LEFT_SMALL;
+
+        // フォントのスタイル
+        this.fontStyle = {
+            fontSize: this.fontSize,
+            fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
+            fontFamily: C_COMMON.FONT_FAMILY_BIT12,
+            lineSpacing: this.paddingLine
+        };
 
 
         // 実際に表示する文字列オブジェクト
@@ -88,13 +89,11 @@ class TextWindow {
      * 表示コンテンツを初期化する
      */
     resetContent() {
-        this.pressedMenu = false;
-
         this.dispContent = null;
         this.dispType = null;
+        this.pressedMenu = false;
         this.pressedObj = null;
         this.isFocused = false;
-
         this.dispTextGroup.clear(true, true);
 
         if (this.choosedMark) {
@@ -134,11 +133,11 @@ class TextWindow {
             // 選択中メニューの番号の調整
             this.choosedMenuIdx = 0;
 
-            const dispContent = GraphicUtil.wrapText(this.scene, content, this.fontStyle, this.hSize - C_COMMON.WINDOW_PADDING_LEFT_SMALL * 2);
+            const dispContent = GraphicUtil.wrapText(this.scene, content, this.fontStyle, this.hSize - this.paddingLine * 2);
 
             const textObj = this.scene.add.text(
-                this.startX + C_COMMON.WINDOW_PADDING_LINE_SMALL,
-                this.startY + C_COMMON.WINDOW_PADDING_LINE_SMALL,
+                this.startX + this.paddingLine,
+                this.startY + this.paddingLine,
                 dispContent, this.fontStyle
             ).setOrigin(0);
 
@@ -181,16 +180,16 @@ class TextWindow {
                     // 選択可能なリストの場合
 
                     // 表示項目の左側に、カーソルを表示するための余白を設定する
-                    leftPadding = C_COMMON.WINDOW_PADDING_LEFT_SMALL;
+                    leftPadding = this.paddingLeft;
                 }
 
                 // テキストオブジェクト座標の計算
-                const textObjX = this.startX + C_COMMON.WINDOW_PADDING_LINE_SMALL +
+                const textObjX = this.startX + this.paddingLine +
                     leftPadding +
                     (idx % this.menuColNum) * this.hSize / this.menuColNum;
-                const textObjY = this.startY + C_COMMON.WINDOW_PADDING_LINE_SMALL +
+                const textObjY = this.startY + this.paddingLine +
                     Math.floor(idx / this.menuColNum) *
-                    (C_COMMON.WINDOW_PADDING_LINE_SMALL + this.fontSize);
+                    (this.paddingLine + this.fontSize);
 
                 const textObj = this.scene.add.text(
                     textObjX, textObjY, dispText, this.fontStyle
@@ -250,14 +249,13 @@ class TextWindow {
 
             if (this.isMenu) {
                 // 選択マークの位置調整
-                const markX = this.startX + C_COMMON.WINDOW_PADDING_LINE_SMALL + (this.choosedMenuIdx % this.menuColNum) * this.hSize / this.menuColNum;
-                const markY = this.startY + C_COMMON.WINDOW_PADDING_LINE_SMALL + Math.floor(this.choosedMenuIdx / this.menuColNum) * (C_COMMON.WINDOW_PADDING_LINE_SMALL + this.fontSize) + this.fontSize / 2;
+                const markX = this.startX + this.paddingLine + (this.choosedMenuIdx % this.menuColNum) * this.hSize / this.menuColNum;
+                const markY = this.startY + this.paddingLine + Math.floor(this.choosedMenuIdx / this.menuColNum) * (this.paddingLine + this.fontSize) + this.fontSize / 2;
 
                 // 選択マークを表示する
                 this.dispChoiceMark(
                     markX, markY,
-                    C_COMMON.WINDOW_PADDING_LEFT_SMALL * 2 / 3,
-                    this.fontSize * 2 / 3
+                    this.paddingLeft * 2 / 3, this.fontSize * 2 / 3
                 );
             }
         }
@@ -279,8 +277,7 @@ class TextWindow {
             1.0);
         grph.fillRoundedRect(
             this.startX, this.startY, this.hSize, this.vSize,
-            C_COMMON.WINDOW_ROUND
-        );
+            C_COMMON.WINDOW_ROUND);
 
         // ウインドウの枠線描画
         grph.lineStyle(
@@ -289,8 +286,7 @@ class TextWindow {
             1.0);
         grph.strokeRoundedRect(
             this.startX, this.startY, this.hSize, this.vSize,
-            C_COMMON.WINDOW_ROUND
-        );
+            C_COMMON.WINDOW_ROUND);
 
         // ウインドウコンテナに追加
         this.windowObj = grph;
@@ -311,12 +307,9 @@ class TextWindow {
         }
 
         // 新たに三角形を表示する
-        let triangle = this.scene.add.graphics(
-            {
-                fillStyle:
-                    { color: C_COMMON.COMMON_COLOR_WINDOW_FONT }
-            }
-        );
+        let triangle = this.scene.add.graphics({
+            fillStyle: { color: C_COMMON.COMMON_COLOR_WINDOW_FONT }
+        });
 
         // 三角形の形を描く
         triangle.beginPath();
@@ -333,7 +326,6 @@ class TextWindow {
 
         // 位置の調整
         triangle.y -= h / 2;
-
         this.choosedMark = triangle;
 
         // ウインドウコンテナに追加
@@ -349,15 +341,14 @@ class TextWindow {
         this.choosedMenuIdx = menuIdx;
 
         // 選択マークの位置の計算
-        const markX = this.startX + C_COMMON.WINDOW_PADDING_LINE_SMALL + (this.choosedMenuIdx % this.menuColNum) * this.hSize / this.menuColNum;
+        const markX = this.startX + this.paddingLine + (this.choosedMenuIdx % this.menuColNum) * this.hSize / this.menuColNum;
 
-        const markY = this.startY + C_COMMON.WINDOW_PADDING_LINE_SMALL + Math.floor(this.choosedMenuIdx / this.menuColNum) * (C_COMMON.WINDOW_PADDING_LINE_SMALL + this.fontSize) + this.fontSize / 2;
+        const markY = this.startY + this.paddingLine + Math.floor(this.choosedMenuIdx / this.menuColNum) * (this.paddingLine + this.fontSize) + this.fontSize / 2;
 
         // 選択マークを更新する
         this.dispChoiceMark(
             markX, markY,
-            C_COMMON.WINDOW_PADDING_LEFT_SMALL * 2 / 3, this.fontSize * 2 / 3
-        );
+            this.paddingLeft * 2 / 3, this.fontSize * 2 / 3);
     }
 
     /**

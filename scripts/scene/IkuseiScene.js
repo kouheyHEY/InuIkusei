@@ -223,6 +223,7 @@ class IkuseiScene extends Phaser.Scene {
                         startY: C_COMMON.WINDOW_CURSOR_Y,
                         hSize: C_COMMON.WINDOW_CURSOR_W,
                         vSize: C_COMMON.WINDOW_CURSOR_H,
+                        paddingLine: C_COMMON.WINDOW_PADDING_LEFT_SMALL_2,
                         isLine: true, isList: false, isMenu: false
                     },
                     this);
