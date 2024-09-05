@@ -83,6 +83,9 @@ class TextWindow {
 
         // ウインドウ関連のオブジェクトのコンテナ
         this.windowContainer = this.scene.add.container(0, 0);
+
+        /** @type {DispContent} 表示対象のオブジェクト */
+        this.dispObj = null;
     }
 
     /**
@@ -109,6 +112,138 @@ class TextWindow {
         this.pressedMenu = false;
         this.pressedObj = null;
         this.isFocused = false;
+    }
+
+    /**
+     * コンテンツを表示する
+     * @param {DispContent} content 表示対象のオブジェクト
+     */
+    setDispContent(content) {
+        // 表示コンテンツをリセットする
+        this.resetContent();
+
+        // 表示コンテンツを保存する
+        this.dispObj = content;
+
+        if (this.dispObj.isLine) {
+            // 表示コンテンツが文章の場合
+
+            // 選択中メニューの番号の調整
+            this.choosedMenuIdx = 0;
+
+            // 表示する文字列の折り返し処理を行う
+            this.dispObj.dispObjectList[0] = GraphicUtil.wrapText(
+                this.scene, this.dispObj.dispStringList[0], this.fontStyle, this.hSize - this.paddingLine * 2
+            );
+
+            const textObj = this.scene.add.text(
+                this.startX + this.paddingLine,
+                this.startY + this.paddingLine,
+                this.dispObj.dispObjectList[0], this.fontStyle
+            ).setOrigin(0);
+
+            // テキストオブジェクトを表示
+            this.dispTextGroup.add(textObj);
+
+        } else {
+            // 表示コンテンツがリスト形式の場合
+
+            // 選択中メニューの番号の調整
+            this.choosedMenuIdx = Math.min(this.choosedMenuIdx, this.dispObj.contentLength() - 1);
+
+            let leftPadding = 0;
+            let idx = 0;
+
+            for (let i = 0; i < this.dispObj.contentLength(); i++) {
+
+                const dispString = this.dispObj.dispStringList[i];
+
+                if (this.dispObj.isMenu) {
+                    // 選択可能なリストの場合
+
+                    // 表示項目の左側に、カーソルを表示するための余白を設定する
+                    leftPadding = this.paddingLeft;
+                }
+
+                // テキストオブジェクト座標の計算
+                const textObjX =
+                    this.startX + this.paddingLine + leftPadding + (idx % this.menuColNum) * this.hSize / this.menuColNum;
+                const textObjY =
+                    this.startY + this.paddingLine + Math.floor(idx / this.menuColNum) * (this.paddingLine + this.fontSize);
+
+                const textObj = this.scene.add.text(
+                    textObjX, textObjY, dispString, this.fontStyle
+                ).setOrigin(0);
+
+                if (this.dispObj.isMenu) {
+                    // 選択可能なリストの場合
+
+                    // メニュー項目にプロパティを設定する
+                    textObj.menuProperty = {
+                        menuObj: this.dispObj.dispObjectList[i],
+                        menuIdx: idx
+                    };
+
+                    textObj.setInteractive();
+
+                    // ホバーイベントのリスナーを追加
+                    textObj.on('pointerover', () => {
+                        // アクティブでない場合は処理をしない
+                        if (!this.isActive) {
+                            return;
+                        }
+                        // マウスがホバーしたらそのメニュー項目を選択状態にする
+                        this.chooseMenu(textObj.menuProperty.menuIdx);
+                        this.isFocused = true;
+                    });
+
+                    // 非ホバーイベントのリスナーを追加
+                    textObj.on('pointerout', () => {
+                        // アクティブでない場合は処理をしない
+                        if (!this.isActive) {
+                            return;
+                        }
+                        // 非ホバー状態になったらフラグをfalseにする
+                        this.isFocused = false;
+                    });
+
+                    // クリックイベントのリスナーを追加
+                    textObj.on('pointerdown', () => {
+                        // アクティブでない場合は処理をしない
+                        if (!this.isActive) {
+                            return;
+                        }
+                        // クリックされたらクリックフラグをtrueにする
+                        this.pressedMenu = true;
+
+                        // 決定したメニューのモデルを設定する
+                        this.pressedObj = textObj.menuProperty.menuObj;
+                    });
+                }
+
+                // テキストオブジェクトを表示
+                this.dispTextGroup.add(textObj);
+
+                idx++;
+            }
+
+            if (this.isMenu) {
+                // 選択マークの位置調整
+                const markX = this.startX + this.paddingLine + (this.choosedMenuIdx % this.menuColNum) * this.hSize / this.menuColNum;
+                const markY = this.startY + this.paddingLine + Math.floor(this.choosedMenuIdx / this.menuColNum) * (this.paddingLine + this.fontSize) + this.fontSize / 2;
+
+                // 選択マークを表示する
+                this.dispChoiceMark(
+                    markX, markY,
+                    this.paddingLeft * 2 / 3, this.fontSize * 2 / 3
+                );
+            }
+        }
+
+        // ウインドウコンテナに追加
+        for (const textObj of this.dispTextGroup.getChildren()) {
+            this.windowContainer.add(textObj);
+        }
     }
 
     /**
