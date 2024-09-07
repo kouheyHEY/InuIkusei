@@ -5,15 +5,16 @@ class DispContent {
      * @param {boolean} isList リストかどうか
      * @param {boolean} isLine 文章かどうか
      * @param {boolean} isMenu 選択可能かどうか
+     * @param {number} type 表示コンテンツタイプ
      * @param {Phaser.Scene} scene 使用シーン
      */
-    constructor(isList, isLine, isMenu, scene) {
+    constructor(isList, isLine, isMenu, type, scene) {
         /** @type {string[]} 表示文字列 */
         this.dispStringList = [];
         /** @type {object[]} 表示対象のオブジェクト */
         this.dispObjectList = [];
         /** @type {number} 表示内容のタイプ */
-        this.dispObjectType = null;
+        this.dispObjectType = type;
         /** @type {object[]} これまでの表示コンテンツ履歴 */
         this.dispContentHist = [];
 
@@ -147,8 +148,7 @@ class DispContent {
                 } else {
                     // 履歴がある場合は履歴を返す
                     const histObj = ObjectUtil.deepCopy(this.dispContentHist[this.dispContentHist.length - 1]);
-                    return Object.assign(
-                        new DispContent(this.isList, this.isLine, this.isMenu, this.scene), histObj);
+                    return Object.assign(new DispContent(), histObj);
                 }
             } else {
                 if (type == C_COMMON.WINDOW_CONTENT_TYPE_TEXTLIST) {
@@ -158,7 +158,7 @@ class DispContent {
                 }
 
                 /** @type {DispContent} 子メニューのインスタンス */
-                const childContent = new DispContent(false, true, true, this.scene);
+                const childContent = new DispContent(false, true, true, this.dispObjectType, this.scene);
 
                 if (type == C_COMMON.WINDOW_CONTENT_TYPE_MENU) {
                     // メニューリストの場合

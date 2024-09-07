@@ -291,7 +291,7 @@ class IkuseiScene extends Phaser.Scene {
         this.daoManager = new DaoManager();
         this.daoManager.setDao(C_CLASS.NAME_CHARA_STT_DAO, this.charaSttDao);
         this.daoManager.setDao(C_CLASS.NAME_MENU_DEF_DAO, this.menuDefDao);
-        this.daoManager.setDao(C_CLASS.NAME_ITEM_DAO, this.ItemDao);
+        this.daoManager.setDao(C_CLASS.NAME_ITEM_DAO, this.itemDao);
         this.daoManager.setDao(C_CLASS.NAME_ITEM_DEF_DAO, this.itemDefDao);
 
         /** @type {CharaSttModel} キャラ１のステータス */
@@ -408,7 +408,6 @@ class IkuseiScene extends Phaser.Scene {
             let sttTextList = [];
 
             for (let i = 0; i < this.charaSttColList.length; i++) {
-
                 // 表示するステータス項目の値
                 let sttVal = null;
                 // 装備を表示する場合
@@ -433,8 +432,10 @@ class IkuseiScene extends Phaser.Scene {
                 ));
             }
 
-            // ウインドウの文字列を更新する
-            window.setContent(sttTextList, C_COMMON.WINDOW_CONTENT_TYPE_TEXTLIST, true);
+            // ウインドウに表示コンテンツをセット
+            const dispCtt = new DispContent(true, false, false, C_COMMON.WINDOW_CONTENT_TYPE_TEXTLIST, this.scene);
+            dispCtt.addContentList(sttTextList);
+            window.setDispContent(dispCtt);
         }
     }
 
