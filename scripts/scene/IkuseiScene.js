@@ -287,6 +287,13 @@ class IkuseiScene extends Phaser.Scene {
         /** @type {ItemDefDao} アイテム定義Dao */
         this.itemDefDao = new ItemDefDao(this);
 
+        // DaoManagerのセット
+        this.daoManager = new DaoManager();
+        this.daoManager.setDao(C_CLASS.NAME_CHARA_STT_DAO, this.charaSttDao);
+        this.daoManager.setDao(C_CLASS.NAME_MENU_DEF_DAO, this.menuDefDao);
+        this.daoManager.setDao(C_CLASS.NAME_ITEM_DAO, this.ItemDao);
+        this.daoManager.setDao(C_CLASS.NAME_ITEM_DEF_DAO, this.itemDefDao);
+
         /** @type {CharaSttModel} キャラ１のステータス */
         this.chara1SttModel = this.charaSttDao.getById(C_DB.CHARAID_SPRT1)[0];
         /** @type {CharaSttModel} キャラ２のステータス */
