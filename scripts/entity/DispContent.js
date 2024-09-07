@@ -15,7 +15,9 @@ class DispContent {
         this.dispObjectList = [];
         /** @type {number} 表示内容のタイプ */
         this.dispObjectType = type;
-        /** @type {object[]} これまでの表示コンテンツ履歴 */
+        /** @type {string[]} 表示内容の説明文 */
+        this.dispDetailList = [];
+        /** @type {object[]} これまでの表示コンテンツ履歴 オブジェクト形式 */
         this.dispContentHist = [];
 
         // リスト形式か、文章形式か、選択可能形式か
@@ -28,7 +30,8 @@ class DispContent {
     }
 
     /**
-     * 表示対象オブジェクトを追加する
+     * 表示対象オブジェクトを追加し、表示文字列、表示説明文を設定する
+     * 説明文がない時は空文字を設定する
      * @param {object} dispObj 表示対象のオブジェクト
      */
     addContent(dispObj) {
@@ -38,6 +41,7 @@ class DispContent {
             // 文字列の場合
             // 表示文字列をそのまま設定
             this.dispStringList.push(dispObj);
+            this.dispDetailList.push('');
         } else if (typeof dispObj == 'object') {
             // オブジェクトの場合は細かく判定
 
@@ -45,21 +49,26 @@ class DispContent {
                 // メニュー定義の場合
                 // 表示文字列を設定
                 this.dispStringList.push(dispObj.getMenuColName());
+                this.dispDetailList.push(dispObj.getColDetail());
             } else if (dispObj instanceof ItemModel) {
                 // アイテムの場合
                 // 表示文字列を設定
                 this.dispStringList.push(dispObj.getItemName());
+                // アイテムの説明文を取得
+                const itemDef = this.scene.itemDefDao.getById(dispObj.getItemId())[0];
+                this.dispDetailList.push(itemDef.getItemDetail());
             } else if (dispObj instanceof CharaSttModel) {
                 //　キャラの場合
                 // 表示文字列を設定
                 this.dispStringList.push(dispObj.getCharaName());
+                this.dispDetailList.push('');
             }
         }
     }
 
     /**
      * 表示対象オブジェクトを追加する
-     * @param {object[]} dispObj 表示対象のオブジェクトのリスト
+     * @param {object[]} dispObjList 表示対象のオブジェクトのリスト
      */
     addContentList(dispObjList) {
         if (this.dispObjectList.length != 0) {
@@ -94,6 +103,7 @@ class DispContent {
         const archiveObj = {
             dispObjectList: this.dispObjectList,
             dispStringList: this.dispStringList,
+            dispDetailList: this.dispDetailList,
             dispObjectType: this.dispObjectType,
             isList: this.isList,
             isLine: this.isLine,
@@ -122,15 +132,23 @@ class DispContent {
     }
 
     /**
-     * 指定したインデックスの要素の子メニューがあれば取得する
+     * 指定したインデックスの要素の子メニューがあれば取得する。
+     * {dispObjectList: 子メニュー, dispContentType: 表示形式, isList, isLine, isMenu}
      * @param {number} idx 子メニューを取得する要素のインデックス番号
-     * @returns 子メニューのDispContent、遷移先メニュー無しの場合はnull
+     * @returns 子メニューのオブジェクト、遷移先メニュー無しの場合はnull
      */
     getChildContent(idx) {
         // 子メニューを取得する要素
         const choosedCtt = this.dispObjectList[idx];
         /** 現在の表示コンテンツのタイプ */
         const type = this.dispObjectType;
+        const childObj = {
+            dispObjectList: [],
+            dispObjectType: null,
+            isList: false,
+            isLine: true,
+            isMenu: false,
+        };
 
         if (type == C_COMMON.WINDOW_CONTENT_TYPE_LINE) {
             // 文章だった場合はエラー
@@ -146,9 +164,8 @@ class DispContent {
                     throw new Error(
                         '[DispContent]子メニューを取得できません。');
                 } else {
-                    // 履歴がある場合は履歴を返す
-                    const histObj = ObjectUtil.deepCopy(this.dispContentHist[this.dispContentHist.length - 1]);
-                    return Object.assign(new DispContent(), histObj);
+                    // 履歴がある場合は履歴のオブジェクトを返す
+                    return Object.assign(childObj, this.dispContentHist[idx]);
                 }
             } else {
                 if (type == C_COMMON.WINDOW_CONTENT_TYPE_TEXTLIST) {
@@ -156,9 +173,6 @@ class DispContent {
                     throw new Error(
                         '[DispContent]テキストリストは子メニューを取得できません。');
                 }
-
-                /** @type {DispContent} 子メニューのインスタンス */
-                const childContent = new DispContent(false, true, true, this.dispObjectType, this.scene);
 
                 if (type == C_COMMON.WINDOW_CONTENT_TYPE_MENU) {
                     // メニューリストの場合
@@ -168,38 +182,54 @@ class DispContent {
                         choosedCtt.getChildColId() == C_DB.CHILDCOLID_SPITEM
                     ) {
                         // 子メニューがアイテムの場合、対象のアイテム一覧を取得
-                        childContent.setContentType(C_COMMON.WINDOW_CONTENT_TYPE_ITEM);
                         const itemList = this.itemDao.getByType(C_DB.ITEMTYPE_USEITEM);
                         // 「戻る」を追加
                         itemList.push(C_COMMON.WINDOW_MENU_BACK);
-                        // インスタンスにセット
-                        childContent.addContentList(itemList);
+                        childObj.dispObjectList = itemList;
+
+                        childObj.dispObjectType = C_COMMON.WINDOW_CONTENT_TYPE_ITEM;
+                        childObj.isList = true;
+                        childObj.isLine = false;
+                        childObj.isMenu = true;
+                        return childObj;
 
                     } else if (choosedCtt.getChildColId() == C_DB.CHILDCOLID_SPRT) {
                         // 子メニューが味方キャラの場合、味方キャラ一覧を取得
-                        childContent.setContentType(C_COMMON.WINDOW_CONTENT_TYPE_CHARA);
                         const charaList = this.charaSttDao.getByType(C_DB.CHARATYPE_SPRT);
                         // 「戻る」を追加
                         charaList.push(C_COMMON.WINDOW_MENU_BACK);
-                        // インスタンスにセット
-                        childContent.addContentList(charaList);
+                        childObj.dispObjectList = charaList;
+
+                        childObj.dispObjectType = C_COMMON.WINDOW_CONTENT_TYPE_CHARA;
+                        childObj.isList = true;
+                        childObj.isLine = false;
+                        childObj.isMenu = true;
+                        return childObj;
                     } else {
                         // 子メニューがそれ以外（メニュー）の場合
-                        childContent.setContentType(C_COMMON.WINDOW_CONTENT_TYPE_MENU);
-                        // メニュー一覧を取得しインスタンスにセット
-                        childContent.addContentList(
-                            this.menuDefDao.getMenuById(choosedCtt.getChildMenuId())
-                        );
+                        // メニュー一覧を取得
+                        childObj.dispObjectList = this.scene.menuDefDao.getMenuById(choosedCtt.getChildMenuId());
+
+                        childObj.dispObjectType = C_COMMON.WINDOW_CONTENT_TYPE_MENU;
+                        childObj.isList = true;
+                        childObj.isLine = false;
+                        childObj.isMenu = true;
+                        return childObj;
+
                     }
                 } else if (type == C_COMMON.WINDOW_CONTENT_TYPE_ITEM) {
                     // アイテムリストの場合
                     // 子メニューのタイプをキャラリストに設定
-                    childContent.setContentType(C_COMMON.WINDOW_CONTENT_TYPE_CHARA);
                     const charaList = this.charaSttDao.getByType(C_DB.CHARATYPE_SPRT);
                     // 「戻る」を追加
                     charaList.push(C_COMMON.WINDOW_MENU_BACK);
-                    // インスタンスにセット
-                    childContent.addContentList(charaList);
+                    childObj.dispObjectList = charaList;
+
+                    childObj.dispObjectType = C_COMMON.WINDOW_CONTENT_TYPE_CHARA;
+                    childObj.isList = true;
+                    childObj.isLine = false;
+                    childObj.isMenu = true;
+                    return childObj;
                 } else if (type == C_COMMON.WINDOW_CONTENT_TYPE_CHARA) {
                     // キャラリストの場合
                     // nullを返す
@@ -211,16 +241,58 @@ class DispContent {
         }
     }
 
-    /** コンテンツを初期化する */
+    /**
+     * 子メニューを取得し、そのまま設定する
+     * @param {number} idx 子メニューを取得するメニューのインデックス
+     */
+    setChildContent(idx) {
+        /** @type {object} */
+        const childObj = this.getChildContent(idx);
+        // 履歴を保存する
+        this.archiveContent();
+
+        this.dispObjectType = childObj.dispObjectType;
+        this.addContentList(childObj.dispObjectList);
+        this.isLine = childObj.isLine;
+        this.isList = childObj.isList;
+        this.isMenu = childObj.isMenu;
+
+    }
+
+    /**
+     * 項目の説明を表示する
+     * @param {number} idx 説明を表示したいコンテンツのインデックス番号
+     */
+    getDetail(idx) {
+        const dispObj = this.dispObjectList[idx];
+        if (typeof dispObj == 'string') {
+            // 文字列の場合
+            // 表示文字列をそのまま設定
+            this.dispStringList.push(dispObj);
+        } else if (typeof dispObj == 'object') {
+            // オブジェクトの場合は細かく判定
+
+            if (dispObj instanceof MenuDefModel) {
+                // メニュー定義の場合
+                // 表示文字列を設定
+                this.dispStringList.push(dispObj.getMenuColName());
+            } else if (dispObj instanceof ItemModel) {
+                // アイテムの場合
+                // 表示文字列を設定
+                this.dispStringList.push(dispObj.getItemName());
+            } else if (dispObj instanceof CharaSttModel) {
+                //　キャラの場合
+                // 表示文字列を設定
+                this.dispStringList.push(dispObj.getCharaName());
+            }
+        }
+    }
+
+    /** コンテンツを初期化する（履歴は初期化しない） */
     initContent() {
         this.dispStringList = [];
         this.dispObjectList = [];
         this.dispObjectType = null;
-        this.dispContentHist = [];
-
-        this.isList = isList;
-        this.isLine = isLine;
-        this.isMenu = isMenu;
+        this.dispDetailList = [];
     }
-
 }
