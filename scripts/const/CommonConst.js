@@ -92,6 +92,10 @@ const C_COMMON = {
 
     /** メニュー選択肢 戻る */
     WINDOW_MENU_BACK: "戻る",
+    /** 子メニュー無（戻る押下時） */
+    CHILDMENU_NULL_BACK: -1,
+    /** 子メニュー無（戻る押下時以外） */
+    CHILDMENU_NULL_NEXT: 1,
 
     /** カーソルウインドウ マウスとの相対的なx座標 */
     WINDOW_CURSOR_X: 24,

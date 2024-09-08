@@ -132,8 +132,7 @@ class TextWindow {
 
             // 表示する文字列の折り返し処理を行う
             this.dispObj.dispObjectList[0] = GraphicUtil.wrapText(
-                this.scene, this.dispObj.dispStringList[0], this.fontStyle, this.hSize - this.paddingLine * 2
-            );
+                this.scene, this.dispObj.dispStringList[0], this.fontStyle, this.hSize - this.paddingLine * 2);
 
             const textObj = this.scene.add.text(
                 this.startX + this.paddingLine,
@@ -159,7 +158,6 @@ class TextWindow {
 
                 if (this.dispObj.isMenu) {
                     // 選択可能なリストの場合
-
                     // 表示項目の左側に、カーソルを表示するための余白を設定する
                     leftPadding = this.paddingLeft;
                 }
@@ -252,8 +250,7 @@ class TextWindow {
         const grph = this.scene.add.graphics();
         // ウインドウの内部描画
         grph.fillStyle(
-            Phaser.Display.Color.HexStringToColor(this.bgColor).color,
-            1.0);
+            Phaser.Display.Color.HexStringToColor(this.bgColor).color, 1.0);
         grph.fillRoundedRect(
             this.startX, this.startY, this.hSize, this.vSize,
             C_COMMON.WINDOW_ROUND);
@@ -261,8 +258,7 @@ class TextWindow {
         // ウインドウの枠線描画
         grph.lineStyle(
             C_COMMON.WINDOW_FRAME_WEIGHT,
-            Phaser.Display.Color.HexStringToColor(this.frameColor).color,
-            1.0);
+            Phaser.Display.Color.HexStringToColor(this.frameColor).color, 1.0);
         grph.strokeRoundedRect(
             this.startX, this.startY, this.hSize, this.vSize,
             C_COMMON.WINDOW_ROUND);
@@ -293,11 +289,8 @@ class TextWindow {
         // 三角形の形を描く
         triangle.beginPath();
 
-        // 左上の頂点
         triangle.moveTo(x, y);
-        // 右の頂点
         triangle.lineTo(x + w, y + h / 2);
-        // 左下の頂点
         triangle.lineTo(x, y + h);
 
         triangle.closePath();
@@ -331,48 +324,6 @@ class TextWindow {
     }
 
     /**
-     * ウインドウをテキスト形式に変更する
-     */
-    changeToText() {
-        this.isLine = true;
-        this.isMenu = false;
-        this.isList = true;
-
-        // 既に表示されている文字列を消去する
-        if (this.dispTextGroup.getLength() !== 0) {
-            this.dispTextGroup.clear(true, true);
-        }
-
-        if (this.choosedMark) {
-            // 既に表示されている場合は、削除する
-            this.choosedMark.destroy();
-        }
-    }
-
-    /**
-     * ウインドウをリスト形式に変更する
-     * @param {boolean} isMenu メニューかどうか
-     * @param {number} menuColNum メニューの列数
-     */
-    changeToList(isMenu, menuColNum) {
-        this.isLine = false;
-        this.isMenu = isMenu;
-        this.isList = true;
-
-        this.menuColNum = menuColNum;
-
-        // 既に表示されている文字列を消去する
-        if (this.dispTextGroup.getLength() !== 0) {
-            this.dispTextGroup.clear(true, true);
-        }
-
-        if (this.choosedMark) {
-            // 既に表示されている場合は、削除する
-            this.choosedMark.destroy();
-        }
-    }
-
-    /**
      * アクティブ状態を設定する。表示内容はそのままに押下状態関連を初期化する
      * @param {boolean} active フォーカスの状態
      * @param {boolean} reset 状態のリセット
@@ -390,7 +341,6 @@ class TextWindow {
     destroy() {
         // ウインドウコンテナの削除
         this.windowContainer.destroy();
-
         // テキストグループの削除
         this.dispTextGroup.clear(true, true);
     }
@@ -404,5 +354,4 @@ class TextWindow {
         this.windowContainer.x = posX;
         this.windowContainer.y = posY;
     }
-
 }
