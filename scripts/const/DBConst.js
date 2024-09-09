@@ -165,6 +165,28 @@ const C_DB = {
         ITEMDETAIL: "itemDetail",
     },
 
+    /** アイテムの効果対象 攻撃 */
+    TARGET_ATK: "atk",
+    /** アイテムの効果対象 防御 */
+    TARGET_DEF: "def",
+    /** アイテムの効果対象 運 */
+    TARGET_LUK: "luk",
+    /** アイテムの効果対象 与ダメージ */
+    TARGET_ATKDMG: "atkdmg",
+    /** アイテムの効果対象 受ダメージ */
+    TARGET_DEFDMG: "defdmg",
+    /** アイテムの効果対象 体力 */
+    TARGET_HP: "hp",
+    /** アイテムの効果対象 やる気 */
+    TARGET_YP: "yp",
+    /** アイテムの効果対象 最大体力 */
+    TARGET_MAXHP: "maxHp",
+    /** アイテムの効果対象 最大やる気 */
+    TARGET_MAXYP: "maxYp",
+
+    /** アイテム効果対象項目の最大数 */
+    TARGETCOLNUM: 4,
+
     /** 項目名 Itemテーブル */
     COL_NAME_ITEM: {
         /** アイテムID */
@@ -183,6 +205,4 @@ const C_DB = {
     ITEMTYPE_EQPITEM: '2',
     /** 所持特別アイテムのタイプ */
     ITEMTYPE_SPITEM: '3',
-
-
 }

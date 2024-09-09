@@ -53,25 +53,20 @@ class IkuseiScene extends Phaser.Scene {
                     pressedMenu.getChildColId() == C_DB.CHILDCOLID_SPRT
                 ) {
                     // メインウインドウに詳細の表示を行う場合
-
                     // フォーカスをメインウインドウに移動
                     this.windowMenu.setActive(false);
                     this.windowTextMain.setActive(true);
-
                     // 子メニューを取得
                     const childObj = this.dispCttMenu.getChildContent(this.windowMenu.choosedMenuIdx);
-
                     // メニューの状態を更新する
                     this.dispCttTextMain.initContent();
                     this.dispCttTextMain.addContentListFromObject(childObj);
                     this.windowTextMain.menuColNum = C_IS.WINDOW_TEXT_MAIN_COL_NUM;
                     this.windowTextMain.setDispContent(this.dispCttTextMain);
-
                 } else {
                     // 子メニューの表示を行う場合
                     // 子メニューを取得し、そのまま表示コンテンツとして設定
                     this.dispCttMenu.setChildContent(this.windowMenu.choosedMenuIdx);
-
                     // メニューの状態を更新する
                     this.windowMenu.setDispContent(this.dispCttMenu);
                 }
@@ -82,7 +77,6 @@ class IkuseiScene extends Phaser.Scene {
         if (this.windowTextMain.isActive) {
             if (this.windowTextMain.pressedMenu) {
                 // メニューが押された時
-
                 // 子メニューを取得する
                 const childObj = this.dispCttTextMain.getChildContent(this.windowTextMain.choosedMenuIdx);
 
@@ -93,7 +87,6 @@ class IkuseiScene extends Phaser.Scene {
                         // フォーカスをメニューウインドウに戻す
                         this.windowTextMain.setActive(false, true);
                         this.windowMenu.setActive(true);
-
                     } else {
                         // 表示履歴がある場合
                         // 表示履歴を復元する
@@ -103,9 +96,9 @@ class IkuseiScene extends Phaser.Scene {
                 } else if (childObj == C_COMMON.CHILDMENU_NULL_NEXT) {
                     // 「戻る」以外押下かつ次表示要素がない場合
                     // TODO: キャラに効果を適用
+                    // 
                 } else {
                     // それ以外の場合
-
                     // 子メニューを表示内容にセット
                     this.dispCttTextMain.archiveContent();
                     this.dispCttTextMain.addContentListFromObject(childObj);
@@ -117,13 +110,10 @@ class IkuseiScene extends Phaser.Scene {
         // メインウインドウの項目がフォーカスされている場合
         if (this.windowTextMain.isFocused) {
             const dispDetail = this.dispCttTextMain.dispDetailList[this.windowTextMain.choosedMenuIdx];
-
             // 説明文を表示する
             this.cursorText = dispDetail.length != 0 ? dispDetail : null;
-
         } else if (this.windowMenu.isFocused) {
             const dispDetail = this.dispCttMenu.dispDetailList[this.windowMenu.choosedMenuIdx];
-
             // 説明文を表示する
             this.cursorText = dispDetail.length != 0 ? dispDetail : null;
         } else {
@@ -133,7 +123,6 @@ class IkuseiScene extends Phaser.Scene {
         /* 各項目フォーカス時のカーソルウインドウの表示 */
         if (this.cursorText != null) {
             // カーソルウインドウのテキストがセットされている場合
-
             if (this.windowCursor == null) {
                 // カーソルウインドウが作成されていない場合
                 // カーソルウインドウを作成
@@ -151,15 +140,12 @@ class IkuseiScene extends Phaser.Scene {
                 cursorDispCtt.addContent(this.cursorText);
                 this.windowCursor.setDispContent(cursorDispCtt);
             }
-
             // ウインドウの位置を調整
             this.windowCursor.setWindowPosition(this.input.activePointer.x, this.input.activePointer.y);
-
         } else {
             // カーソルウインドウのテキストがセットされていない場合
             if (this.windowCursor != null) {
                 // カーソルウインドウが作成されている場合
-
                 // カーソルウインドウを削除
                 this.windowCursor.destroy();
                 this.windowCursor = null;
@@ -352,5 +338,4 @@ class IkuseiScene extends Phaser.Scene {
             window.setDispContent(dispCtt);
         }
     }
-
 }
