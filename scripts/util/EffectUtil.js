@@ -1,6 +1,6 @@
 class EffectUtils {
     /**
-     * アイテムの効果を対象に適用する
+     * アイテムの効果を対象に適用する（現状消費アイテムと特別アイテムのみ）
      * @param {ItemDefModel} itemDef 使用アイテム定義
      * @param {object} target 対象オブジェクト
      */
@@ -10,8 +10,13 @@ class EffectUtils {
             // 対象オブジェクトがキャラクターの場合
             for (let i = 0; i < C_DB.TARGETCOLNUM; i++) {
                 // 効果対象項目を取得
-                const methodName = `getTargetCol${i + 1}`;
-                const targetCol = itemDef[methodName]();
+                const getTargetColMethod = `getTargetCol${i + 1}`;
+                const getEffectValMethod = `getEffectVal${i + 1}`;
+                const targetCol = itemDef[getTargetColMethod]();
+                const effectVal = Number(itemDef[getEffectValMethod]());
+
+                // 効果を適用
+                target[targetCol] += effectVal;
             }
         }
     }
