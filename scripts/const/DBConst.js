@@ -15,6 +15,16 @@ const C_DB = {
         ITEM: "itemTable"
     },
 
+    /** 項目名 共通 ID */
+    COL_NAME_COM_ID: "ID",
+    /** 項目名 共通 名前 */
+    COL_NAME_COM_NAME: "NAME",
+    /** 項目名 共通 タイプ */
+    COL_NAME_COM_TYPE: "TYPE",
+    /** 項目名 共通 説明 */
+    COL_NAME_COM_EXPL: "EXPL",
+
+
     /** 項目名 CharaSttテーブル */
     COL_NAME_CHARASTT: {
         /** キャラID */
