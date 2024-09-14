@@ -106,4 +106,7 @@ const C_COMMON = {
     /** カーソルウインドウ 高さ */
     WINDOW_CURSOR_H: 72,
 
+    /** エラーメッセージ 実装されていない */
+    MSG_ERR_NOIMPL: "実装されていません。",
+
 };

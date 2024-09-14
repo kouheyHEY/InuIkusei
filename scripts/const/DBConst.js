@@ -22,43 +22,13 @@ const C_DB = {
     },
 
     /** 項目名 共通 ID */
-    COL_NAME_COM_ID: "ID",
+    COLNAME_COM_ID: "id",
     /** 項目名 共通 名前 */
-    COL_NAME_COM_NAME: "NAME",
+    COLNAME_COM_NAME: "name",
     /** 項目名 共通 タイプ */
-    COL_NAME_COM_TYPE: "TYPE",
+    COLNAME_COM_TYPE: "type",
     /** 項目名 共通 説明 */
-    COL_NAME_COM_EXPL: "EXPL",
-
-
-    /** 項目名 CharaSttテーブル */
-    COL_NAME_CHARASTT: {
-        /** キャラID */
-        CHARAID: "charaId",
-        /** キャラタイプ */
-        CHARATYPE: "charaType",
-        /** キャラ名 */
-        CHARANAME: "charaName",
-        /** 最大体力 */
-        MAXHP: "maxHp",
-        /** 体力 */
-        HP: "hp",
-        /** 最大やる気 */
-        MAXYP: "maxYp",
-        /** やる気 */
-        YP: "yp",
-        /** 運 */
-        LUK: "luk",
-        /** 攻撃力 */
-        ATK: "atk",
-        /** 防御力 */
-        DEF: "def",
-        /** 装備1id */
-        EQP1: "eqp1",
-        /** 装備2id */
-        EQP2: "eqp2",
-    },
-
+    COLNAME_COM_EXPL: "expl",
 
     /** キャラID 仲間1 */
     CHARAID_SPRT1: 0,
