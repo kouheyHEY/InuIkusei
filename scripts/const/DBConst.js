@@ -1,18 +1,24 @@
 const C_DB = {
     /** テーブル名 */
     TABLE_NAME: {
-        /** テーブル名 キャラステータステーブル */
-        CHARA_STT: "charaSttTable",
-        /** テーブル名 テキストテーブル */
-        TEXT: "textTable",
-        /** テーブル名 メニュー定義テーブル */
-        MENU_DEF: "menuDefTable",
-        /** テーブル名 進行状況テーブル */
-        PROG_STT: "progSttTable",
-        /* テーブル名 アイテム定義テーブル */
-        ITEM_DEF: "itemDefTable",
-        /* テーブル名 アイテムテーブル */
-        ITEM: "itemTable"
+        /** テーブル名 メニューマスタ */
+        M_MENU: "mstMenu",
+        /** テーブル名 敵キャラマスタ */
+        M_ENEMY: "mstEnemy",
+        /** テーブル名 テキストマスタ */
+        M_TEXT: "mstText",
+        /** テーブル名 アイテムマスタ */
+        M_ITEM: "mstItem",
+        /** テーブル名 フィールドマスタ */
+        M_FILED: "mstFiled",
+        /** テーブル名 アクションマスタ */
+        M_ACTION: "mstAction",
+        /** テーブル名 所持アイテムテーブル */
+        T_ITEM: "trnItem",
+        /** テーブル名 味方キャラテーブル */
+        T_SPTCHARA: "tblSptChara",
+        /** テーブル名 敵キャラテーブル */
+        T_ENEMY: "tblEnemy"
     },
 
     /** 項目名 共通 ID */

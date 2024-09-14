@@ -7,7 +7,7 @@ class BaseDao {
      * @param { Phaser.Scene } scene 取得対象のシーン
      * @param { string } tabName 対象のテーブル名
      */
-    constructor(scene) {
+    constructor(scene, tabName) {
         // 取得対象のシーン
         this.scene = scene;
         // テーブルデータを取得する
@@ -17,9 +17,10 @@ class BaseDao {
 
     /** IDで検索し、Modelのリストを取得する
      * @param {number} id 取得するID
-     * @returns {Object[]} Modelのリスト
+     * @returns {BaseModel[]} Modelのリスト
      */
     getById(id) {
+        /** @type {BaseModel[]} */
         let modelList = [];
 
         // 一致するデータを取得
@@ -28,7 +29,7 @@ class BaseDao {
         for (let data of dataList) {
             // データの各項目をモデルにセットする
             let model = this.getModel();
-            model.setPropertiesFromObject(data);
+            model.setAllProps(data);
             // モデルを配列にセット
             modelList.push(model);
         }
@@ -49,7 +50,7 @@ class BaseDao {
         for (let data of dataList) {
             // データの各項目をモデルにセットする
             let model = this.getModel();
-            model.setPropertiesFromObject(data);
+            model.setAllProps(data);
             // モデルを配列にセット
             modelList.push(model);
         }
