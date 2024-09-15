@@ -44,8 +44,8 @@ class MstMenuDao extends BaseDao {
 
         // 一致するデータを取得
         let dataList = this.tabData.filter(data =>
-            data[C_DB.COLNAME_MENUID] == id &&
-            data[C_DB.COLNAME_COLID]
+            data[C_DB.COLNAME_MENUID] == menuId &&
+            data[C_DB.COLNAME_COLID] == colId
         );
 
         for (let data of dataList) {
