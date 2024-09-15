@@ -1,7 +1,7 @@
 /**
  * フィールドマスタのDao。
  */
-class MstFiled extends BaseDao {
+class MstFiledDao extends BaseDao {
     constructor(scene) {
         super(scene, C_DB.TABLE_NAME.M_FILED);
     }

@@ -1,7 +1,7 @@
 /**
  * アイテムマスタのDao。
  */
-class MstItem extends BaseDao {
+class MstItemDao extends BaseDao {
     constructor(scene) {
         super(scene, C_DB.TABLE_NAME.M_ITEM);
     }

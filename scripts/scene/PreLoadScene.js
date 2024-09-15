@@ -38,11 +38,15 @@ class PreLoadScene extends Phaser.Scene {
         };
 
         // テーブルデータの読み込み
-        await loadTableData(C_DB.TABLE_NAME.TEXT, C_ASSET.FILENAME_DB_TEXT);
-        await loadTableData(C_DB.TABLE_NAME.MENU_DEF, C_ASSET.FILENAME_DB_MENU_DEF);
-        await loadTableData(C_DB.TABLE_NAME.CHARA_STT, C_ASSET.FILENAME_DB_CHARA_STT);
-        await loadTableData(C_DB.TABLE_NAME.ITEM, C_ASSET.FILENAME_DB_ITEM);
-        await loadTableData(C_DB.TABLE_NAME.ITEM_DEF, C_ASSET.FILENAME_DB_ITEM_DEF);
+        await loadTableData(C_DB.TABLE_NAME.M_MENU, C_ASSET.FILENAME_DB_M_MENU);
+        await loadTableData(C_DB.TABLE_NAME.M_ENEMY, C_ASSET.FILENAME_DB_M_ENEMY);
+        await loadTableData(C_DB.TABLE_NAME.M_TEXT, C_ASSET.FILENAME_DB_M_TEXT);
+        await loadTableData(C_DB.TABLE_NAME.M_ITEM, C_ASSET.FILENAME_DB_M_ITEM);
+        await loadTableData(C_DB.TABLE_NAME.M_FIELD, C_ASSET.FILENAME_DB_M_FIELD);
+        await loadTableData(C_DB.TABLE_NAME.M_ACTION, C_ASSET.FILENAME_DB_M_ACTION);
+        await loadTableData(C_DB.TABLE_NAME.T_ITEM, C_ASSET.FILENAME_DB_T_ITEM);
+        await loadTableData(C_DB.TABLE_NAME.T_SPT_CHARA, C_ASSET.FILENAME_DB_T_SPT_CHARA);
+        await loadTableData(C_DB.TABLE_NAME.T_ENEMY, C_ASSET.FILENAME_DB_T_ENEMY);
 
         // タイトルシーンに遷移
         this.scene.start(C_COMMON.SCENE_TITLESCENE);

@@ -1,7 +1,7 @@
 /**
  * 味方キャラテーブルのDao。
  */
-class TblSptChara extends BaseDao {
+class TblSptCharaDao extends BaseDao {
     constructor(scene) {
         super(scene, C_DB.TABLE_NAME.T_SPTCHARA);
     }

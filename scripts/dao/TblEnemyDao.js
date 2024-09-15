@@ -1,7 +1,7 @@
 /**
  * 敵キャラテーブルのDao。
  */
-class TblEnemy extends BaseDao {
+class TblEnemyDao extends BaseDao {
     constructor(scene) {
         super(scene, C_DB.TABLE_NAME.T_ENEMY);
     }

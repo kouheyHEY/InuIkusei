@@ -2,23 +2,23 @@ const C_DB = {
     /** テーブル名 */
     TABLE_NAME: {
         /** テーブル名 メニューマスタ */
-        M_MENU: "mstMenu",
+        M_MENU: "MstMenu",
         /** テーブル名 敵キャラマスタ */
-        M_ENEMY: "mstEnemy",
+        M_ENEMY: "MstEnemy",
         /** テーブル名 テキストマスタ */
-        M_TEXT: "mstText",
+        M_TEXT: "MstText",
         /** テーブル名 アイテムマスタ */
-        M_ITEM: "mstItem",
+        M_ITEM: "MstItem",
         /** テーブル名 フィールドマスタ */
-        M_FILED: "mstFiled",
+        M_FIELD: "MstFiled",
         /** テーブル名 アクションマスタ */
-        M_ACTION: "mstAction",
+        M_ACTION: "MstAction",
         /** テーブル名 所持アイテムテーブル */
-        T_ITEM: "trnItem",
+        T_ITEM: "TblItem",
         /** テーブル名 味方キャラテーブル */
-        T_SPTCHARA: "tblSptChara",
+        T_SPT_CHARA: "TblSptChara",
         /** テーブル名 敵キャラテーブル */
-        T_ENEMY: "tblEnemy"
+        T_ENEMY: "TblEnemy"
     },
 
     /** 項目名 共通 ID */
@@ -29,6 +29,26 @@ const C_DB = {
     COLNAME_COM_TYPE: "type",
     /** 項目名 共通 説明 */
     COLNAME_COM_EXPL: "expl",
+
+    /** メニューマスタ */
+    M_MENU: {
+        /** メニューID タイトル */
+        MENUID_TITLE: 1,
+
+        /** 項目ID はじめから */
+        COLID_START: 1,
+        /** 項目ID つづきから */
+        COLID_CONTINUE: 2,
+        /** 項目ID クレジット */
+        COLID_CREDIT: 3,
+        /** 項目ID おわる */
+        COLID_END: 4,
+    },
+
+    /** 項目名 メニューID */
+    COLNAME_MENUID: "menuId",
+    /** 項目名 項目ID */
+    COLNAME_COLID: "colId",
 
     /** キャラID 仲間1 */
     CHARAID_SPRT1: 0,

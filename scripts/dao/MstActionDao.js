@@ -1,7 +1,7 @@
 /**
  * アクションマスタのDao。
  */
-class MstAction extends BaseDao {
+class MstActionDao extends BaseDao {
     constructor(scene) {
         super(scene, C_DB.TABLE_NAME.M_ACTION);
     }

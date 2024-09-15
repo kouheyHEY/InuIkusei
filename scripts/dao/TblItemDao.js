@@ -1,7 +1,7 @@
 /**
  * 所持アイテムテーブルのDao。
  */
-class TblItem extends BaseDao {
+class TblItemDao extends BaseDao {
     constructor(scene) {
         super(scene, C_DB.TABLE_NAME.T_ITEM);
     }

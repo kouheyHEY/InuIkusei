@@ -46,53 +46,79 @@
         <div id="gameContainer"></div>
         <script src="library/phaser.js"></script>
 
-        <!-- 定数クラス -->
-        <script src="scripts/const/CommonConst.js"></script>
-        <script src="scripts/const/AssetConst.js"></script>
-        <script src="scripts/const/TSConst.js"></script>
-        <script src="scripts/const/ISConst.js"></script>
-        <script src="scripts/const/BSConst.js"></script>
-        <script src="scripts/const/DBConst.js"></script>
-        <script src="scripts/const/ClassConst.js"></script>
-        
-        <!-- ユーティルクラス-->
-        <script src="scripts/util/GraphicUtil.js"></script>
-        <script src="scripts/util/ObjectUtil.js"></script>
+        <script>
+            // 読み込み対象のファイルパスのリスト
+            const loadFileList = [
+                // 定数クラス
+                "scripts/const/CommonConst.js",
+                "scripts/const/AssetConst.js",
+                "scripts/const/TSConst.js",
+                "scripts/const/ISConst.js",
+                "scripts/const/BSConst.js",
+                "scripts/const/DBConst.js",
+                "scripts/const/ClassConst.js",
 
-        <!-- モデル -->
-        <script src="scripts/model/CharaSttModel.js"></script>
-        <script src="scripts/model/MenuDefModel.js"></script>
-        <script src="scripts/model/TextModel.js"></script>
-        <script src="scripts/model/ItemModel.js"></script>
-        <script src="scripts/model/ItemDefModel.js"></script>
-        
-        <!-- daoクラス -->
-        <script src="scripts/dao/CharaSttDao.js"></script>
-        <script src="scripts/dao/MenuDefDao.js"></script>
-        <script src="scripts/dao/ItemDao.js"></script>
-        <script src="scripts/dao/ItemDefDao.js"></script>
+                // ユーティルクラス
+                "scripts/util/GraphicUtil.js",
+                "scripts/util/ObjectUtil.js",
+                "scripts/util/EffectUtil.js",
 
-        <!-- スプライト -->
-        <script src="scripts/sprite/TextWindow.js"></script>
+                // モデル
+                "scripts/model/BaseModel.js",
+                "scripts/model/MstActionModel.js",
+                "scripts/model/MstEnemyModel.js",
+                "scripts/model/MstFieldModel.js",
+                "scripts/model/MstItemModel.js",
+                "scripts/model/MstMenuModel.js",
+                "scripts/model/MstTextModel.js",
+                "scripts/model/TblEnemyModel.js",
+                "scripts/model/TblItemModel.js",
+                "scripts/model/TblSptCharaModel.js",
 
-        <!-- エンティティ -->
-        <script src="scripts/entity/DispContent.js"></script>
+                // daoクラス
+                "scripts/dao/BaseDao.js",
+                "scripts/dao/MstActionDao.js",
+                "scripts/dao/MstEnemyDao.js",
+                "scripts/dao/MstFieldDao.js",
+                "scripts/dao/MstItemDao.js",
+                "scripts/dao/MstMenuDao.js",
+                "scripts/dao/MstTextDao.js",
+                "scripts/dao/TblEnemyDao.js",
+                "scripts/dao/TblItemDao.js",
+                "scripts/dao/TblSptCharaDao.js",
 
-        <!-- マネージャクラス -->
-        <script src="scripts/manager/GameDataManager.js"></script>
-        <script src="scripts/manager/InputManager.js"></script>
-        <script src="scripts/manager/DaoManager.js"></script>
+                // スプライト
+                "scripts/sprite/TextWindow.js",
 
-        <!-- シーンクラス -->
-        <script src="scripts/scene/PreLoadScene.js"></script>
-        <script src="scripts/scene/TitleScene.js"></script>
-        <script src="scripts/scene/IkuseiScene.js"></script>
-        <script src="scripts/scene/BattleScene.js"></script>
+                // エンティティ
+                "scripts/entity/DispContent.js",
 
-        <!-- phaser3実行用 -->
-        <script src="scripts/main.js"></script>
+                // マネージャクラス
+                "scripts/manager/GameDataManager.js",
+                "scripts/manager/InputManager.js",
+                "scripts/manager/DaoManager.js",
+
+                // シーンクラス
+                "scripts/scene/BaseScene.js",
+                "scripts/scene/PreLoadScene.js",
+                "scripts/scene/TitleScene.js",
+                "scripts/scene/IkuseiScene.js",
+                "scripts/scene/BattleScene.js",
+
+                // phaser3実行用
+                "scripts/main.js"
+            ];
+
+            // ファイルパスの読み込みを行う
+            for (filePath of loadFileList) {
+                const script = document.createElement('script');
+                script.src = filePath;
+                script.type = 'text/javascript';
+                script.async = false; // 必要に応じて非同期読み込みにする
+                document.head.appendChild(script); // head または body に追加
+            }
+        </script>
     </main>
-
 </body>
 
 </html>

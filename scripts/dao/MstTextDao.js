@@ -1,7 +1,7 @@
 /**
  * テキストマスタのDao。
  */
-class MstText extends BaseDao {
+class MstTextDao extends BaseDao {
     constructor(scene) {
         super(scene, C_DB.TABLE_NAME.M_TEXT);
     }
