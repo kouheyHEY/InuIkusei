@@ -37,6 +37,15 @@ class TitleScene extends BaseScene {
                 fontFamily: C_COMMON.FONT_FAMILY_BIT12
             }).setOrigin(0.5);
 
+        /* はじめから */
+
+        /* つづきから */
+
+        /* クレジット */
+
+        /* おわる */
+
+
         // スタートボタン
         const startButton = this.add.text(C_COMMON.D_WIDTH / 2, 400, 'Start',
             {
