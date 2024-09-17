@@ -50,6 +50,7 @@ const C_DB = {
     /** 項目名 項目ID */
     COLNAME_COLID: "colId",
 
+
     /** キャラID 仲間1 */
     CHARAID_SPRT1: 0,
     /** キャラID 仲間2 */
@@ -76,37 +77,14 @@ const C_DB = {
         NEXTTEXTID: "nextTextId",
     },
 
-    /** 項目名 メニュー定義テーブル */
-    COL_NAME_MENU_DEF: {
-        /** メニューID */
-        MENUID: "menuId",
-        /** 項目ID */
-        MENUCOLID: "menuColId",
-        /** メニュー名 */
-        MENUNAME: "menuName",
-        /** 項目名 */
-        MENUCOLNAME: "menuColName",
-        /** 親メニューID */
-        PARENTMENUID: "parentMenuId",
-        /** 親項目ID */
-        PARENTCOLID: "parentColId",
-        /** 子メニューID */
-        CHILDMENUID: "childMenuId",
-        /** 子項目ID */
-        CHILDCOLID: "childColId",
-        /** 項目詳細 */
-        COLDETAIL: "colDetail",
-
-    },
-
-    /** 所持消費アイテム一覧の子項目ID */
-    CHILDCOLID_USEITEM: '-1',
-    /** 所持装備アイテム一覧の子項目ID */
-    CHILDCOLID_EQPITEM: '-2',
-    /** 所持特別アイテム一覧の子項目ID */
-    CHILDCOLID_SPITEM: '-3',
+    /** 所持消費アイテム一覧の子メニューID */
+    CHILDMENUID_USEITEM: '-1',
+    /** 所持装備アイテム一覧の子メニューID */
+    CHILDMENUID_EQPITEM: '-2',
+    /** 所持特別アイテム一覧の子メニューID */
+    CHILDMENUID_SPITEM: '-3',
     /** 味方キャラ一覧の子項目ID */
-    CHILDCOLID_SPRT: '-4',
+    CHILDMENUID_SPRT: '-4',
 
     /** メニューID タイトル */
     MENU_ID_TITLE: 0,

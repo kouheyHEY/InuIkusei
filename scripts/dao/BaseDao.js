@@ -58,6 +58,24 @@ class BaseDao {
         return modelList;
     }
 
+    /** すべてのレコードを取得。
+     * @returns {object[]} 全てのModelリスト
+     */
+    getAll() {
+        let modelList = [];
+
+        for (let data of this.tabData) {
+            // データの各項目をモデルにセットする
+            /** @type {BaseModel} */
+            let model = this.getModel();
+            model.setAllProps(data);
+            // モデルを配列にセット
+            modelList.push(model);
+        }
+
+        return modelList;
+    }
+
     /**
      * 子クラスで実装。対応するモデルクラスを返す
      * @returns 対応するモデルクラス
