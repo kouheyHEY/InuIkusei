@@ -13,7 +13,6 @@ class TitleScene extends BaseScene {
         /** @type {MstMenuModel[]} タイトルメニュー メニューモデルリスト */
         this.menuList = this.mstMenuDao.getByMenuId(C_DB.M_MENU.MENUID_TITLE);
 
-        console.log(this.menuList);
         /** タイトルメニュー はじめから */
         this.menuStart = null;
         /** タイトルメニュー つづきから */

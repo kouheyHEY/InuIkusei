@@ -124,11 +124,21 @@ class DispContent {
                 // 表示文字列をそのまま設定
                 contentObj.dispStr.push(obj);
                 contentObj.expl.push('');
-            } else if (typeof obj == 'object') {
-                // オブジェクトの場合
-                // 表示名と説明をセット
-                contentObj.dispStr.push(obj.getName());
-                contentObj.expl.push(obj.getExpl());
+            } else {
+                // 文字列以外の場合
+                if (obj instanceof BaseModel) {
+                    if (obj instanceof MstMenuModel) {
+                        // メニューマスタの場合
+                        // 表示名と説明をセット
+                        contentObj.dispStr.push(obj.colName);
+                        contentObj.expl.push(obj.expl);
+                    } else {
+                        // それ以外の場合
+                        // 表示名と説明をセット
+                        contentObj.dispStr.push(obj.name);
+                        contentObj.expl.push(obj.expl);
+                    }
+                }
             }
         }
 

@@ -1,37 +1,6 @@
-class IkuseiScene extends Phaser.Scene {
+class IkuseiScene extends BaseScene {
     constructor() {
-        super({ key: C_COMMON.SCENE_IKUSEISCENE });
-
-    }
-
-    /**
-     * 画面生成用メソッド
-     */
-    create() {
-
-        // ０．インスタンス変数などの初期化
-        this.initInstVal();
-
-        // １．背景の作成
-        this.cameras.main.setBackgroundColor(C_COMMON.COMMON_COLOR_WHITE);
-
-        // ２．各エリアの作成
-        // 描画を行う
-        this.initArea();
-
-        // 初期にアクティブにするウインドウの設定
-        this.windowMenu.isActive = true;
-
-        // ３．Phaser用メソッドの初期化
-        /** @type {InputManager} 入力マネージャ */
-        this.inputManager = new InputManager(this, [
-            C_COMMON.KEY_UP,
-            C_COMMON.KEY_DOWN,
-            C_COMMON.KEY_RIGHT,
-            C_COMMON.KEY_LEFT,
-            C_COMMON.KEY_ENTER,
-            C_COMMON.KEY_SPACE
-        ]);
+        super(C_COMMON.SCENE_IKUSEISCENE);
     }
 
     /**
@@ -158,12 +127,6 @@ class IkuseiScene extends Phaser.Scene {
      * this.XXXはここに記載
      */
     initInstVal() {
-        // メインウインドウに表示するアイテムのリスト
-        this.dispItemList = null;
-        // メインウインドウに表示するキャラのリスト
-        this.dispCharaList = null;
-        // 処理を行うアイテム
-        this.useItem = null;
         // カーソルウインドウに表示する文
         this.cursorText = null;
 
@@ -183,7 +146,7 @@ class IkuseiScene extends Phaser.Scene {
         /** @type {DispContent} メインウインドウ表示コンテンツ */
         this.dispCttTextMain = null;
 
-        // 各Daoの取得
+        // TODO:各Daoの取得
         /** @type {CharaSttDao} キャラステータステーブルDao */
         this.charaSttDao = new CharaSttDao(this);
         /** @type {MenuDefDao} メニュー定義テーブルDao */
@@ -217,6 +180,9 @@ class IkuseiScene extends Phaser.Scene {
 
         /** @type {MenuDefModel[]} 育成メニューリスト */
         this.menuIkuseiList = this.menuDefDao.getMenuById(C_DB.MENU_ID_IKUSEI_MENU);
+
+        // 初期にアクティブにするウインドウの設定
+        this.windowMenu.isActive = true;
 
     }
 
