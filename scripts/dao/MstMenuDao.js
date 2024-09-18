@@ -22,7 +22,7 @@ class MstMenuDao extends BaseDao {
         let modelList = [];
 
         // 一致するデータを取得
-        let dataList = this.tabData.filter(data => data[C_DB.COL_NAME_MENUID] == id);
+        let dataList = this.tabData.filter(data => data[C_DB.COLNAME_MENUID] == id);
 
         for (let data of dataList) {
             // データの各項目をモデルにセットする

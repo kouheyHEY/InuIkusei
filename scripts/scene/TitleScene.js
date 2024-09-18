@@ -11,8 +11,9 @@ class TitleScene extends BaseScene {
         this.titleText = null;
 
         /** @type {MstMenuModel[]} タイトルメニュー メニューモデルリスト */
-        this.menuList = this.menuMstDao.getByMenuId(C_DB.M_MENU.MENUID_TITLE);
+        this.menuList = this.mstMenuDao.getByMenuId(C_DB.M_MENU.MENUID_TITLE);
 
+        console.log(this.menuList);
         /** タイトルメニュー はじめから */
         this.menuStart = null;
         /** タイトルメニュー つづきから */
@@ -20,7 +21,7 @@ class TitleScene extends BaseScene {
         /** タイトルメニュー クレジット */
         this.menuCredit = null;
         /** タイトルメニュー おわる */
-        this.titleMenu = null;
+        this.menuEnd = null;
 
     }
 
@@ -37,31 +38,73 @@ class TitleScene extends BaseScene {
                 fontFamily: C_COMMON.FONT_FAMILY_BIT12
             }).setOrigin(0.5);
 
+        // 座標取得用アロー関数
+        const getMenuX = (idx) => {
+            return (C_COMMON.D_WIDTH + (C_TS.MENU_WIDTH + C_TS.MENU_SPAN_H) * (1 - C_TS.MENU_COL_NUM + 2 * (idx % C_TS.MENU_COL_NUM))) / 2;
+        };
+        const getMenuY = (idx) => {
+            return C_TS.MENU_Y_1 + Math.floor(idx / C_TS.MENU_COL_NUM) * (C_TS.MENU_HEIGHT + C_TS.MENU_SPAN_V);
+        };
+
         /* はじめから */
-
-        /* つづきから */
-
-        /* クレジット */
-
-        /* おわる */
-
-
-        // スタートボタン
-        const startButton = this.add.text(C_COMMON.D_WIDTH / 2, 400, 'Start',
+        this.menuStart = this.add.text(
+            getMenuX(0), getMenuY(0), this.menuList[0].colName,
             {
-                fontSize: C_COMMON.FONT_SIZE_LARGE,
+                fontSize: C_COMMON.FONT_SIZE_MEDIAM,
                 fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
                 fontFamily: C_COMMON.FONT_FAMILY_BIT12
-            })
-            .setOrigin(0.5);
-        startButton.setInteractive();
+            }).setOrigin(0.5).setInteractive();
 
-        // ボタン押下時、育成画面に遷移
-        startButton.on('pointerdown', () => {
+        /* つづきから */
+        this.menuContinue = this.add.text(
+            getMenuX(1), getMenuY(1), this.menuList[1].colName,
+            {
+                fontSize: C_COMMON.FONT_SIZE_MEDIAM,
+                fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
+                fontFamily: C_COMMON.FONT_FAMILY_BIT12
+            }).setOrigin(0.5).setInteractive();
+
+        /* クレジット */
+        this.menuCredit = this.add.text(
+            getMenuX(2), getMenuY(2), this.menuList[2].colName,
+            {
+                fontSize: C_COMMON.FONT_SIZE_MEDIAM,
+                fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
+                fontFamily: C_COMMON.FONT_FAMILY_BIT12
+            }).setOrigin(0.5).setInteractive();
+
+        /* おわる */
+        this.menuEnd = this.add.text(
+            getMenuX(3), getMenuY(3), this.menuList[3].colName,
+            {
+                fontSize: C_COMMON.FONT_SIZE_MEDIAM,
+                fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
+                fontFamily: C_COMMON.FONT_FAMILY_BIT12
+            }).setOrigin(0.5).setInteractive();
+
+        // はじめから押下時
+        this.menuStart.on('pointerdown', () => {
             this.scene.start(C_COMMON.SCENE_IKUSEISCENE);
         });
+
+        // つづきから押下時
+        this.menuContinue.on('pointerdown', () => {
+            this.scene.start(C_COMMON.SCENE_IKUSEISCENE);
+        });
+
+        // クレジット押下時
+        this.menuCredit.on('pointerdown', () => {
+            this.scene.start(C_COMMON.SCENE_IKUSEISCENE);
+        });
+
+        // おわる押下時
+        this.menuEnd.on('pointerdown', () => {
+            this.scene.start(C_COMMON.SCENE_IKUSEISCENE);
+        });
+
     }
 
     update() {
+
     }
 }

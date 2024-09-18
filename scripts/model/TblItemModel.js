@@ -3,6 +3,7 @@
  */
 class TblItemModel extends BaseModel {
     constructor() {
+        super();
         /** @type {number} アイテムid */
         this._id = null;
         /** @type {string} 名前 */

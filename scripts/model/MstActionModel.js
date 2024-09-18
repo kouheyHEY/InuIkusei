@@ -3,6 +3,7 @@
  */
 class MstActionModel extends BaseModel {
     constructor() {
+        super();
         /** @type {number} id */
         this._id = null;
         /** @type {string} 名前 */

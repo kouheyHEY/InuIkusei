@@ -6,6 +6,8 @@ class MstMenuModel extends BaseModel {
      * コンストラクタ。
      */
     constructor() {
+
+        super();
         this._menuId = null;
         this._colId = null;
         this._menuName = "";

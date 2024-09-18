@@ -1,6 +1,7 @@
 const C_COMMON = {
     /** ゲームタイトル */
-    GAME_TITLE: '犬と僕',
+    // GAME_TITLE: '犬と僕',
+    GAME_TITLE: 'タイトル（仮）',
     /** 画面幅 */
     D_WIDTH: 1280,
     /** 画面高さ */
