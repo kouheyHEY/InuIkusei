@@ -24,7 +24,7 @@ class BaseDao {
         let modelList = [];
 
         // 一致するデータを取得
-        let dataList = this.tabData.filter(data => data[C_DB.COL_NAME_COM_ID] == id);
+        let dataList = this.tabData.filter(data => data[C_DB.COLNAME_COM_ID] == id);
 
         for (let data of dataList) {
             // データの各項目をモデルにセットする
@@ -45,7 +45,7 @@ class BaseDao {
         let modelList = [];
 
         // 一致するデータを取得
-        let dataList = this.tabData.filter(data => data[C_DB.COL_NAME_COM_TYPE] == type);
+        let dataList = this.tabData.filter(data => data[C_DB.COLNAME_COM_TYPE] == type);
 
         for (let data of dataList) {
             // データの各項目をモデルにセットする

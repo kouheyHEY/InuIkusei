@@ -146,43 +146,22 @@ class IkuseiScene extends BaseScene {
         /** @type {DispContent} メインウインドウ表示コンテンツ */
         this.dispCttTextMain = null;
 
-        // TODO:各Daoの取得
-        /** @type {CharaSttDao} キャラステータステーブルDao */
-        this.charaSttDao = new CharaSttDao(this);
-        /** @type {MenuDefDao} メニュー定義テーブルDao */
-        this.menuDefDao = new MenuDefDao(this);
-        /** @type {ItemDao} アイテムDao */
-        this.itemDao = new ItemDao(this);
-        /** @type {ItemDefDao} アイテム定義Dao */
-        this.itemDefDao = new ItemDefDao(this);
+        // 各Daoの取得
+        /** @type {MstMenuDao} メニューマスタDao */
+        this.mstMenuDao = new MstMenuDao(this);
+        /** @type {TblItemDao} アイテムテーブルDao */
+        this.tblItemDao = new TblItemDao(this);
+        /** @type {TblSptCharaDao} 味方キャラテーブルDao */
+        this.tblSptCharaDao = new TblSptCharaDao(this);
 
-        // DaoManagerのセット
-        this.daoManager = new DaoManager();
-        this.daoManager.setDao(C_CLASS.NAME_CHARA_STT_DAO, this.charaSttDao);
-        this.daoManager.setDao(C_CLASS.NAME_MENU_DEF_DAO, this.menuDefDao);
-        this.daoManager.setDao(C_CLASS.NAME_ITEM_DAO, this.itemDao);
-        this.daoManager.setDao(C_CLASS.NAME_ITEM_DEF_DAO, this.itemDefDao);
-
-        /** @type {CharaSttModel} キャラ１のステータス */
-        this.chara1SttModel = this.charaSttDao.getById(C_DB.CHARAID_SPRT1)[0];
-        /** @type {CharaSttModel} キャラ２のステータス */
-        this.chara2SttModel = this.charaSttDao.getById(C_DB.CHARAID_SPRT2)[0];
+        /** @type {TblSptCharaModel} キャラ１のステータス */
+        this.chara1Model = this.tblSptCharaDao.getById(C_DB.T_SPT_CHARA.ID_SPRT1)[0];
+        /** @type {TblSptCharaModel} キャラ２のステータス */
+        this.chara2Model = this.tblSptCharaDao.getById(C_DB.T_SPT_CHARA.ID_SPRT2)[0];
 
         // キャラのステータスなどを表示するかどうかのフラグ
-        this.isDispChara1 = this.chara1SttModel.getCharaName() !== C_DB.CHARANAME_NULL;
-        this.isDispChara2 = this.chara2SttModel.getCharaName() !== C_DB.CHARANAME_NULL;
-
-        /** @type {TextModel} テキストモデル */
-        this.textModel = null;
-
-        /** @type {MenuDefModel[]} キャラステータス項目名メニュー */
-        this.charaSttColList = this.menuDefDao.getMenuById(C_DB.MENU_ID_CHARA_STT);
-
-        /** @type {MenuDefModel[]} 育成メニューリスト */
-        this.menuIkuseiList = this.menuDefDao.getMenuById(C_DB.MENU_ID_IKUSEI_MENU);
-
-        // 初期にアクティブにするウインドウの設定
-        this.windowMenu.isActive = true;
+        this.isDispChara1 = this.chara1Model.name !== C_DB.T_SPT_CHARA.NAME_NULL;
+        this.isDispChara2 = this.chara2Model.name !== C_DB.T_SPT_CHARA.NAME_NULL;
 
     }
 
@@ -201,7 +180,7 @@ class IkuseiScene extends BaseScene {
                 menuColNum: 1,
             }, this);
             this.windowChara1Stt.drawWindow();
-            this.updateCharaStt(C_DB.CHARAID_SPRT1);
+            this.updateCharaStt(C_DB.T_SPT_CHARA.ID_SPRT1);
         }
 
         if (this.isDispChara2) {
@@ -215,7 +194,7 @@ class IkuseiScene extends BaseScene {
                 menuColNum: 1,
             }, this);
             this.windowChara2Stt.drawWindow();
-            this.updateCharaStt(C_DB.CHARAID_SPRT2);
+            this.updateCharaStt(C_DB.T_SPT_CHARA.ID_SPRT2);
         }
 
         // 画面左下のメニューウインドウを描画
@@ -231,7 +210,7 @@ class IkuseiScene extends BaseScene {
         this.windowMenu.drawWindow();
         // 表示コンテンツを設定
         this.dispCttMenu = new DispContent(true, false, true, C_COMMON.WINDOW_CONTENT_TYPE_MENU, this);
-        this.dispCttMenu.addContentList(this.menuIkuseiList);
+        this.dispCttMenu.addContentList(this.mstMenuDao.getByMenuId(C_DB.M_MENU.MENUID_IKUSEISCENE));
         this.windowMenu.setDispContent(this.dispCttMenu);
 
         // 画面右下のテキストウインドウを描画
@@ -249,6 +228,9 @@ class IkuseiScene extends BaseScene {
         this.dispCttTextMain = new DispContent(false, true, false, C_COMMON.WINDOW_CONTENT_TYPE_LINE, this);
         this.dispCttTextMain.addContent("テスト文字列です。");
         this.windowTextMain.setDispContent(this.dispCttTextMain);
+
+        // 初期にアクティブにするウインドウの設定
+        this.windowMenu.isActive = true;
     }
 
     /**

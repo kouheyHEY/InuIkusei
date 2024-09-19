@@ -34,6 +34,8 @@ const C_DB = {
     M_MENU: {
         /** メニューID タイトル */
         MENUID_TITLE: 1,
+        /** メニューID 育成画面 */
+        MENUID_IKUSEISCENE: 2,
 
         /** 項目ID はじめから */
         COLID_START: 1,
@@ -50,20 +52,16 @@ const C_DB = {
     /** 項目名 項目ID */
     COLNAME_COLID: "colId",
 
+    /** 味方キャラテーブル */
+    T_SPT_CHARA: {
+        /** キャラID 仲間1 */
+        ID_SPRT1: 1,
+        /** キャラID 仲間2 */
+        ID_SPRT2: 2,
 
-    /** キャラID 仲間1 */
-    CHARAID_SPRT1: 0,
-    /** キャラID 仲間2 */
-    CHARAID_SPRT2: 1,
-
-    /** キャラタイプ 仲間 */
-    CHARATYPE_SPRT: 1,
-
-    /** キャラ名 未登場 */
-    CHARANAME_NULL: "---",
-
-    /** キャラ装備 なし */
-    EQP_NULL: '-1',
+        /** キャラ名 未登場 */
+        NAME_NULL: "---",
+    },
 
     /** 項目名 テキストテーブル */
     COL_NAME_TEXT: {

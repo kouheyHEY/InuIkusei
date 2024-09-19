@@ -58,9 +58,17 @@ class DispContent {
             /** @type {BaseModel} */
             const obj = dispObj;
 
-            // 表示名と説明をセット
-            this.dispContentObj.dispStr.push(obj.getName());
-            this.dispContentObj.expl.push(obj.getExpl());
+            if (obj instanceof MstMenuModel) {
+                // メニューマスタの場合
+                // 表示名と説明をセット
+                this.dispContentObj.dispStr.push(obj.colName);
+                this.dispContentObj.expl.push(obj.expl);
+            } else {
+                // それ以外の場合
+                // 表示名と説明をセット
+                this.dispContentObj.dispStr.push(obj.name);
+                this.dispContentObj.expl.push(obj.expl);
+            }
         }
     }
 
@@ -69,7 +77,7 @@ class DispContent {
      * @param {object[]} dispObjList 表示対象のオブジェクトのリスト
      */
     addContentList(dispObjList) {
-        if (this.dispObjectList.length != 0) {
+        if (this.dispContentObj.obj.length != 0) {
             // 空でない場合はエラー
             throw new Error('[DispContent.addContentList]既に表示コンテンツが設定済みです。');
         }

@@ -3,7 +3,7 @@
  */
 class TblSptCharaDao extends BaseDao {
     constructor(scene) {
-        super(scene, C_DB.TABLE_NAME.T_SPTCHARA);
+        super(scene, C_DB.TABLE_NAME.T_SPT_CHARA);
     }
 
     /**
