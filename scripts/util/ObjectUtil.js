@@ -5,29 +5,39 @@ class ObjectUtil {
      * @returns コピー後のオブジェクト
      */
     static deepCopy(obj) {
-        if (obj === null || typeof obj !== "object") {
-            // プリミティブ値はそのまま返す
+        // プリミティブ型やnullはそのまま返す
+        if (obj === null || typeof obj !== 'object') {
             return obj;
         }
 
+        // Dateオブジェクトの場合は新しいインスタンスを作成して返す
+        if (obj instanceof Date) {
+            return new Date(obj.getTime());
+        }
+
+        // Arrayの場合は各要素をディープコピー
         if (Array.isArray(obj)) {
-            // 配列の場合、各要素を再帰的にコピー
             return obj.map(item => ObjectUtil.deepCopy(item));
         }
 
-        if (obj.constructor && obj.constructor !== Object) {
-            // 自作クラスのインスタンスの場合、インスタンスを新たに作成
-            return new obj.constructor(...Object.values(obj));
+        // クラスのインスタンスの場合は同じクラスの新しいインスタンスを生成して返す
+        if (obj instanceof Object && obj.constructor !== Object) {
+            const newInstance = new obj.constructor();
+            for (let key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    newInstance[key] = ObjectUtil.deepCopy(obj[key]);
+                }
+            }
+            return newInstance;
         }
 
         // 通常のオブジェクトの場合
-        const copiedObj = {};
+        const copy = {};
         for (let key in obj) {
             if (obj.hasOwnProperty(key)) {
-                copiedObj[key] = ObjectUtil.deepCopy(obj[key]);
+                copy[key] = ObjectUtil.deepCopy(obj[key]);
             }
         }
-
-        return copiedObj;
+        return copy;
     }
 }

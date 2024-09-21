@@ -41,6 +41,11 @@ class IkuseiScene extends BaseScene {
                     // メニューの状態を更新する
                     this.windowMenu.setDispContent(this.dispCttMenu);
                 }
+
+                console.log(this.dispCttMenu.obj);
+                for (let i = 0; i < this.dispCttMenu.dispContentObjHist.length; i++) {
+                    console.log(`HIST[${i}] : ${this.dispCttMenu.dispContentObjHist[i].dispStr}`);
+                }
             }
         }
 

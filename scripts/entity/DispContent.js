@@ -189,6 +189,8 @@ class DispContent {
         // オブジェクトをディープコピーする
         const copyObj = ObjectUtil.deepCopy(this.dispContentObj);
 
+        console.log(copyObj);
+
         // オブジェクトを履歴に保存する
         this.dispContentObjHist.push(copyObj);
 
@@ -204,7 +206,6 @@ class DispContent {
         if (this.dispContentObjHist.length == 0) {
             throw new Error('[DispContent.restoreContent]履歴がありません。');
         }
-
         // 履歴から復元対象を取得し、セット
         Object.assign(this.dispContentObj, this.dispContentObjHist.pop());
     }
