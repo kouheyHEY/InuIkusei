@@ -14,14 +14,16 @@ class IkuseiScene extends BaseScene {
             /* メニュー選択時の処理 */
             if (this.windowMenu.pressedMenu) {
                 // メニューが押された時
+                /** @type {MstMenuModel} */
                 const pressedMenu = this.windowMenu.pressedObj;
 
-                if (pressedMenu.getChildColId() == C_DB.CHILDCOLID_USEITEM ||
-                    pressedMenu.getChildColId() == C_DB.CHILDCOLID_EQPITEM ||
-                    pressedMenu.getChildColId() == C_DB.CHILDCOLID_SPITEM ||
-                    pressedMenu.getChildColId() == C_DB.CHILDCOLID_SPRT
-                ) {
-                    // メインウインドウに詳細の表示を行う場合
+                if (pressedMenu == C_COMMON.WINDOW_MENU_BACK) {
+                    // 戻る押下時
+                    this.dispCttMenu.restoreContent();
+                    // メニューの状態を更新する
+                    this.windowMenu.setDispContent(this.dispCttMenu);
+                } else if (pressedMenu.childMenuId < 0) {
+                    // 次の表示内容がメニューではない場合
                     // フォーカスをメインウインドウに移動
                     this.windowMenu.setActive(false);
                     this.windowTextMain.setActive(true);
@@ -29,7 +31,7 @@ class IkuseiScene extends BaseScene {
                     const childObj = this.dispCttMenu.getChildContent(this.windowMenu.choosedMenuIdx);
                     // メニューの状態を更新する
                     this.dispCttTextMain.initContent();
-                    this.dispCttTextMain.addContentListFromObject(childObj);
+                    this.dispCttTextMain.dispContentObj = childObj;
                     this.windowTextMain.menuColNum = C_IS.WINDOW_TEXT_MAIN_COL_NUM;
                     this.windowTextMain.setDispContent(this.dispCttTextMain);
                 } else {
@@ -78,11 +80,11 @@ class IkuseiScene extends BaseScene {
 
         // メインウインドウの項目がフォーカスされている場合
         if (this.windowTextMain.isFocused) {
-            const dispDetail = this.dispCttTextMain.dispDetailList[this.windowTextMain.choosedMenuIdx];
+            const dispDetail = this.dispCttTextMain.expl[this.windowTextMain.choosedMenuIdx];
             // 説明文を表示する
             this.cursorText = dispDetail.length != 0 ? dispDetail : null;
         } else if (this.windowMenu.isFocused) {
-            const dispDetail = this.dispCttMenu.dispDetailList[this.windowMenu.choosedMenuIdx];
+            const dispDetail = this.dispCttMenu.expl[this.windowMenu.choosedMenuIdx];
             // 説明文を表示する
             this.cursorText = dispDetail.length != 0 ? dispDetail : null;
         } else {
@@ -149,6 +151,10 @@ class IkuseiScene extends BaseScene {
         // 各Daoの取得
         /** @type {MstMenuDao} メニューマスタDao */
         this.mstMenuDao = new MstMenuDao(this);
+        /** @type {MstActionDao} アクションマスタDao */
+        this.mstActionDao = new MstActionDao(this);
+        /** @type {MstFieldDao} フィールドマスタDao */
+        this.mstFieldDao = new MstFieldDao(this);
         /** @type {TblItemDao} アイテムテーブルDao */
         this.tblItemDao = new TblItemDao(this);
         /** @type {TblSptCharaDao} 味方キャラテーブルDao */
@@ -169,6 +175,10 @@ class IkuseiScene extends BaseScene {
      * （テキスト表示などは変動するため、適時別ロジックで表示）
      */
     initArea() {
+
+        // 背景色の設定
+        this.cameras.main.setBackgroundColor(C_COMMON.COMMON_COLOR_WHITE);
+
         if (this.isDispChara1) {
             // キャラ１が存在する場合
             // キャラ１のステータスウインドウを描画

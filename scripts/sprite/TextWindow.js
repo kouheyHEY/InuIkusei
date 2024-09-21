@@ -49,9 +49,6 @@ class TextWindow {
         this.paddingLine = ('paddingLine' in config)
             ? config.paddingLine
             : C_COMMON.WINDOW_PADDING_LINE_SMALL;
-        this.paddingLeft = ('paddingLeft' in config)
-            ? config.paddingLeft
-            : C_COMMON.WINDOW_PADDING_LEFT_SMALL;
 
         // フォントのスタイル
         this.fontStyle = {
@@ -131,13 +128,13 @@ class TextWindow {
             this.choosedMenuIdx = 0;
 
             // 表示する文字列の折り返し処理を行う
-            this.dispObj.dispObjectList[0] = GraphicUtil.wrapText(
-                this.scene, this.dispObj.dispStringList[0], this.fontStyle, this.hSize - this.paddingLine * 2);
+            this.dispObj.obj[0] = GraphicUtil.wrapText(
+                this.scene, this.dispObj.dispStr[0], this.fontStyle, this.hSize - this.paddingLine * 2);
 
             const textObj = this.scene.add.text(
                 this.startX + this.paddingLine,
                 this.startY + this.paddingLine,
-                this.dispObj.dispObjectList[0], this.fontStyle
+                this.dispObj.obj[0], this.fontStyle
             ).setOrigin(0);
 
             // テキストオブジェクトを表示
@@ -147,26 +144,17 @@ class TextWindow {
             // 表示コンテンツがリスト形式の場合
 
             // 選択中メニューの番号の調整
-            this.choosedMenuIdx = Math.min(this.choosedMenuIdx, this.dispObj.contentLength() - 1);
+            this.choosedMenuIdx = Math.min(this.choosedMenuIdx, this.dispObj.getContentLength() - 1);
 
-            let leftPadding = 0;
-            let idx = 0;
+            for (let i = 0; i < this.dispObj.getContentLength(); i++) {
 
-            for (let i = 0; i < this.dispObj.contentLength(); i++) {
-
-                const dispString = this.dispObj.dispStringList[i];
-
-                if (this.dispObj.isMenu) {
-                    // 選択可能なリストの場合
-                    // 表示項目の左側に、カーソルを表示するための余白を設定する
-                    leftPadding = this.paddingLeft;
-                }
+                const dispString = this.dispObj.dispStr[i];
 
                 // テキストオブジェクト座標の計算
                 const textObjX =
-                    this.startX + this.paddingLine + leftPadding + (idx % this.menuColNum) * this.hSize / this.menuColNum;
+                    this.startX + this.paddingLine + (i % this.menuColNum) * this.hSize / this.menuColNum;
                 const textObjY =
-                    this.startY + this.paddingLine + Math.floor(idx / this.menuColNum) * (this.paddingLine + this.fontSize);
+                    this.startY + this.paddingLine + Math.floor(i / this.menuColNum) * (this.paddingLine + this.fontSize);
 
                 const textObj = this.scene.add.text(
                     textObjX, textObjY, dispString, this.fontStyle
@@ -177,8 +165,8 @@ class TextWindow {
 
                     // メニュー項目にプロパティを設定する
                     textObj.menuProperty = {
-                        menuObj: this.dispObj.dispObjectList[i],
-                        menuIdx: idx
+                        menuObj: this.dispObj.obj[i],
+                        menuIdx: i
                     };
 
                     textObj.setInteractive();
@@ -220,20 +208,6 @@ class TextWindow {
 
                 // テキストオブジェクトを表示
                 this.dispTextGroup.add(textObj);
-
-                idx++;
-            }
-
-            if (this.isMenu) {
-                // 選択マークの位置調整
-                const markX = this.startX + this.paddingLine + (this.choosedMenuIdx % this.menuColNum) * this.hSize / this.menuColNum;
-                const markY = this.startY + this.paddingLine + Math.floor(this.choosedMenuIdx / this.menuColNum) * (this.paddingLine + this.fontSize) + this.fontSize / 2;
-
-                // 選択マークを表示する
-                this.dispChoiceMark(
-                    markX, markY,
-                    this.paddingLeft * 2 / 3, this.fontSize * 2 / 3
-                );
             }
         }
 
@@ -269,58 +243,12 @@ class TextWindow {
     }
 
     /**
-     * 指定した位置に右向きの三角形を表示する
-     * @param {number} x 三角形を表示するx座標
-     * @param {number} y 三角形を表示するy座標（文字列の中心線）
-     * @param {number} w 表示する三角形の幅
-     * @param {number} h 表示する三角形の高さ
-     */
-    dispChoiceMark(x, y, w, h) {
-        if (this.choosedMark) {
-            // 既に表示されている場合は、削除する
-            this.choosedMark.destroy();
-        }
-
-        // 新たに三角形を表示する
-        let triangle = this.scene.add.graphics({
-            fillStyle: { color: C_COMMON.COMMON_COLOR_WINDOW_FONT }
-        });
-
-        // 三角形の形を描く
-        triangle.beginPath();
-
-        triangle.moveTo(x, y);
-        triangle.lineTo(x + w, y + h / 2);
-        triangle.lineTo(x, y + h);
-
-        triangle.closePath();
-        triangle.fillPath();
-
-        // 位置の調整
-        triangle.y -= h / 2;
-        this.choosedMark = triangle;
-
-        // ウインドウコンテナに追加
-        this.windowContainer.add(this.choosedMark);
-    }
-
-    /**
      * 指定したメニューを選択状態にする
      * @param {number} menuIdx 選択状態にするメニューの番号
      */
     chooseMenu(menuIdx) {
         // 選択メニュー番号を更新する
         this.choosedMenuIdx = menuIdx;
-
-        // 選択マークの位置の計算
-        const markX = this.startX + this.paddingLine + (this.choosedMenuIdx % this.menuColNum) * this.hSize / this.menuColNum;
-
-        const markY = this.startY + this.paddingLine + Math.floor(this.choosedMenuIdx / this.menuColNum) * (this.paddingLine + this.fontSize) + this.fontSize / 2;
-
-        // 選択マークを更新する
-        this.dispChoiceMark(
-            markX, markY,
-            this.paddingLeft * 2 / 3, this.fontSize * 2 / 3);
     }
 
     /**

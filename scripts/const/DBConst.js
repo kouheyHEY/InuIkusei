@@ -37,6 +37,26 @@ const C_DB = {
         /** メニューID 育成画面 */
         MENUID_IKUSEISCENE: 2,
 
+        /** 子メニューID 行き先 */
+        CHILDMENUID_FIELD: -1,
+        /** 子メニューID 鍛練メニュー */
+        CHILDMENUID_TRAINING: -2,
+        /** 子メニューID 生活メニュー */
+        CHILDMENUID_LIFE: -3,
+        /** 子メニューID 消費アイテム */
+        CHILDMENUID_USEITEM: -4,
+        /** 子メニューID 装備アイテム */
+        CHILDMENUID_EQPITEM: -5,
+        /** 子メニューID 特別アイテム */
+        CHILDMENUID_SPITEM: -6,
+        /** 子メニューID バトル行動メニュー */
+        CHILDMENUID_BATTLEACTION: -7,
+        /** 子メニューID 所持アイテム */
+        CHILDMENUID_BAGITEM: -8,
+        /** 子メニューID 敵キャラ */
+        CHILDMENUID_ENEMY: -9,
+
+
         /** 項目ID はじめから */
         COLID_START: 1,
         /** 項目ID つづきから */
@@ -74,15 +94,6 @@ const C_DB = {
         /** 次テキストID */
         NEXTTEXTID: "nextTextId",
     },
-
-    /** 所持消費アイテム一覧の子メニューID */
-    CHILDMENUID_USEITEM: '-1',
-    /** 所持装備アイテム一覧の子メニューID */
-    CHILDMENUID_EQPITEM: '-2',
-    /** 所持特別アイテム一覧の子メニューID */
-    CHILDMENUID_SPITEM: '-3',
-    /** 味方キャラ一覧の子項目ID */
-    CHILDMENUID_SPRT: '-4',
 
     /** メニューID タイトル */
     MENU_ID_TITLE: 0,
@@ -181,10 +192,13 @@ const C_DB = {
         EQPCHARAID: "eqpCharaId",
     },
 
-    /** 所持消費アイテムのタイプ */
-    ITEMTYPE_USEITEM: '1',
-    /** 所持装備アイテムのタイプ */
-    ITEMTYPE_EQPITEM: '2',
-    /** 所持特別アイテムのタイプ */
-    ITEMTYPE_SPITEM: '3',
+    /** アイテムテーブル */
+    T_ITEM: {
+        /** 所持消費アイテムのタイプ */
+        TYPE_USEITEM: '1',
+        /** 所持装備アイテムのタイプ */
+        TYPE_EQPITEM: '2',
+        /** 所持特別アイテムのタイプ */
+        TYPE_SPITEM: '3',
+    },
 }

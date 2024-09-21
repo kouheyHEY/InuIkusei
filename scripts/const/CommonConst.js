@@ -90,6 +90,14 @@ const C_COMMON = {
     WINDOW_CONTENT_TYPE_CHARA: 4,
     /** ウインドウ 表示コンテンツ種類 テキストリスト */
     WINDOW_CONTENT_TYPE_TEXTLIST: 5,
+    /** ウインドウ 表示コンテンツ種類 フィールドリスト */
+    WINDOW_CONTENT_TYPE_FIELD: 6,
+    /** ウインドウ 表示コンテンツ種類 鍛練メニューリスト */
+    WINDOW_CONTENT_TYPE_TRAINING: 7,
+    /** ウインドウ 表示コンテンツ種類 生活メニューリスト */
+    WINDOW_CONTENT_TYPE_LIFE: 8,
+    /** ウインドウ 表示コンテンツ種類 バトル行動リスト */
+    WINDOW_CONTENT_TYPE_BATTLEACTION: 9,
 
     /** メニュー選択肢 戻る */
     WINDOW_MENU_BACK: "戻る",
