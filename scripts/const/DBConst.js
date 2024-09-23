@@ -72,6 +72,16 @@ const C_DB = {
     /** 項目名 項目ID */
     COLNAME_COLID: "colId",
 
+    /** アクションマスタ */
+    M_ACTION: {
+        /** 鍛練アクション */
+        TYPE_TRAINING: 1,
+        /** 生活アクション */
+        TYPE_LIFE: 2,
+        /** 戦闘アクション */
+        TYPE_BATTLEACT: 3,
+    },
+
     /** 味方キャラテーブル */
     T_SPT_CHARA: {
         /** キャラID 仲間1 */

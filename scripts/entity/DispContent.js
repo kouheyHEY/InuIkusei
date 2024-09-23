@@ -267,20 +267,20 @@ class DispContent {
                 objType = C_COMMON.WINDOW_CONTENT_TYPE_ITEM;
             } else if (choosedCtt.childMenuId == C_DB.M_MENU.CHILDMENUID_FIELD) {
                 // フィールドの場合
-                // objList = this.scene.tblItemDao.getByType(C_DB.T_ITEM.TYPE_SPITEM);
-                // objType = C_COMMON.WINDOW_CONTENT_TYPE_FIELD;
+                objList = this.scene.mstFieldDao.getAll();
+                objType = C_COMMON.WINDOW_CONTENT_TYPE_FIELD;
             } else if (choosedCtt.childMenuId == C_DB.M_MENU.CHILDMENUID_TRAINING) {
                 // 鍛練メニューの場合
-                // objList = this.scene.tblItemDao.getByType(C_DB.T_ITEM.TYPE_SPITEM);
-                // objType = C_COMMON.WINDOW_CONTENT_TYPE_FIELD;
+                objList = this.scene.mstActionDao.getByType(C_DB.M_ACTION.TYPE_TRAINING);
+                objType = C_COMMON.WINDOW_CONTENT_TYPE_TRAINING;
             } else if (choosedCtt.childMenuId == C_DB.M_MENU.CHILDMENUID_LIFE) {
                 // 生活メニューの場合
-                // objList = this.scene.tblItemDao.getByType(C_DB.T_ITEM.TYPE_SPITEM);
-                // objType = C_COMMON.WINDOW_CONTENT_TYPE_FIELD;
+                objList = this.scene.mstActionDao.getByType(C_DB.M_ACTION.TYPE_LIFE);
+                objType = C_COMMON.WINDOW_CONTENT_TYPE_LIFE;
             } else if (choosedCtt.childMenuId == C_DB.M_MENU.CHILDMENUID_BATTLEACTION) {
                 // バトル行動の場合
-                // objList = this.scene.tblItemDao.getByType(C_DB.T_ITEM.TYPE_SPITEM);
-                // objType = C_COMMON.WINDOW_CONTENT_TYPE_FIELD;
+                objList = this.scene.mstActionDao.getByType(C_DB.M_ACTION.TYPE_BATTLEACT);
+                objType = C_COMMON.WINDOW_CONTENT_TYPE_BATTLEACTION;
             } else {
                 // メニューの場合
                 objList = this.scene.mstMenuDao.getByMenuId(choosedCtt.childMenuId);

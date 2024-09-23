@@ -106,14 +106,12 @@ const C_COMMON = {
     /** 子メニュー無（戻る押下時以外） */
     CHILDMENU_NULL_NEXT: 1,
 
-    /** カーソルウインドウ マウスとの相対的なx座標 */
-    WINDOW_CURSOR_X: 24,
-    /** カーソルウインドウ y座標 */
-    WINDOW_CURSOR_Y: -96,
     /** カーソルウインドウ 幅 */
-    WINDOW_CURSOR_W: 256,
+    WINDOW_CURSOR_W: 320,
     /** カーソルウインドウ 高さ */
     WINDOW_CURSOR_H: 72,
+    /** カーソルウインドウ 角とマウスの距離 */
+    WINDOW_CURSOR_CORNER_POS: 24,
 
     /** エラーメッセージ 実装されていない */
     MSG_ERR_NOIMPL: "実装されていません。",

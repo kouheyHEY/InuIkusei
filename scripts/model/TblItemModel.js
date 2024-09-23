@@ -16,6 +16,8 @@ class TblItemModel extends BaseModel {
         this._efctVals = null;
         /** @type {string} 装備キャラid */
         this._eqpCharaId = null;
+        /** @type {string} 説明 */
+        this._expl = null;
     }
 
     // getterとsetterの実装
@@ -68,6 +70,14 @@ class TblItemModel extends BaseModel {
         this._eqpCharaId = value;
     }
 
+    get expl() {
+        return this._expl;
+    }
+
+    set expl(value) {
+        this._expl = value;
+    }
+
     /** 
      * プロパティをオブジェクトからセットする
      * @param {Object} obj 
@@ -79,6 +89,7 @@ class TblItemModel extends BaseModel {
         if (obj.trgtCols !== undefined) this.trgtCols = obj.trgtCols;
         if (obj.efctVals !== undefined) this.efctVals = obj.efctVals;
         if (obj.eqpCharaId !== undefined) this.eqpCharaId = obj.eqpCharaId;
+        if (obj.expl !== undefined) this.expl = obj.expl;
     }
 
     /**
@@ -92,7 +103,8 @@ class TblItemModel extends BaseModel {
             type: this.type,
             trgtCols: this.trgtCols,
             efctVals: this.efctVals,
-            eqpCharaId: this.eqpCharaId
+            eqpCharaId: this.eqpCharaId,
+            expl: this.expl
         };
     }
 
@@ -101,6 +113,6 @@ class TblItemModel extends BaseModel {
      * @returns {string[]} 物理名配列
      */
     getPropNames() {
-        return ['id', 'name', 'type', 'trgtCols', 'efctVals', 'eqpCharaId'];
+        return ['id', 'name', 'type', 'trgtCols', 'efctVals', 'eqpCharaId', 'expl'];
     }
 }

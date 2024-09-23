@@ -87,11 +87,11 @@ class IkuseiScene extends BaseScene {
         if (this.windowTextMain.isFocused) {
             const dispDetail = this.dispCttTextMain.expl[this.windowTextMain.choosedMenuIdx];
             // 説明文を表示する
-            this.cursorText = dispDetail.length != 0 ? dispDetail : null;
+            this.cursorText = dispDetail != "" ? dispDetail : null;
         } else if (this.windowMenu.isFocused) {
             const dispDetail = this.dispCttMenu.expl[this.windowMenu.choosedMenuIdx];
             // 説明文を表示する
-            this.cursorText = dispDetail.length != 0 ? dispDetail : null;
+            this.cursorText = dispDetail != "" ? dispDetail : null;
         } else {
             this.cursorText = null;
         }
@@ -101,10 +101,20 @@ class IkuseiScene extends BaseScene {
             // カーソルウインドウのテキストがセットされている場合
             if (this.windowCursor == null) {
                 // カーソルウインドウが作成されていない場合
+                // 位置の調整
+                const winX = this.input.activePointer.x < C_COMMON.D_WIDTH / 2
+                    ? C_COMMON.WINDOW_CURSOR_CORNER_POS
+                    : -C_COMMON.WINDOW_CURSOR_W - C_COMMON.WINDOW_CURSOR_CORNER_POS;
+
+                const winY = this.input.activePointer.y < C_COMMON.D_HEIGHT / 2
+                    ? C_COMMON.WINDOW_CURSOR_CORNER_POS
+                    : -C_COMMON.WINDOW_CURSOR_H - C_COMMON.WINDOW_CURSOR_CORNER_POS;
+
+
                 // カーソルウインドウを作成
                 this.windowCursor = new TextWindow({
-                    startX: C_COMMON.WINDOW_CURSOR_X,
-                    startY: C_COMMON.WINDOW_CURSOR_Y,
+                    startX: winX,
+                    startY: winY,
                     hSize: C_COMMON.WINDOW_CURSOR_W,
                     vSize: C_COMMON.WINDOW_CURSOR_H,
                     paddingLine: C_COMMON.WINDOW_PADDING_LEFT_SMALL_2,
