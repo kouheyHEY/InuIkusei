@@ -96,47 +96,10 @@ class IkuseiScene extends BaseScene {
             this.cursorText = null;
         }
 
-        /* 各項目フォーカス時のカーソルウインドウの表示 */
-        if (this.cursorText != null) {
-            // カーソルウインドウのテキストがセットされている場合
-            if (this.windowCursor == null) {
-                // カーソルウインドウが作成されていない場合
-                // 位置の調整
-                const winX = this.input.activePointer.x < C_COMMON.D_WIDTH / 2
-                    ? C_COMMON.WINDOW_CURSOR_CORNER_POS
-                    : -C_COMMON.WINDOW_CURSOR_W - C_COMMON.WINDOW_CURSOR_CORNER_POS;
-
-                const winY = this.input.activePointer.y < C_COMMON.D_HEIGHT / 2
-                    ? C_COMMON.WINDOW_CURSOR_CORNER_POS
-                    : -C_COMMON.WINDOW_CURSOR_H - C_COMMON.WINDOW_CURSOR_CORNER_POS;
-
-
-                // カーソルウインドウを作成
-                this.windowCursor = new TextWindow({
-                    startX: winX,
-                    startY: winY,
-                    hSize: C_COMMON.WINDOW_CURSOR_W,
-                    vSize: C_COMMON.WINDOW_CURSOR_H,
-                    paddingLine: C_COMMON.WINDOW_PADDING_LEFT_SMALL_2,
-                }, this);
-                this.windowCursor.drawWindow();
-
-                // カーソルウインドウに内容を表示
-                const cursorDispCtt = new DispContent(false, true, false, C_COMMON.WINDOW_CONTENT_TYPE_LINE, this);
-                cursorDispCtt.addContent(this.cursorText);
-                this.windowCursor.setDispContent(cursorDispCtt);
-            }
-            // ウインドウの位置を調整
-            this.windowCursor.setWindowPosition(this.input.activePointer.x, this.input.activePointer.y);
-        } else {
-            // カーソルウインドウのテキストがセットされていない場合
-            if (this.windowCursor != null) {
-                // カーソルウインドウが作成されている場合
-                // カーソルウインドウを削除
-                this.windowCursor.destroy();
-                this.windowCursor = null;
-            }
-        }
+        // カーソルウインドウに内容を表示
+        this.windowCursor.setText(this.cursorText);
+        // カーソルウインドウの位置調整
+        this.windowCursor.updatePos();
     }
 
     /**
@@ -155,8 +118,6 @@ class IkuseiScene extends BaseScene {
         this.windowMenu = null;
         /** @type {TextWindow} 画面右下のテキストウインドウ */
         this.windowTextMain = null;
-        /** @type {TextWindow} マウスに追従するカーソルウインドウ */
-        this.windowCursor = null;
 
         /** @type {DispContent} メニューウインドウ表示コンテンツ */
         this.dispCttMenu = null;
@@ -256,6 +217,10 @@ class IkuseiScene extends BaseScene {
 
         // 初期にアクティブにするウインドウの設定
         this.windowMenu.isActive = true;
+
+        // カーソルウインドウを作成
+        /** @type {CursorWindow} */
+        this.windowCursor = new CursorWindow(this);
     }
 
     /**
@@ -263,51 +228,24 @@ class IkuseiScene extends BaseScene {
      * @param {number} charaIdx 更新対象のキャラの番号(0, 1)
      */
     updateCharaStt(charaIdx) {
+        /** @type {TextWindow} */
         let window = null;
-        let charaSttList = null;
+        let charaModel;
 
-        if (charaIdx === C_DB.CHARAID_SPRT1) {
+        if (charaIdx === C_DB.T_SPT_CHARA.ID_SPRT1) {
             // キャラ１の場合
             window = this.windowChara1Stt;
-            charaSttList = this.chara1SttModel.getDispValList();
-        } else if (charaIdx === C_DB.CHARAID_SPRT2) {
+            charaModel = this.chara1Model;
+        } else if (charaIdx === C_DB.T_SPT_CHARA.ID_SPRT2) {
             // キャラ２の場合
             window = this.windowChara2Stt;
-            charaSttList = this.chara2SttModel.getDispValList();
+            charaModel = this.chara2Model;
         }
 
-        if (window != null && charaSttList != null) {
-
-            let sttTextList = [];
-
-            for (let i = 0; i < this.charaSttColList.length; i++) {
-                // 表示するステータス項目の値
-                let sttVal = null;
-                // 装備を表示する場合
-                if (this.charaSttColList[i].getMenuColId() == C_DB.COL_ID_EQP1 || this.charaSttColList[i].getMenuColId() == C_DB.COL_ID_EQP2) {
-
-                    // 装備品をアイテム定義から取得する
-                    let eqpItem = this.itemDao.getById(charaSttList[i]);
-                    sttVal = eqpItem.length != 0 ? eqpItem[0].getItemName() : 'なし';
-                } else {
-                    sttVal = charaSttList[i];
-                }
-
-                // 項目名と値をウインドウの両端に配置する
-                sttTextList.push(GraphicUtil.adjust2StrBothEnd(
-                    this, this.charaSttColList[i].getMenuColName(), sttVal,
-                    this.windowChara1Stt.hSize - C_COMMON.WINDOW_PADDING_LINE_SMALL * 2,
-                    {
-                        fontSize: C_COMMON.FONT_SIZE_SMALL_2,
-                        fill: C_COMMON.COMMON_COLOR_WINDOW_FONT,
-                        fontFamily: C_COMMON.FONT_FAMILY_BIT12
-                    }
-                ));
-            }
-
+        if (window != null && charaModel != null) {
             // ウインドウに表示コンテンツをセット
-            const dispCtt = new DispContent(true, false, false, C_COMMON.WINDOW_CONTENT_TYPE_TEXTLIST, this.scene);
-            dispCtt.addContentList(sttTextList);
+            const dispCtt = new DispContent(true, false, false, C_COMMON.WINDOW_CONTENT_TYPE_TEXTLIST, this);
+            dispCtt.addContentList(TblSptCharaService.getIkuseiDispProps(charaModel, window.hSize, this));
             window.setDispContent(dispCtt);
         }
     }

@@ -272,14 +272,4 @@ class TextWindow {
         // テキストグループの削除
         this.dispTextGroup.clear(true, true);
     }
-
-    /**
-     * ウインドウの座標を変更する
-     * @param {number} posX ウインドウのx座標
-     * @param {number} posY ウインドウのy座標
-     */
-    setWindowPosition(posX, posY) {
-        this.windowContainer.x = posX;
-        this.windowContainer.y = posY;
-    }
 }

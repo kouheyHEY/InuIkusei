@@ -93,6 +93,15 @@ const C_DB = {
         NAME_NULL: "---",
     },
 
+
+
+
+
+
+
+
+
+
     /** 項目名 テキストテーブル */
     COL_NAME_TEXT: {
         /** テキストID */
