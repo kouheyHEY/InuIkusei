@@ -80,6 +80,9 @@ const C_COMMON = {
     /** キー定数 スペースキー */
     KEY_SPACE: "SPACE",
 
+    /** 記号 パイプ */
+    SIGN_PIPE: "|",
+
     /** ウインドウ 表示コンテンツ種類 文章 */
     WINDOW_CONTENT_TYPE_LINE: 1,
     /** ウインドウ 表示コンテンツ種類 メニューリスト */

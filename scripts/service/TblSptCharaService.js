@@ -22,7 +22,8 @@ class TblSptCharaService extends BaseService {
             ['やる気', `${model.yp}/${model.maxYp}`],
             ['攻撃', model.atk],
             ['防御', model.def],
-            ['運', model.luk]
+            ['運', model.luk],
+
         ];
 
         return dispPropList.map(prop =>
