@@ -17,7 +17,16 @@ class EffectUtils {
 
         // 適用が不可能な場合は処理を終了する
 
+        if (effectColList.length != effectValList.length) {
+            throw new Error([EffectUtils.applyItemEffect]アイテムの効果項目と効果量の長さが違います);
+        }
         // ターゲットに効果を適用する
+        for (let i = 0; i < effectColList.length; i++) {
+            // 効果反映後のパラメータ
+            const effectAfterVal = target[effectColList[i]] + effectValList[i];
+            // パラメータを更新
+            target[effectColList[i]] = effectAfterVal;
+        }
 
         // アイテムを使用済みにする
     }
