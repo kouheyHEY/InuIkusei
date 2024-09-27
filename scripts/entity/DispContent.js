@@ -177,7 +177,6 @@ class DispContent {
                 }
             }
         }
-
         return contentObj;
     }
 
@@ -188,12 +187,8 @@ class DispContent {
     archiveContent(isReset) {
         // オブジェクトをディープコピーする
         const copyObj = ObjectUtil.deepCopy(this.dispContentObj);
-
-        console.log(copyObj);
-
         // オブジェクトを履歴に保存する
         this.dispContentObjHist.push(copyObj);
-
         if (isReset) {
             // 現在の値をリセットする
             this.initContent();
@@ -292,8 +287,12 @@ class DispContent {
             // 子メニューを設定
             childObj = this.createContentObj(objType, objList, true, false, true);
 
-        } else if (type == C_COMMON.WINDOW_CONTENT_TYPE_ITEM) {
-            // 現在の表示がアイテムリストの場合
+        } else if (
+            type == C_COMMON.WINDOW_CONTENT_TYPE_ITEM ||
+            type == C_COMMON.WINDOW_CONTENT_TYPE_TRAINING ||
+            type == C_COMMON.WINDOW_CONTENT_TYPE_LIFE
+        ) {
+            // 現在の表示がアイテムリスト、鍛練メニュー、生活メニューの場合
             // 子メニューのタイプをキャラリストに設定
             const charaList = this.scene.tblSptCharaDao.getAll();
             // 「戻る」を追加

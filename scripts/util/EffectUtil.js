@@ -27,8 +27,6 @@ class EffectUtils {
             // パラメータを更新
             target[effectColList[i]] = effectAfterVal;
         }
-
-        // アイテムを使用済みにする
     }
 
     /**

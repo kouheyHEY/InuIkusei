@@ -41,11 +41,6 @@ class IkuseiScene extends BaseScene {
                     // メニューの状態を更新する
                     this.windowMenu.setDispContent(this.dispCttMenu);
                 }
-
-                console.log(this.dispCttMenu.obj);
-                for (let i = 0; i < this.dispCttMenu.dispContentObjHist.length; i++) {
-                    console.log(`HIST[${i}] : ${this.dispCttMenu.dispContentObjHist[i].dispStr}`);
-                }
             }
         }
 
@@ -54,6 +49,7 @@ class IkuseiScene extends BaseScene {
             if (this.windowTextMain.pressedMenu) {
                 // メニューが押された時
                 // 子メニューを取得する
+                /** @type {DispContentObj} */
                 const childObj = this.dispCttTextMain.getChildContent(this.windowTextMain.choosedMenuIdx);
 
                 if (this.windowTextMain.pressedObj == C_COMMON.WINDOW_MENU_BACK) {
@@ -72,12 +68,13 @@ class IkuseiScene extends BaseScene {
                 } else if (childObj == C_COMMON.CHILDMENU_NULL_NEXT) {
                     // 「戻る」以外押下かつ次表示要素がない場合
                     // TODO: キャラに効果を適用
-                    // 
+                    // 履歴から使用アイテムと対象キャラを取得
+                    EffectUtils.applyItemEffect();
                 } else {
                     // それ以外の場合
-                    // 子メニューを表示内容にセット
-                    this.dispCttTextMain.archiveContent();
-                    this.dispCttTextMain.addContentListFromObject(childObj);
+                    // 子メニューを取得し、そのまま表示コンテンツとして設定
+                    this.dispCttTextMain.setChildContent(this.windowTextMain.choosedMenuIdx);
+                    // メニューの状態を更新する
                     this.windowTextMain.setDispContent(this.dispCttTextMain);
                 }
             }
