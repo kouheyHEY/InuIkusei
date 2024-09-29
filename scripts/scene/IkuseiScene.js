@@ -68,8 +68,27 @@ class IkuseiScene extends BaseScene {
                 } else if (childObj == C_COMMON.CHILDMENU_NULL_NEXT) {
                     // 「戻る」以外押下かつ次表示要素がない場合
                     // TODO: キャラに効果を適用
-                    // 履歴から使用アイテムと対象キャラを取得
-                    EffectUtils.applyItemEffect();
+                    const effectModel = this.dispCttTextMain.getEffectObj();
+                    const targetModel = this.windowTextMain.pressedObj;
+
+                    console.log(effectModel);
+
+                    if (effectModel instanceof TblItemModel) {
+                        // アイテムの場合
+                        EffectUtils.applyItemEffect(effectModel, targetModel);
+                        console.log("Apply Item Effect");
+                    } else if (effectModel instanceof MstActionModel) {
+                        // アクションの場合
+                        EffectUtils.applyActionEffect(effectModel, targetModel);
+                        console.log("Apply Action Effect");
+                    }
+
+                    // ひとつ前の選択肢に戻す
+                    this.dispCttTextMain.restoreContent();
+                    this.windowTextMain.setDispContent(this.dispCttTextMain);
+
+                    console.log("applied Effect");
+
                 } else {
                     // それ以外の場合
                     // 子メニューを取得し、そのまま表示コンテンツとして設定

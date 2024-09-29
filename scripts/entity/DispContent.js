@@ -7,6 +7,7 @@ class DispContent {
      * @property {object[] | null} obj - 表示内容
      * @property {number} dispObjType - 表示内容のタイプ
      * @property {string[]} dispStr - 表示する文字列
+     * @property {number} choosedIdx - 選択した内容のインデックス
      * @property {boolean} isList - リスト形式の表示かどうか
      * @property {boolean} isLine - 1行形式の表示かどうか
      * @property {boolean} isMenu - メニュー形式の表示かどうか
@@ -31,6 +32,7 @@ class DispContent {
             obj: [],
             dispObjType: type,
             dispStr: [],
+            choosedIdx: 0,
             isList: isList,
             isLine: isLine,
             isMenu: isMenu,
@@ -182,9 +184,12 @@ class DispContent {
 
     /** 
      * 表示内容を履歴に保存する
+     * @param {number} index 選択した要素
      * @param {boolean} isReset 履歴を保存後、現在の表示を削除するかどうか
      */
-    archiveContent(isReset) {
+    archiveContent(index, isReset) {
+        // 選択した要素を保存する
+        this.dispContentObj.choosedIdx = index;
         // オブジェクトをディープコピーする
         const copyObj = ObjectUtil.deepCopy(this.dispContentObj);
         // オブジェクトを履歴に保存する
@@ -232,9 +237,13 @@ class DispContent {
                 childObj = ObjectUtil.deepCopy(this.dispContentObjHist[idx]);
             }
             return childObj;
-        }
 
-        if (type == C_COMMON.WINDOW_CONTENT_TYPE_LINE) {
+        } else if (type == C_COMMON.WINDOW_CONTENT_TYPE_CHARA) {
+            // 現在の表示がキャラリストの場合、1を返す
+            childObj = C_COMMON.CHILDMENU_NULL_NEXT;
+            return childObj;
+
+        } else if (type == C_COMMON.WINDOW_CONTENT_TYPE_LINE) {
             // 文章だった場合はエラー
             throw new Error(
                 '[DispContent.getChildContent]文章コンテンツの子メニューは取得できません。');
@@ -242,68 +251,13 @@ class DispContent {
             // 現在の表示がテキストリスト形式の場合、エラー
             throw new Error(
                 '[DispContent.getChildContent]テキストリストは子メニューを取得できません。');
-        } else if (type == C_COMMON.WINDOW_CONTENT_TYPE_MENU) {
-            // 現在の表示がメニューリストの場合
-
-            let objList = null;
-            let objType = null;
-
-            if (choosedCtt.childMenuId == C_DB.M_MENU.CHILDMENUID_USEITEM) {
-                // 消費アイテムの場合
-                objList = this.scene.tblItemDao.getByType(C_DB.T_ITEM.TYPE_USEITEM);
-                objType = C_COMMON.WINDOW_CONTENT_TYPE_ITEM;
-            } else if (choosedCtt.childMenuId == C_DB.M_MENU.CHILDMENUID_EQPITEM) {
-                // 装備アイテムの場合
-                objList = this.scene.tblItemDao.getByType(C_DB.T_ITEM.TYPE_EQPITEM);
-                objType = C_COMMON.WINDOW_CONTENT_TYPE_ITEM;
-            } else if (choosedCtt.childMenuId == C_DB.M_MENU.CHILDMENUID_SPITEM) {
-                // 装備アイテムの場合
-                objList = this.scene.tblItemDao.getByType(C_DB.T_ITEM.TYPE_SPITEM);
-                objType = C_COMMON.WINDOW_CONTENT_TYPE_ITEM;
-            } else if (choosedCtt.childMenuId == C_DB.M_MENU.CHILDMENUID_FIELD) {
-                // フィールドの場合
-                objList = this.scene.mstFieldDao.getAll();
-                objType = C_COMMON.WINDOW_CONTENT_TYPE_FIELD;
-            } else if (choosedCtt.childMenuId == C_DB.M_MENU.CHILDMENUID_TRAINING) {
-                // 鍛練メニューの場合
-                objList = this.scene.mstActionDao.getByType(C_DB.M_ACTION.TYPE_TRAINING);
-                objType = C_COMMON.WINDOW_CONTENT_TYPE_TRAINING;
-            } else if (choosedCtt.childMenuId == C_DB.M_MENU.CHILDMENUID_LIFE) {
-                // 生活メニューの場合
-                objList = this.scene.mstActionDao.getByType(C_DB.M_ACTION.TYPE_LIFE);
-                objType = C_COMMON.WINDOW_CONTENT_TYPE_LIFE;
-            } else if (choosedCtt.childMenuId == C_DB.M_MENU.CHILDMENUID_BATTLEACTION) {
-                // バトル行動の場合
-                objList = this.scene.mstActionDao.getByType(C_DB.M_ACTION.TYPE_BATTLEACT);
-                objType = C_COMMON.WINDOW_CONTENT_TYPE_BATTLEACTION;
-            } else {
-                // メニューの場合
-                objList = this.scene.mstMenuDao.getByMenuId(choosedCtt.childMenuId);
-                objType = C_COMMON.WINDOW_CONTENT_TYPE_MENU;
-            }
-
-            // 「戻る」を追加
-            objList.push(C_COMMON.WINDOW_MENU_BACK);
-            // 子メニューを設定
-            childObj = this.createContentObj(objType, objList, true, false, true);
-
-        } else if (
-            type == C_COMMON.WINDOW_CONTENT_TYPE_ITEM ||
-            type == C_COMMON.WINDOW_CONTENT_TYPE_TRAINING ||
-            type == C_COMMON.WINDOW_CONTENT_TYPE_LIFE
-        ) {
-            // 現在の表示がアイテムリスト、鍛練メニュー、生活メニューの場合
-            // 子メニューのタイプをキャラリストに設定
-            const charaList = this.scene.tblSptCharaDao.getAll();
-            // 「戻る」を追加
-            charaList.push(C_COMMON.WINDOW_MENU_BACK);
-            // 子メニューを設定
-            childObj = this.createContentObj(C_COMMON.WINDOW_CONTENT_TYPE_CHARA, charaList, true, false, true);
-
-        } else if (type == C_COMMON.WINDOW_CONTENT_TYPE_CHARA) {
-            // 現在の表示がキャラリストの場合、1を返す
-            childObj = C_COMMON.CHILDMENU_NULL_NEXT;
         }
+
+        const childObjBase = DataIOUtil.getChildCtt(
+            { obj: choosedCtt, type: type }, this.scene, true
+        );
+
+        childObj = this.createContentObj(childObjBase.type, childObjBase.obj, true, false, true);
 
         return childObj;
     }
@@ -314,7 +268,7 @@ class DispContent {
      */
     setChildContent(idx) {
         // 履歴を保存する
-        this.archiveContent(false);
+        this.archiveContent(idx, false);
         /** @type {DispContentObj} */
         this.dispContentObj = ObjectUtil.deepCopy(this.getChildContent(idx));
     }
@@ -338,5 +292,19 @@ class DispContent {
      */
     getContentLength() {
         return this.dispContentObj.obj.length;
+    }
+
+    /**
+     * 履歴から、効果反映対象を示すオブジェクトを取得する
+     * @returns {BaseModel} 効果を反映するオブジェクト（アイテム、アクション）
+     */
+    getEffectObj() {
+        // 履歴がない場合はエラー
+        if (this.dispContentObjHist.length == 0) {
+            throw new Error('[DispContent.getEffectObj]履歴がありません。');
+        }
+        // 履歴から効果反映対象を取得
+        const lastHist = this.dispContentObjHist[this.dispContentObjHist.length - 1];
+        return lastHist.obj[lastHist.choosedIdx];
     }
 }

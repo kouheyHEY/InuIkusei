@@ -66,8 +66,10 @@ class TextWindow {
         this.pressedMenu = false;
 
         // 表示内容
+        /** @type {DispContent} */
         this.dispContent = null;
         this.dispType = null;
+        /** @type {BaseModel} */
         this.pressedObj = null;
         this.isFocused = false;
 
