@@ -37,6 +37,8 @@ const C_DB = {
         /** メニューID 育成画面 */
         MENUID_IKUSEISCENE: 2,
 
+        /** 子メニューID 出発 */
+        CHILDMENUID_TOBATTLE: 0,
         /** 子メニューID 行き先 */
         CHILDMENUID_FIELD: -1,
         /** 子メニューID 鍛練メニュー */

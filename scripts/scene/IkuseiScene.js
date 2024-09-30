@@ -34,6 +34,13 @@ class IkuseiScene extends BaseScene {
                     this.dispCttTextMain.dispContentObj = childObj;
                     this.windowTextMain.menuColNum = C_IS.WINDOW_TEXT_MAIN_COL_NUM;
                     this.windowTextMain.setDispContent(this.dispCttTextMain);
+                } else if (pressedMenu.childMenuId == C_DB.M_MENU.CHILDMENUID_TOBATTLE
+                ) {
+                    // 「出発」押下時
+
+                    // パラメータを渡し、バトルシーンに遷移
+                    this.scene.start(C_COMMON.SCENE_BATTLESCENE);
+
                 } else {
                     // 子メニューの表示を行う場合
                     // 子メニューを取得し、そのまま表示コンテンツとして設定
