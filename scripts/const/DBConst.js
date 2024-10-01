@@ -36,6 +36,8 @@ const C_DB = {
         MENUID_TITLE: 1,
         /** メニューID 育成画面 */
         MENUID_IKUSEISCENE: 2,
+        /** メニューID バトル画面 */
+        MENUID_BATTLESCENE: 7,
 
         /** 子メニューID 出発 */
         CHILDMENUID_TOBATTLE: 0,
@@ -57,7 +59,6 @@ const C_DB = {
         CHILDMENUID_BAGITEM: -8,
         /** 子メニューID 敵キャラ */
         CHILDMENUID_ENEMY: -9,
-
 
         /** 項目ID はじめから */
         COLID_START: 1,
