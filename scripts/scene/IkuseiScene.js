@@ -43,14 +43,12 @@ class IkuseiScene extends BaseScene {
         /** @type {TblSptCharaDao} 味方キャラテーブルDao */
         this.tblSptCharaDao = new TblSptCharaDao(this);
 
-        /** @type {TblSptCharaModel} キャラ１のステータス */
-        this.chara1Model = this.tblSptCharaDao.getById(C_DB.T_SPT_CHARA.ID_SPRT1)[0];
-        /** @type {TblSptCharaModel} キャラ２のステータス */
-        this.chara2Model = this.tblSptCharaDao.getById(C_DB.T_SPT_CHARA.ID_SPRT2)[0];
+        /** @type {CharaManager} キャラマネージャ */
+        this.charaManager = new CharaManager(this);
 
         // キャラのステータスなどを表示するかどうかのフラグ
-        this.isDispChara1 = this.chara1Model.name !== C_DB.T_SPT_CHARA.NAME_NULL;
-        this.isDispChara2 = this.chara2Model.name !== C_DB.T_SPT_CHARA.NAME_NULL;
+        this.isDispChara1 = this.charaManager.isCharaExist(C_DB.T_SPT_CHARA.ID_SPRT1);
+        this.isDispChara2 = this.charaManager.isCharaExist(C_DB.T_SPT_CHARA.ID_SPRT2);
 
         /** @type {FooterManager} フッターマネージャ */
         this.footerManager = null;
@@ -107,13 +105,11 @@ class IkuseiScene extends BaseScene {
         let charaModel;
 
         if (charaIdx === C_DB.T_SPT_CHARA.ID_SPRT1) {
-            // キャラ１の場合
             window = this.windowChara1Stt;
-            charaModel = this.chara1Model;
+            charaModel = this.charaManager.getCharaModel(C_DB.T_SPT_CHARA.ID_SPRT1);
         } else if (charaIdx === C_DB.T_SPT_CHARA.ID_SPRT2) {
-            // キャラ２の場合
             window = this.windowChara2Stt;
-            charaModel = this.chara2Model;
+            charaModel = this.charaManager.getCharaModel(C_DB.T_SPT_CHARA.ID_SPRT2);
         }
 
         if (window != null && charaModel != null) {

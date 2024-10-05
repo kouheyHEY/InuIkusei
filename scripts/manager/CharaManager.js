@@ -33,6 +33,25 @@ class CharaManager {
     }
 
     /**
+     * 全キャラクターを取得する
+     * @returns {TblSptCharaModel[]} キャラクターモデルの配列
+     */
+    getAllCharacters() {
+        return Object.values(this.characters);
+    }
+
+    /**
+     * 指定したIDのキャラクターが存在するかどうかを確認する
+     * @param {number} id キャラクターID
+     * @returns {boolean} キャラクターが存在するかどうか
+     */
+    isExistCharacter(id) {
+        // TODO: 存在確認の方法を考える
+        // return this.characters[id] !== undefined;
+        return this.characters[id].name !== C_DB.T_SPT_CHARA.NAME_NULL;
+    }
+
+    /**
      * 指定したIDのキャラクターを更新する
      * @param {number} id キャラクターID
      * @param {TblSptCharaModel} updates 更新内容
@@ -42,14 +61,6 @@ class CharaManager {
             Object.assign(this.characters[id], updates);
             this.tblSptCharaDao.update(this.characters[id]);
         }
-    }
-
-    /**
-     * 全キャラクターを取得する
-     * @returns {TblSptCharaModel[]} キャラクターモデルの配列
-     */
-    getAllCharacters() {
-        return Object.values(this.characters);
     }
 
     /**

@@ -273,7 +273,9 @@ class DispContent {
      * @returns {BaseModel} 効果反映オブジェクト
      */
     getEffectObj() {
-        if (this.dispContentObjHist.length == 0) throw new Error('履歴なし');
+        if (this.dispContentObjHist.length == 0) {
+            throw new Error('[DispContent.getEffectObj]履歴がありません。');
+        }
         const lastHist = this.dispContentObjHist.at(-1);
         return lastHist.obj[lastHist.choosedIdx];
     }

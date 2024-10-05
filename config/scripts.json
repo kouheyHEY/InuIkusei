@@ -76,7 +76,8 @@
             "files": [
                 "scripts/manager/GameDataManager.js",
                 "scripts/manager/InputManager.js",
-                "scripts/manager/FooterManager.js"
+                "scripts/manager/FooterManager.js",
+                "scripts/manager/CharaManager.js"
             ]
         },
         {
