@@ -54,6 +54,11 @@ class FooterManager {
 
         // カーソルウインドウの表示文
         this.cursorText = null;
+
+        /** @type {BaseModel} 効果使用オブジェクト */
+        this.effect = null;
+        /** @type {BaseModel} 効果使用対象オブジェクト */
+        this.target = null;
     }
 
     /** フッターの更新処理を行う */
