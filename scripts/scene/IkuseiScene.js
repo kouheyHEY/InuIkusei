@@ -11,7 +11,10 @@ class IkuseiScene extends BaseScene {
         this.footerManager.updateFooter();
         if (this.footerManager.isReadyNextScene) {
             // 遷移準備ができている場合、次のシーンへ遷移
-            this.scene.start(this.footerManager.nextScene);
+            this.scene.start(
+                this.footerManager.nextSceneParam.scene,
+                this.footerManager.nextSceneParam.param
+            );
         }
     }
 

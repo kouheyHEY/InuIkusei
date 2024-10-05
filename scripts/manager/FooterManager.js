@@ -113,6 +113,7 @@ class FooterManager {
                     };
                     // シーン遷移の準備ができたことを通知
                     this.isReadyNextScene = true;
+                    console.log("Ready Next Scene");
 
                 } else {
                     // 子メニューの表示を行う場合
@@ -147,35 +148,38 @@ class FooterManager {
                     }
                 } else if (childObj == C_COMMON.CHILDMENU_NULL_NEXT) {
                     // 「戻る」以外押下かつ次表示要素がない場合
-                    // TODO: キャラに効果を適用
-                    const effectModel = this.dispCttTextMain.getEffectObj();
-                    const targetModel = this.windowTextMain.pressedObj;
 
-                    console.log(effectModel);
-
-                    if (effectModel instanceof TblItemModel) {
-                        // アイテムの場合
-                        EffectUtils.applyItemEffect(effectModel, targetModel);
-                        console.log("Apply Item Effect");
-
-                        // ひとつ前の選択肢に戻す
-                        this.dispCttTextMain.restoreContent();
-                        this.windowTextMain.setDispContent(this.dispCttTextMain);
-                    } else if (effectModel instanceof MstActionModel) {
-                        // アクションの場合
-                        EffectUtils.applyActionEffect(effectModel, targetModel);
-                        console.log("Apply Action Effect");
-
-                        // ひとつ前の選択肢に戻す
-                        this.dispCttTextMain.restoreContent();
-                        this.windowTextMain.setDispContent(this.dispCttTextMain);
-                    } else if (effectModel instanceof MstFieldModel) {
+                    if (this.windowTextMain.pressedObj instanceof MstFieldModel) {
                         // フィールドの場合
-                        this.paramToBattle.fieldId = effectModel.id;
+                        this.paramToBattle.fieldId = this.windowTextMain.pressedObj.id;
 
                         // フォーカスをメニューウインドウに戻す
                         this.windowTextMain.setActive(false, true);
                         this.windowMenu.setActive(true, false);
+                    } else {
+                        // TODO: キャラに効果を適用
+                        const effectModel = this.dispCttTextMain.getEffectObj();
+                        const targetModel = this.windowTextMain.pressedObj;
+
+                        console.log(effectModel);
+
+                        if (effectModel instanceof TblItemModel) {
+                            // アイテムの場合
+                            EffectUtils.applyItemEffect(effectModel, targetModel);
+                            console.log("Apply Item Effect");
+
+                            // ひとつ前の選択肢に戻す
+                            this.dispCttTextMain.restoreContent();
+                            this.windowTextMain.setDispContent(this.dispCttTextMain);
+                        } else if (effectModel instanceof MstActionModel) {
+                            // アクションの場合
+                            EffectUtils.applyActionEffect(effectModel, targetModel);
+                            console.log("Apply Action Effect");
+
+                            // ひとつ前の選択肢に戻す
+                            this.dispCttTextMain.restoreContent();
+                            this.windowTextMain.setDispContent(this.dispCttTextMain);
+                        }
                     }
 
                 } else {
