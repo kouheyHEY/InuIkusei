@@ -5,26 +5,19 @@ class EffectUtils {
      * @param {BaseModel} target 使用対象
      */
     static applyItemEffect(itemModel, target) {
-
-        if (!(target instanceof TblSptCharaModel) && !(target instanceof TblEnemyModel)) {
-            // 対象が味方キャラ、または敵キャラでない場合、処理を終了
-            return;
-        }
-
         // 対象項目を取得
         const effectColList = itemModel.trgtCols.split(C_COMMON.SIGN_PIPE);
         const effectValList = itemModel.efctVals.split(C_COMMON.SIGN_PIPE);
+        console.log(effectColList);
+        console.log(effectValList);
 
         // 適用が不可能な場合は処理を終了する
         if (effectColList.length != effectValList.length) {
             throw new Error('[EffectUtils.applyItemEffect]アイテムの効果項目と効果量の長さが違います');
         }
-        // ターゲットに効果を適用する
         for (let i = 0; i < effectColList.length; i++) {
-            // 効果反映後のパラメータ
-            const effectAfterVal = target[effectColList[i]] + effectValList[i];
-            // パラメータを更新
-            target[effectColList[i]] = effectAfterVal;
+            // ターゲットに効果を適用する
+            target[effectColList[i]] = Number(target[effectColList[i]]) + Number(effectValList[i]);
         }
     }
 
@@ -34,6 +27,6 @@ class EffectUtils {
      * @param {object} target 対象オブジェクト
      */
     static applyActionEffect(action, target) {
-        console.log('applyActionEffect');
+        console.log('applyActionEffect')
     }
 }

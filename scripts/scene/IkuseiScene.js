@@ -12,19 +12,11 @@ class IkuseiScene extends BaseScene {
 
         if (this.footerManager.isEffect) {
             // ターゲットに効果を適用する
-            if (this.footerManager.effectParam.type === C_COMMON.EFFECT_TYPE_ITEM) {
-                // アイテムの場合
-                EffectUtils.applyItemEffect(this.footerManager.effectParam.effect, this.footerManager.effectParam.target);
-                console.log('applyItemEffect');
-            } else if (this.footerManager.effectParam.type === C_COMMON.EFFECT_TYPE_ACTION) {
-                // アクションの場合
-                EffectUtils.applyActionEffect(this.footerManager.effectParam.effect, this.footerManager.effectParam.target);
-                console.log('applyActionEffect');
-            }
+            this.charaManager.applyEffect(this.footerManager.effectParam.targetId, this.footerManager.effectParam.effect, this.footerManager.effectParam.type);
             // 効果適用フラグを無効にする
             this.footerManager.isEffect = false;
-            // キャラクターのステータスを更新
-            this.updateCharaStt(this.footerManager.effectParam.target);
+            // キャラクターのステータス表示を更新
+            this.updateCharaStt(this.footerManager.effectParam.targetId);
         }
 
         if (this.footerManager.isReadyNextScene) {
@@ -118,14 +110,17 @@ class IkuseiScene extends BaseScene {
      * @param {number} charaIdx 更新対象のキャラの番号
      */
     updateCharaStt(charaIdx) {
+        // 開始ログ
+        console.log('START updateCharaStt');
+
         /** @type {TextWindow} */
         let window = null;
         let charaModel;
 
-        if (charaIdx === C_DB.T_SPT_CHARA.ID_SPRT1) {
+        if (charaIdx == C_DB.T_SPT_CHARA.ID_SPRT1) {
             window = this.windowChara1Stt;
             charaModel = this.charaManager.getCharacter(C_DB.T_SPT_CHARA.ID_SPRT1);
-        } else if (charaIdx === C_DB.T_SPT_CHARA.ID_SPRT2) {
+        } else if (charaIdx == C_DB.T_SPT_CHARA.ID_SPRT2) {
             window = this.windowChara2Stt;
             charaModel = this.charaManager.getCharacter(C_DB.T_SPT_CHARA.ID_SPRT2);
         }
@@ -136,5 +131,8 @@ class IkuseiScene extends BaseScene {
             dispCtt.addContentList(TblSptCharaService.getIkuseiDispProps(charaModel, window.hSize, this));
             window.setDispContent(dispCtt);
         }
+
+        // 終了ログ
+        console.log('END updateCharaStt');
     }
 }

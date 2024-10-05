@@ -60,8 +60,9 @@ class DataIOUtil {
             parentType == C_COMMON.WINDOW_CONTENT_TYPE_LIFE
         ) {
             // 現在の表示がアイテムリスト、鍛練メニュー、生活メニューの場合
+            // キャラリストを取得
+            childObjList = scene.charaManager.getAllCharacters();
             // 子メニューのタイプをキャラリストに設定
-            childObjList = scene.tblSptCharaDao.getAll();
             childObjType = C_COMMON.WINDOW_CONTENT_TYPE_CHARA;
         }
 

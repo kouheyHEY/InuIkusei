@@ -52,14 +52,17 @@ class CharaManager {
     }
 
     /**
-     * 指定したIDのキャラクターを更新する
+     * 指定したIDのキャラクターの対象パラメータを更新する
      * @param {number} id キャラクターID
-     * @param {TblSptCharaModel} updates 更新内容
+     * @param {object} updateParams 更新パラメータ
      */
-    updateCharacter(id, updates) {
+    updateCharacter(id, updateParams) {
         if (this.characters[id]) {
-            Object.assign(this.characters[id], updates);
-            this.tblSptCharaDao.update(this.characters[id]);
+            // キャラが存在する場合
+            for (const key in updateParams) {
+                // 更新パラメータを更新
+                this.characters[id][key] = updateParams[key];
+            }
         }
     }
 
@@ -67,14 +70,24 @@ class CharaManager {
      * 指定したキャラクターにエフェクトを適用する
      * @param {number} characterId キャラクターID
      * @param {EffectModel} effect エフェクトモデル
+     * @param {number} type エフェクト種類
      */
-    applyEffect(characterId, effect) {
+    applyEffect(characterId, effect, type) {
         const character = this.getCharacter(characterId);
-        if (character) {
-            // エフェクトの適用ロジックをここに実装
-            // 例: character.hp += effect.hpChange;
-            this.updateCharacter(characterId, character);
+        if (!character) {
+            // キャラが存在しない場合
+            throw new Error(`[CharaManager.applyEffect] キャラが存在しません。characterId: ${characterId}`);
         }
+
+        if (type === C_COMMON.EFFECT_TYPE_ITEM) {
+            // アイテムの場合
+            EffectUtils.applyItemEffect(effect, character);
+        } else if (type === C_COMMON.EFFECT_TYPE_ACTION) {
+            // アクションの場合
+            EffectUtils.applyActionEffect(effect, character);
+        }
+        this.updateCharacter(characterId, character);
+        console.log(character);
     }
 
 }

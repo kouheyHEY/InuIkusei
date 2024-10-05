@@ -57,7 +57,7 @@ class FooterManager {
         /** @type {Object} 効果適用パラメータ */
         this.effectParam = {
             effect: null,
-            target: null,
+            targetId: null,
             type: null,
         };
         /** @type {boolean} 効果適用可能か */
@@ -163,7 +163,7 @@ class FooterManager {
                     } else {
                         // TODO: キャラに効果を適用
                         this.effectParam.effect = this.dispCttTextMain.getEffectObj();
-                        this.effectParam.target = this.windowTextMain.pressedObj;
+                        this.effectParam.targetId = this.windowTextMain.pressedObj.id;
 
                         if (this.effectParam.effect instanceof TblItemModel) {
                             // アイテムの場合
