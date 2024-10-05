@@ -103,40 +103,6 @@ class DispContent {
     }
 
     /**
-     * 表示対象オブジェクトを追加する
-     * @param {object[]} dispObjList 表示対象のオブジェクトのリスト
-     */
-    addContentList(dispObjList) {
-        if (this.dispContentObj.obj.length != 0) {
-            // 空でない場合はエラー
-            throw new Error('[DispContent.addContentList]既に表示コンテンツが設定済みです。');
-        }
-        for (const dispObj of dispObjList) {
-            this.addContent(dispObj);
-        }
-    }
-
-    /**
-     * 表示コンテンツの表示種類をセットする
-     * @param {boolean} isList リストかどうか
-     * @param {boolean} isLine 文章かどうか
-     * @param {boolean} isMenu 選択可能かどうか
-     */
-    setDispType(isList, isLine, isMenu) {
-        this.dispContentObj.isList = isList;
-        this.dispContentObj.isLine = isLine;
-        this.dispContentObj.isMenu = isMenu;
-    }
-
-    /**
-     * 表示オブジェクトのタイプをセットする
-     * @param {number} type 表示オブジェクトのタイプ
-     */
-    setObjType(type) {
-        this.dispContentObj.dispObjType = type;
-    }
-
-    /**
      * 表示コンテンツを表すオブジェクトを作成する
      * @param {number} objType 表示オブジェクトのタイプ
      * @param {object[]} objList 表示オブジェクトのリスト
@@ -180,6 +146,38 @@ class DispContent {
             }
         }
         return contentObj;
+    }
+
+    /**
+     * 表示対象オブジェクトを追加する
+     * @param {object[]} dispObjList 表示対象のオブジェクトのリスト
+     */
+    addContentList(dispObjList) {
+        if (this.dispContentObj.obj.length != 0) {
+            // 空でない場合はエラー
+            throw new Error('[DispContent.addContentList]既に表示コンテンツが設定済みです。');
+        }
+        for (const dispObj of dispObjList) {
+            this.addContent(dispObj);
+        }
+    }
+
+    /**
+     * 表示コンテンツの表示種類をセットする
+     * @param {boolean} isList リストかどうか
+     * @param {boolean} isLine 文章かどうか
+     * @param {boolean} isMenu 選択可能かどうか
+     */
+    setDispType(isList, isLine, isMenu) {
+        Object.assign(this.dispContentObj, { isList, isLine, isMenu });
+    }
+
+    /**
+     * 表示オブジェクトのタイプをセットする
+     * @param {number} type 表示オブジェクトのタイプ
+     */
+    setObjType(type) {
+        this.dispContentObj.dispObjType = type;
     }
 
     /** 

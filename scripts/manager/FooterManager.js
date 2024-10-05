@@ -59,6 +59,8 @@ class FooterManager {
         this.effect = null;
         /** @type {BaseModel} 効果使用対象オブジェクト */
         this.target = null;
+        /** @type {BaseModel} 次のシーンへの遷移パラメータ */
+        this.nextSceneParam = null;
     }
 
     /** フッターの更新処理を行う */
