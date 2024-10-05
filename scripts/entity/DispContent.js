@@ -76,30 +76,10 @@ class DispContent {
      * @param {object} dispObj 表示対象のオブジェクト
      */
     addContent(dispObj) {
-        // 表示対象オブジェクトを追加
         this.dispContentObj.obj.push(dispObj);
-        if (typeof dispObj == 'string') {
-            // 文字列の場合
-            // 表示文字列をそのまま設定
-            this.dispContentObj.dispStr.push(dispObj);
-            this.dispContentObj.expl.push('');
-        } else if (typeof dispObj == 'object') {
-            // オブジェクトの場合
-            /** @type {BaseModel} */
-            const obj = dispObj;
-
-            if (obj instanceof MstMenuModel) {
-                // メニューマスタの場合
-                // 表示名と説明をセット
-                this.dispContentObj.dispStr.push(obj.colName);
-                this.dispContentObj.expl.push(obj.expl);
-            } else {
-                // それ以外の場合
-                // 表示名と説明をセット
-                this.dispContentObj.dispStr.push(obj.name);
-                this.dispContentObj.expl.push(obj.expl);
-            }
-        }
+        const { dispStr, expl } = this.getDisplayInfo(dispObj);
+        this.dispContentObj.dispStr.push(dispStr);
+        this.dispContentObj.expl.push(expl);
     }
 
     /**
@@ -107,7 +87,7 @@ class DispContent {
      * @param {number} objType 表示オブジェクトのタイプ
      * @param {object[]} objList 表示オブジェクトのリスト
      * @param {boolean} isList リスト形式か
-     * @param {boolean} isLine 文章形式化
+     * @param {boolean} isLine 文章形式か
      * @param {boolean} isMenu 選択可能形式か
      * @returns {DispContentObj} 表示コンテンツのオブジェクト
      */
@@ -123,27 +103,9 @@ class DispContent {
         };
 
         for (const obj of objList) {
-            if (typeof obj == 'string') {
-                // 文字列の場合
-                // 表示文字列をそのまま設定
-                contentObj.dispStr.push(obj);
-                contentObj.expl.push('');
-            } else {
-                // 文字列以外の場合
-                if (obj instanceof BaseModel) {
-                    if (obj instanceof MstMenuModel) {
-                        // メニューマスタの場合
-                        // 表示名と説明をセット
-                        contentObj.dispStr.push(obj.colName);
-                        contentObj.expl.push(obj.expl);
-                    } else {
-                        // それ以外の場合
-                        // 表示名と説明をセット
-                        contentObj.dispStr.push(obj.name);
-                        contentObj.expl.push(obj.expl);
-                    }
-                }
-            }
+            const { dispStr, expl } = this.getDisplayInfo(obj);
+            contentObj.dispStr.push(dispStr);
+            contentObj.expl.push(expl);
         }
         return contentObj;
     }
@@ -153,13 +115,29 @@ class DispContent {
      * @param {object[]} dispObjList 表示対象のオブジェクトのリスト
      */
     addContentList(dispObjList) {
-        if (this.dispContentObj.obj.length != 0) {
-            // 空でない場合はエラー
+        if (this.dispContentObj.obj.length !== 0) {
             throw new Error('[DispContent.addContentList]既に表示コンテンツが設定済みです。');
         }
-        for (const dispObj of dispObjList) {
-            this.addContent(dispObj);
+        dispObjList.forEach(dispObj => this.addContent(dispObj));
+    }
+
+    /**
+     * オブジェクトから表示情報を取得する
+     * @param {object} obj 表示対象のオブジェクト
+     * @returns {{dispStr: string, expl: string}} 表示文字列と説明文
+     * @private
+     */
+    getDisplayInfo(obj) {
+        if (typeof obj === 'string') {
+            return { dispStr: obj, expl: '' };
+        } else if (obj instanceof BaseModel) {
+            if (obj instanceof MstMenuModel) {
+                return { dispStr: obj.colName, expl: obj.expl };
+            } else {
+                return { dispStr: obj.name, expl: obj.expl };
+            }
         }
+        return { dispStr: '', expl: '' };
     }
 
     /**
@@ -270,17 +248,12 @@ class DispContent {
         /** @type {DispContentObj} */
         this.dispContentObj = ObjectUtil.deepCopy(this.getChildContent(idx));
     }
-
-    /** コンテンツを初期化する（シーン設定と履歴は初期化しない） */
+    /** コンテンツを初期化 */
     initContent() {
         this.dispContentObj = {
-            expl: [],
-            obj: [],
+            expl: [], obj: [], dispStr: [],
             dispObjType: C_COMMON.WINDOW_CONTENT_TYPE_LINE,
-            dispStr: [],
-            isList: false,
-            isLine: true,
-            isMenu: false,
+            isList: false, isLine: true, isMenu: false
         };
     }
 
@@ -293,16 +266,12 @@ class DispContent {
     }
 
     /**
-     * 履歴から、効果反映対象を示すオブジェクトを取得する
-     * @returns {BaseModel} 効果を反映するオブジェクト（アイテム、アクション）
+     * 履歴から効果反映対象を取得
+     * @returns {BaseModel} 効果反映オブジェクト
      */
     getEffectObj() {
-        // 履歴がない場合はエラー
-        if (this.dispContentObjHist.length == 0) {
-            throw new Error('[DispContent.getEffectObj]履歴がありません。');
-        }
-        // 履歴から効果反映対象を取得
-        const lastHist = this.dispContentObjHist[this.dispContentObjHist.length - 1];
+        if (this.dispContentObjHist.length == 0) throw new Error('履歴なし');
+        const lastHist = this.dispContentObjHist.at(-1);
         return lastHist.obj[lastHist.choosedIdx];
     }
 }
