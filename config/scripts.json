@@ -1,19 +1,99 @@
 {
     "scripts": [
-        "scripts/constants/Constants.js",
-        "scripts/constants/ConstantsIkuseiScene.js",
-        "scripts/constants/ConstantsCommon.js",
-        "scripts/constants/ConstantsDB.js",
-        "scripts/dao/TblSptCharaDao.js",
-        "scripts/model/TblSptCharaModel.js",
-        "scripts/model/EffectModel.js",
-        "scripts/service/TblSptCharaService.js",
-        "scripts/manager/CharaManager.js",
-        "scripts/manager/FooterManager.js",
-        "scripts/scene/BaseScene.js",
-        "scripts/scene/IkuseiScene.js",
-        "scripts/ui/TextWindow.js",
-        "scripts/ui/DispContent.js",
-        "scripts/Game.js"
+        {
+            "category": "定数クラス",
+            "files": [
+                "scripts/const/CommonConst.js",
+                "scripts/const/AssetConst.js",
+                "scripts/const/TSConst.js",
+                "scripts/const/ISConst.js",
+                "scripts/const/BSConst.js",
+                "scripts/const/DBConst.js",
+                "scripts/const/ClassConst.js"
+            ]
+        },
+        {
+            "category": "ユーティルクラス",
+            "files": [
+                "scripts/util/GraphicUtil.js",
+                "scripts/util/ObjectUtil.js",
+                "scripts/util/EffectUtil.js",
+                "scripts/util/DataIOUtil.js"
+            ]
+        },
+        {
+            "category": "モデル",
+            "files": [
+                "scripts/model/BaseModel.js",
+                "scripts/model/MstActionModel.js",
+                "scripts/model/MstEnemyModel.js",
+                "scripts/model/MstFieldModel.js",
+                "scripts/model/MstItemModel.js",
+                "scripts/model/MstMenuModel.js",
+                "scripts/model/MstTextModel.js",
+                "scripts/model/TblEnemyModel.js",
+                "scripts/model/TblItemModel.js",
+                "scripts/model/TblSptCharaModel.js"
+            ]
+        },
+        {
+            "category": "daoクラス",
+            "files": [
+                "scripts/dao/BaseDao.js",
+                "scripts/dao/MstActionDao.js",
+                "scripts/dao/MstEnemyDao.js",
+                "scripts/dao/MstFieldDao.js",
+                "scripts/dao/MstItemDao.js",
+                "scripts/dao/MstMenuDao.js",
+                "scripts/dao/MstTextDao.js",
+                "scripts/dao/TblEnemyDao.js",
+                "scripts/dao/TblItemDao.js",
+                "scripts/dao/TblSptCharaDao.js"
+            ]
+        },
+        {
+            "category": "スプライト",
+            "files": [
+                "scripts/sprite/TextWindow.js",
+                "scripts/sprite/CursorWindow.js"
+            ]
+        },
+        {
+            "category": "エンティティ",
+            "files": [
+                "scripts/entity/DispContent.js"
+            ]
+        },
+        {
+            "category": "サービスクラス",
+            "files": [
+                "scripts/service/BaseService.js",
+                "scripts/service/TblSptCharaService.js"
+            ]
+        },
+        {
+            "category": "マネージャクラス",
+            "files": [
+                "scripts/manager/GameDataManager.js",
+                "scripts/manager/InputManager.js",
+                "scripts/manager/FooterManager.js"
+            ]
+        },
+        {
+            "category": "シーンクラス",
+            "files": [
+                "scripts/scene/BaseScene.js",
+                "scripts/scene/PreLoadScene.js",
+                "scripts/scene/TitleScene.js",
+                "scripts/scene/IkuseiScene.js",
+                "scripts/scene/BattleScene.js"
+            ]
+        },
+        {
+            "category": "phaser3実行用",
+            "files": [
+                "scripts/main.js"
+            ]
+        }
     ]
 }
