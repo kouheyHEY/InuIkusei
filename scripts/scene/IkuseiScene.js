@@ -9,9 +9,22 @@ class IkuseiScene extends BaseScene {
     update() {
         // フッターの更新
         this.footerManager.updateFooter();
+
         if (this.footerManager.isEffect) {
             // ターゲットに効果を適用する
-            this.footerManager.effect.applyEffect(this.footerManager.target);
+            if (this.footerManager.effectParam.type === C_COMMON.EFFECT_TYPE_ITEM) {
+                // アイテムの場合
+                EffectUtils.applyItemEffect(this.footerManager.effectParam.effect, this.footerManager.effectParam.target);
+                console.log('applyItemEffect');
+            } else if (this.footerManager.effectParam.type === C_COMMON.EFFECT_TYPE_ACTION) {
+                // アクションの場合
+                EffectUtils.applyActionEffect(this.footerManager.effectParam.effect, this.footerManager.effectParam.target);
+                console.log('applyActionEffect');
+            }
+            // 効果適用フラグを無効にする
+            this.footerManager.isEffect = false;
+            // キャラクターのステータスを更新
+            this.updateCharaStt(this.footerManager.effectParam.target);
         }
 
         if (this.footerManager.isReadyNextScene) {
@@ -45,8 +58,6 @@ class IkuseiScene extends BaseScene {
         this.mstFieldDao = new MstFieldDao(this);
         /** @type {TblItemDao} アイテムテーブルDao */
         this.tblItemDao = new TblItemDao(this);
-        /** @type {TblSptCharaDao} 味方キャラテーブルDao */
-        this.tblSptCharaDao = new TblSptCharaDao(this);
 
         /** @type {CharaManager} キャラマネージャ */
         this.charaManager = new CharaManager(this);
@@ -76,7 +87,9 @@ class IkuseiScene extends BaseScene {
                 vSize: C_IS.WINDOW_CHARA1_STATUS_H,
                 menuColNum: 1,
             }, this);
+            // ウインドウを描画
             this.windowChara1Stt.drawWindow();
+            // キャラ１のステータスを更新
             this.updateCharaStt(C_DB.T_SPT_CHARA.ID_SPRT1);
         }
 
@@ -90,7 +103,9 @@ class IkuseiScene extends BaseScene {
                 vSize: C_IS.WINDOW_CHARA2_STATUS_H,
                 menuColNum: 1,
             }, this);
+            // ウインドウを描画
             this.windowChara2Stt.drawWindow();
+            // キャラ２のステータスを更新
             this.updateCharaStt(C_DB.T_SPT_CHARA.ID_SPRT2);
         }
 

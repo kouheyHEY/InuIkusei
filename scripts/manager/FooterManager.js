@@ -165,13 +165,16 @@ class FooterManager {
                         this.effectParam.effect = this.dispCttTextMain.getEffectObj();
                         this.effectParam.target = this.windowTextMain.pressedObj;
 
-                        if (effectModel instanceof TblItemModel) {
+                        if (this.effectParam.effect instanceof TblItemModel) {
                             // アイテムの場合
                             this.effectParam.type = C_COMMON.EFFECT_TYPE_ITEM;
-                        } else if (effectModel instanceof MstActionModel) {
+                        } else if (this.effectParam.effect instanceof MstActionModel) {
                             // アクションの場合
                             this.effectParam.type = C_COMMON.EFFECT_TYPE_ACTION;
                         }
+
+                        // 効果適用フラグを有効にする
+                        this.isEffect = true;
 
                         // ひとつ前の選択肢に戻す
                         this.dispCttTextMain.restoreContent();

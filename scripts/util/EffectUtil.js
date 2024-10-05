@@ -16,7 +16,6 @@ class EffectUtils {
         const effectValList = itemModel.efctVals.split(C_COMMON.SIGN_PIPE);
 
         // 適用が不可能な場合は処理を終了する
-
         if (effectColList.length != effectValList.length) {
             throw new Error('[EffectUtils.applyItemEffect]アイテムの効果項目と効果量の長さが違います');
         }
@@ -35,6 +34,6 @@ class EffectUtils {
      * @param {object} target 対象オブジェクト
      */
     static applyActionEffect(action, target) {
-
+        console.log('applyActionEffect');
     }
 }

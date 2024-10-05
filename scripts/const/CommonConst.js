@@ -102,6 +102,11 @@ const C_COMMON = {
     /** ウインドウ 表示コンテンツ種類 バトル行動リスト */
     WINDOW_CONTENT_TYPE_BATTLEACTION: 9,
 
+    /** 効果種類 アイテム */
+    EFFECT_TYPE_ITEM: 1,
+    /** 効果種類 アクション */
+    EFFECT_TYPE_ACTION: 2,
+
     /** メニュー選択肢 戻る */
     WINDOW_MENU_BACK: "戻る",
     /** 子メニュー無（戻る押下時） */
