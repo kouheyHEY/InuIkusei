@@ -44,7 +44,6 @@ class FooterManager {
         this.dispCttTextMain.addContent("テスト文字列です。");
         this.windowTextMain.setDispContent(this.dispCttTextMain);
 
-
         // 初期にアクティブにするウインドウの設定
         this.windowMenu.isActive = true;
 
@@ -55,10 +54,15 @@ class FooterManager {
         // カーソルウインドウの表示文
         this.cursorText = null;
 
-        /** @type {BaseModel} 効果使用オブジェクト */
-        this.effect = null;
-        /** @type {BaseModel} 効果使用対象オブジェクト */
-        this.target = null;
+        /** @type {Object} 効果適用パラメータ */
+        this.effectParam = {
+            effect: null,
+            target: null,
+            type: null,
+        };
+        /** @type {boolean} 効果適用可能か */
+        this.isEffect = false;
+
         /** @type {Object} 次のシーンへの遷移パラメータ */
         this.nextSceneParam = null;
         /** @type {boolean} シーン遷移の準備ができているか */
@@ -158,28 +162,20 @@ class FooterManager {
                         this.windowMenu.setActive(true, false);
                     } else {
                         // TODO: キャラに効果を適用
-                        const effectModel = this.dispCttTextMain.getEffectObj();
-                        const targetModel = this.windowTextMain.pressedObj;
-
-                        console.log(effectModel);
+                        this.effectParam.effect = this.dispCttTextMain.getEffectObj();
+                        this.effectParam.target = this.windowTextMain.pressedObj;
 
                         if (effectModel instanceof TblItemModel) {
                             // アイテムの場合
-                            EffectUtils.applyItemEffect(effectModel, targetModel);
-                            console.log("Apply Item Effect");
-
-                            // ひとつ前の選択肢に戻す
-                            this.dispCttTextMain.restoreContent();
-                            this.windowTextMain.setDispContent(this.dispCttTextMain);
+                            this.effectParam.type = C_COMMON.EFFECT_TYPE_ITEM;
                         } else if (effectModel instanceof MstActionModel) {
                             // アクションの場合
-                            EffectUtils.applyActionEffect(effectModel, targetModel);
-                            console.log("Apply Action Effect");
-
-                            // ひとつ前の選択肢に戻す
-                            this.dispCttTextMain.restoreContent();
-                            this.windowTextMain.setDispContent(this.dispCttTextMain);
+                            this.effectParam.type = C_COMMON.EFFECT_TYPE_ACTION;
                         }
+
+                        // ひとつ前の選択肢に戻す
+                        this.dispCttTextMain.restoreContent();
+                        this.windowTextMain.setDispContent(this.dispCttTextMain);
                     }
 
                 } else {

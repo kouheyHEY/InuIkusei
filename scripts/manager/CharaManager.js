@@ -45,7 +45,7 @@ class CharaManager {
      * @param {number} id キャラクターID
      * @returns {boolean} キャラクターが存在するかどうか
      */
-    isExistCharacter(id) {
+    isCharaExist(id) {
         // TODO: 存在確認の方法を考える
         // return this.characters[id] !== undefined;
         return this.characters[id].name !== C_DB.T_SPT_CHARA.NAME_NULL;

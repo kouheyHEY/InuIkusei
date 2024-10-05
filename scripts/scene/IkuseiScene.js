@@ -9,6 +9,11 @@ class IkuseiScene extends BaseScene {
     update() {
         // フッターの更新
         this.footerManager.updateFooter();
+        if (this.footerManager.isEffect) {
+            // ターゲットに効果を適用する
+            this.footerManager.effect.applyEffect(this.footerManager.target);
+        }
+
         if (this.footerManager.isReadyNextScene) {
             // 遷移準備ができている場合、次のシーンへ遷移
             this.scene.start(
@@ -52,14 +57,12 @@ class IkuseiScene extends BaseScene {
 
         /** @type {FooterManager} フッターマネージャ */
         this.footerManager = null;
-
     }
 
     /** 画面上の各オブジェクトを表示する
      * （テキスト表示などは変動するため、適時別ロジックで表示）
      */
     initArea() {
-
         // 背景色の設定
         this.cameras.main.setBackgroundColor(C_COMMON.COMMON_COLOR_WHITE);
 
@@ -97,7 +100,7 @@ class IkuseiScene extends BaseScene {
 
     /**
      * 指定したキャラのステータスを更新する
-     * @param {number} charaIdx 更新対象のキャラの番号(0, 1)
+     * @param {number} charaIdx 更新対象のキャラの番号
      */
     updateCharaStt(charaIdx) {
         /** @type {TextWindow} */
@@ -106,10 +109,10 @@ class IkuseiScene extends BaseScene {
 
         if (charaIdx === C_DB.T_SPT_CHARA.ID_SPRT1) {
             window = this.windowChara1Stt;
-            charaModel = this.charaManager.getCharaModel(C_DB.T_SPT_CHARA.ID_SPRT1);
+            charaModel = this.charaManager.getCharacter(C_DB.T_SPT_CHARA.ID_SPRT1);
         } else if (charaIdx === C_DB.T_SPT_CHARA.ID_SPRT2) {
             window = this.windowChara2Stt;
-            charaModel = this.charaManager.getCharaModel(C_DB.T_SPT_CHARA.ID_SPRT2);
+            charaModel = this.charaManager.getCharacter(C_DB.T_SPT_CHARA.ID_SPRT2);
         }
 
         if (window != null && charaModel != null) {
