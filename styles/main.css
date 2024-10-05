@@ -1,0 +1,26 @@
+@font-face {
+    font-family: "Bit12Bold";
+    src: url("../assets/font/PixelMplus12-Bold.ttf");
+
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Bit12";
+    src: url("../assets/font/PixelMplus12-Regular.ttf");
+    font-weight: 400;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+canvas {
+    transform: scale(var(--inverse-dpr));
+    transform-origin: 0 0;
+}

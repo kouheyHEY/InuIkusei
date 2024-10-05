@@ -1,0 +1,19 @@
+{
+    "scripts": [
+        "scripts/constants/Constants.js",
+        "scripts/constants/ConstantsIkuseiScene.js",
+        "scripts/constants/ConstantsCommon.js",
+        "scripts/constants/ConstantsDB.js",
+        "scripts/dao/TblSptCharaDao.js",
+        "scripts/model/TblSptCharaModel.js",
+        "scripts/model/EffectModel.js",
+        "scripts/service/TblSptCharaService.js",
+        "scripts/manager/CharaManager.js",
+        "scripts/manager/FooterManager.js",
+        "scripts/scene/BaseScene.js",
+        "scripts/scene/IkuseiScene.js",
+        "scripts/ui/TextWindow.js",
+        "scripts/ui/DispContent.js",
+        "scripts/Game.js"
+    ]
+}
