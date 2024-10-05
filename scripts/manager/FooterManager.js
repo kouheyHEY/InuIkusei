@@ -59,8 +59,15 @@ class FooterManager {
         this.effect = null;
         /** @type {BaseModel} 効果使用対象オブジェクト */
         this.target = null;
-        /** @type {BaseModel} 次のシーンへの遷移パラメータ */
+        /** @type {Object} 次のシーンへの遷移パラメータ */
         this.nextSceneParam = null;
+        /** @type {boolean} シーン遷移の準備ができているか */
+        this.isReadyNextScene = false;
+
+        /** @type {Object} 育成シーンからバトルシーンへ遷移する場合のパラメータ */
+        this.paramToBattle = {
+            fieldId: null,
+        };
     }
 
     /** フッターの更新処理を行う */
@@ -95,11 +102,17 @@ class FooterManager {
                     this.windowTextMain.menuColNum = C_COMMON.WINDOW_TEXT_MAIN_COL_NUM;
                     // メインウインドウの表示コンテンツをセット
                     this.windowTextMain.setDispContent(this.dispCttTextMain);
-                } else if (pressedMenu.childMenuId == C_DB.M_MENU.CHILDMENUID_TOBATTLE
+                } else if (
+                    pressedMenu.childMenuId == C_DB.M_MENU.CHILDMENUID_TOBATTLE
                 ) {
                     // 「出発」押下時
-                    // パラメータを渡し、バトルシーンに遷移
-                    this.scene.start(C_COMMON.SCENE_BATTLESCENE);
+                    // 遷移パラメータを設定
+                    this.nextSceneParam = {
+                        scene: C_COMMON.SCENE_BATTLESCENE,
+                        param: this.paramToBattle,
+                    };
+                    // シーン遷移の準備ができたことを通知
+                    this.isReadyNextScene = true;
 
                 } else {
                     // 子メニューの表示を行う場合
@@ -144,17 +157,26 @@ class FooterManager {
                         // アイテムの場合
                         EffectUtils.applyItemEffect(effectModel, targetModel);
                         console.log("Apply Item Effect");
+
+                        // ひとつ前の選択肢に戻す
+                        this.dispCttTextMain.restoreContent();
+                        this.windowTextMain.setDispContent(this.dispCttTextMain);
                     } else if (effectModel instanceof MstActionModel) {
                         // アクションの場合
                         EffectUtils.applyActionEffect(effectModel, targetModel);
                         console.log("Apply Action Effect");
+
+                        // ひとつ前の選択肢に戻す
+                        this.dispCttTextMain.restoreContent();
+                        this.windowTextMain.setDispContent(this.dispCttTextMain);
+                    } else if (effectModel instanceof MstFieldModel) {
+                        // フィールドの場合
+                        this.paramToBattle.fieldId = effectModel.id;
+
+                        // フォーカスをメニューウインドウに戻す
+                        this.windowTextMain.setActive(false, true);
+                        this.windowMenu.setActive(true, false);
                     }
-
-                    // ひとつ前の選択肢に戻す
-                    this.dispCttTextMain.restoreContent();
-                    this.windowTextMain.setDispContent(this.dispCttTextMain);
-
-                    console.log("applied Effect");
 
                 } else {
                     // それ以外の場合
