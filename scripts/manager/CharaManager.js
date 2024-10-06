@@ -8,7 +8,8 @@ class CharaManager {
      */
     constructor(scene) {
         this.scene = scene;
-        this.characters = {};
+        /** @type {TblSptCharaModel[]} */
+        this.characters = [];
         this.tblSptCharaDao = new TblSptCharaDao(this.scene);
         this.initializeCharacters();
     }
@@ -17,10 +18,11 @@ class CharaManager {
      * キャラクターを初期化する
      */
     initializeCharacters() {
-        const allCharacters = this.tblSptCharaDao.getAll();
-        allCharacters.forEach(chara => {
-            this.characters[chara.id] = chara;
-        });
+        if (this.characters.length > 0) {
+            // 既に初期化されている場合
+            return;
+        }
+        this.characters = this.tblSptCharaDao.getAll();
     }
 
     /**
@@ -29,7 +31,7 @@ class CharaManager {
      * @returns {TblSptCharaModel} キャラクターモデル
      */
     getCharacter(id) {
-        return this.characters[id];
+        return ObjectUtil.deepCopy(this.characters.find(chara => chara.id == id));
     }
 
     /**
@@ -37,7 +39,7 @@ class CharaManager {
      * @returns {TblSptCharaModel[]} キャラクターモデルの配列
      */
     getAllCharacters() {
-        return Object.values(this.characters);
+        return ObjectUtil.deepCopy(this.characters);
     }
 
     /**
@@ -46,9 +48,15 @@ class CharaManager {
      * @returns {boolean} キャラクターが存在するかどうか
      */
     isCharaExist(id) {
-        // TODO: 存在確認の方法を考える
-        // return this.characters[id] !== undefined;
-        return this.characters[id].name !== C_DB.T_SPT_CHARA.NAME_NULL;
+        let isExist = false;
+        // 指定したidのキャラクターが存在しない場合はfalse
+        if (this.characters.find(chara => chara.id == id) == null) {
+            isExist = false;
+        } else {
+            // キャラの名前がnullでない場合はtrue
+            isExist = this.characters.find(chara => chara.id == id).name !== C_DB.T_SPT_CHARA.NAME_NULL;
+        }
+        return isExist;
     }
 
     /**
@@ -57,13 +65,22 @@ class CharaManager {
      * @param {object} updateParams 更新パラメータ
      */
     updateCharacter(id, updateParams) {
-        if (this.characters[id]) {
-            // キャラが存在する場合
-            for (const key in updateParams) {
-                // 更新パラメータを更新
-                this.characters[id][key] = updateParams[key];
-            }
+        const character = this.getCharacter(id);
+        if (!character) {
+            // キャラが存在しない場合
+            throw new Error(`[CharaManager.updateCharacter] キャラが存在しません。characterId: ${id}`);
         }
+        for (const key in updateParams) {
+            // 更新パラメータを更新
+            character[key] = updateParams[key];
+        }
+    }
+
+    /**
+     * データベースに現在のキャラのステータスを保存する
+     */
+    updateAllCharacter() {
+        this.tblSptCharaDao.updateAll(this.characters);
     }
 
     /**
@@ -87,7 +104,6 @@ class CharaManager {
             EffectUtils.applyActionEffect(effect, character);
         }
         this.updateCharacter(characterId, character);
-        console.log(character);
     }
 
 }

@@ -5,39 +5,39 @@ class ObjectUtil {
      * @returns コピー後のオブジェクト
      */
     static deepCopy(obj) {
-        // プリミティブ型やnullはそのまま返す
+        // プリミティブ型または null の場合はそのまま返す
         if (obj === null || typeof obj !== 'object') {
             return obj;
         }
 
-        // Dateオブジェクトの場合は新しいインスタンスを作成して返す
+        // 日付オブジェクトの場合
         if (obj instanceof Date) {
             return new Date(obj.getTime());
         }
 
-        // Arrayの場合は各要素をディープコピー
+        // 配列の場合
         if (Array.isArray(obj)) {
-            return obj.map(item => ObjectUtil.deepCopy(item));
+            return obj.map(item => this.deepCopy(item));
         }
 
-        // クラスのインスタンスの場合は同じクラスの新しいインスタンスを生成して返す
-        if (obj instanceof Object && obj.constructor !== Object) {
-            const newInstance = new obj.constructor();
-            for (let key in obj) {
+        // オブジェクトの場合
+        if (obj.constructor === Object) {
+            const copiedObj = {};
+            for (const key in obj) {
                 if (obj.hasOwnProperty(key)) {
-                    newInstance[key] = ObjectUtil.deepCopy(obj[key]);
+                    copiedObj[key] = this.deepCopy(obj[key]);
                 }
             }
-            return newInstance;
+            return copiedObj;
         }
 
-        // 通常のオブジェクトの場合
-        const copy = {};
-        for (let key in obj) {
+        // カスタムクラスのインスタンスの場合
+        const copiedInstance = Object.create(Object.getPrototypeOf(obj));
+        for (const key in obj) {
             if (obj.hasOwnProperty(key)) {
-                copy[key] = ObjectUtil.deepCopy(obj[key]);
+                copiedInstance[key] = this.deepCopy(obj[key]);
             }
         }
-        return copy;
+        return copiedInstance;
     }
 }

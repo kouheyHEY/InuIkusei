@@ -34,7 +34,7 @@ class BaseDao {
             modelList.push(model);
         }
 
-        return modelList;
+        return ObjectUtil.deepCopy(modelList);
     }
 
     /** Typeで検索し、Modelのリストを取得する
@@ -55,11 +55,11 @@ class BaseDao {
             modelList.push(model);
         }
 
-        return modelList;
+        return ObjectUtil.deepCopy(modelList);
     }
 
     /** すべてのレコードを取得。
-     * @returns {object[]} 全てのModelリスト
+     * @returns {BaseModel[]} 全てのModelリスト
      */
     getAll() {
         let modelList = [];
@@ -73,7 +73,7 @@ class BaseDao {
             modelList.push(model);
         }
 
-        return modelList;
+        return ObjectUtil.deepCopy(modelList);
     }
 
     /**

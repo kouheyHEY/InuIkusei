@@ -20,7 +20,10 @@ class IkuseiScene extends BaseScene {
         }
 
         if (this.footerManager.isReadyNextScene) {
-            // 遷移準備ができている場合、次のシーンへ遷移
+            // 遷移準備ができている場合
+            // キャラクターのステータスを更新
+            this.charaManager.updateAllCharacter();
+            // 次のシーンへ遷移
             this.scene.start(
                 this.footerManager.nextSceneParam.scene,
                 this.footerManager.nextSceneParam.param
@@ -62,7 +65,8 @@ class IkuseiScene extends BaseScene {
         this.footerManager = null;
     }
 
-    /** 画面上の各オブジェクトを表示する
+    /**
+     * 画面上の各オブジェクトを表示する
      * （テキスト表示などは変動するため、適時別ロジックで表示）
      */
     initArea() {

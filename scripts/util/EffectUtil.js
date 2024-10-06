@@ -18,6 +18,12 @@ class EffectUtils {
         for (let i = 0; i < effectColList.length; i++) {
             // ターゲットに効果を適用する
             target[effectColList[i]] = Number(target[effectColList[i]]) + Number(effectValList[i]);
+            // HP, YPは最大値を超えないようにする
+            if (effectColList[i] == 'hp') {
+                target.hp = Math.min(target.hp, target.maxHp);
+            } else if (effectColList[i] == 'yp') {
+                target.yp = Math.min(target.yp, target.maxYp);
+            }
         }
     }
 
