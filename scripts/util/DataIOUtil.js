@@ -19,7 +19,7 @@ class DataIOUtil {
         let childObjType = null;
 
         if (parentType == C_COMMON.WINDOW_CONTENT_TYPE_MENU) {
-            // 
+            // 親要素がメニューの場合
             if (parentObj.childMenuId == C_DB.M_MENU.CHILDMENUID_USEITEM) {
                 // 消費アイテムの場合
                 childObjList = scene.tblItemDao.getByType(C_DB.T_ITEM.TYPE_USEITEM);
@@ -46,8 +46,12 @@ class DataIOUtil {
                 childObjType = C_COMMON.WINDOW_CONTENT_TYPE_LIFE;
             } else if (parentObj.childMenuId == C_DB.M_MENU.CHILDMENUID_BATTLEACTION) {
                 // バトル行動の場合
-                childObjList = scene.mstActionDao.getByType(C_DB.M_ACTION.TYPE_BATTLEACT);
+                // 有効なバトルアクションを取得
+                childObjList = scene.tblActionDao.getByType(C_DB.M_ACTION.TYPE_BATTLEACT);
                 childObjType = C_COMMON.WINDOW_CONTENT_TYPE_BATTLEACTION;
+
+                // デフォルトで「攻撃アクション」を追加
+                childObjList.push(C_DB.M_ACTION.TYPE_BATTLEACT);
             } else {
                 // メニューの場合
                 childObjList = scene.mstMenuDao.getByMenuId(parentObj.childMenuId);

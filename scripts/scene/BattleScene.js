@@ -7,7 +7,28 @@ class BattleScene extends BaseScene {
      * 画面更新用メソッド
      */
     update() {
+        // フッターの更新
+        this.footerManager.updateFooter();
 
+        // if (this.footerManager.isEffect) {
+        //     // ターゲットに効果を適用する
+        //     this.charaManager.applyEffect(this.footerManager.effectParam.targetId, this.footerManager.effectParam.effect, this.footerManager.effectParam.type);
+        //     // 効果適用フラグを無効にする
+        //     this.footerManager.isEffect = false;
+        //     // キャラクターのステータス表示を更新
+        //     this.updateCharaStt(this.footerManager.effectParam.targetId);
+        // }
+
+        // if (this.footerManager.isReadyNextScene) {
+        //     // 遷移準備ができている場合
+        //     // キャラクターのステータスを更新
+        //     this.charaManager.updateAllCharacter();
+        //     // 次のシーンへ遷移
+        //     this.scene.start(
+        //         this.footerManager.nextSceneParam.scene,
+        //         this.footerManager.nextSceneParam.param
+        //     );
+        // }
     }
 
     /**
@@ -22,19 +43,6 @@ class BattleScene extends BaseScene {
         this.windowChara1Stt = null;
         /** @type {TextWindow} キャラ２のステータスウインドウ */
         this.windowChara2Stt = null;
-        /** @type {TextWindow} 画面左下のメニューウインドウ */
-        this.windowMenu = null;
-        /** @type {TextWindow} 画面右下のテキストウインドウ */
-        this.windowTextMain = null;
-
-        /** @type {DispContent} メニューウインドウ表示コンテンツ */
-        this.dispCttMenu = null;
-        /** @type {DispContent} メインウインドウ表示コンテンツ */
-        this.dispCttTextMain = null;
-        /** @type {DispContent} キャラ１ステータス表示コンテンツ */
-        this.dispCttChara1 = null;
-        /** @type {DispContent} キャラ２ステータス表示コンテンツ */
-        this.dispCttChara2 = null;
 
         // 各Daoの取得
         /** @type {MstMenuDao} メニューマスタDao */
@@ -48,14 +56,20 @@ class BattleScene extends BaseScene {
         /** @type {TblSptCharaDao} 味方キャラテーブルDao */
         this.tblSptCharaDao = new TblSptCharaDao(this);
 
-        /** @type {TblSptCharaModel} キャラ１のステータス */
-        this.chara1Model = this.tblSptCharaDao.getById(C_DB.T_SPT_CHARA.ID_SPRT1)[0];
-        /** @type {TblSptCharaModel} キャラ２のステータス */
-        this.chara2Model = this.tblSptCharaDao.getById(C_DB.T_SPT_CHARA.ID_SPRT2)[0];
+        /** @type {CharaManager} キャラマネージャ */
+        this.charaManager = new CharaManager(this);
 
         // キャラのステータスなどを表示するかどうかのフラグ
-        this.isDispChara1 = this.chara1Model.name !== C_DB.T_SPT_CHARA.NAME_NULL;
-        this.isDispChara2 = this.chara2Model.name !== C_DB.T_SPT_CHARA.NAME_NULL;
+        this.isDispChara1 = this.charaManager.isCharaExist(C_DB.T_SPT_CHARA.ID_SPRT1);
+        this.isDispChara2 = this.charaManager.isCharaExist(C_DB.T_SPT_CHARA.ID_SPRT2);
+
+        /** @type {FooterManager} フッターマネージャ */
+        this.footerManager = null;
+
+        /* キャラ1の行動内容 */
+        this.chara1ActionObj = null;
+        /* キャラ2の行動内容 */
+        this.chara2ActionObj = null;
     }
 
     /** 画面上の各オブジェクトを表示する
@@ -77,7 +91,9 @@ class BattleScene extends BaseScene {
                 fontSize: C_COMMON.FONT_SIZE_SMALL,
                 menuColNum: 1,
             }, this);
+            // ウインドウを描画 
             this.windowChara1Stt.drawWindow();
+            // キャラ１のステータスを更新
             this.updateCharaStt(C_DB.T_SPT_CHARA.ID_SPRT1);
         }
 
@@ -92,53 +108,19 @@ class BattleScene extends BaseScene {
                 fontSize: C_COMMON.FONT_SIZE_SMALL,
                 menuColNum: 1,
             }, this);
+            // ウインドウを描画
             this.windowChara2Stt.drawWindow();
+            // キャラ２のステータスを更新
             this.updateCharaStt(C_DB.T_SPT_CHARA.ID_SPRT2);
         }
 
-        // 画面左下のメニューウインドウを描画
-        this.windowMenu = new TextWindow({
-            startX: C_BS.WINDOW_MENU_X,
-            startY: C_BS.WINDOW_MENU_Y,
-            hSize: C_BS.WINDOW_MENU_W,
-            vSize: C_BS.WINDOW_MENU_H,
-            menuColNum: 1,
-            fontSize: C_COMMON.FONT_SIZE_SMALL,
-            isLine: false, isList: true, isMenu: true
-        }, this);
-        this.windowMenu.drawWindow();
-        // 表示コンテンツを設定
-        this.dispCttMenu = new DispContent(true, false, true, C_COMMON.WINDOW_CONTENT_TYPE_MENU, this);
-        this.dispCttMenu.addContentList(this.mstMenuDao.getByMenuId(C_DB.M_MENU.MENUID_BATTLESCENE));
-        this.windowMenu.setDispContent(this.dispCttMenu);
-
-        // 画面右下のテキストウインドウを描画
-        this.windowTextMain = new TextWindow({
-            startX: C_BS.WINDOW_TEXT_MAIN_X,
-            startY: C_BS.WINDOW_TEXT_MAIN_Y,
-            hSize: C_BS.WINDOW_TEXT_MAIN_W,
-            vSize: C_BS.WINDOW_TEXT_MAIN_H,
-            menuCol: 1,
-            fontSize: C_COMMON.FONT_SIZE_SMALL,
-            isLine: true, isList: false, isMenu: false
-        }, this);
-        this.windowTextMain.drawWindow();
-        // 表示コンテンツを設定
-        this.dispCttTextMain = new DispContent(false, true, false, C_COMMON.WINDOW_CONTENT_TYPE_LINE, this);
-        this.dispCttTextMain.addContent("テスト文字列です。");
-        this.windowTextMain.setDispContent(this.dispCttTextMain);
-
-        // 初期にアクティブにするウインドウの設定
-        this.windowMenu.isActive = true;
-
-        // カーソルウインドウを作成
-        /** @type {CursorWindow} */
-        this.windowCursor = new CursorWindow(this);
+        // フッターの生成
+        this.footerManager = new FooterManager(this);
     }
 
     /**
      * 指定したキャラのステータスを更新する
-     * @param {number} charaIdx 更新対象のキャラの番号(0, 1)
+     * @param {number} charaIdx 更新対象のキャラの番号
      */
     updateCharaStt(charaIdx) {
         /** @type {TextWindow} */

@@ -1,7 +1,7 @@
 /**
- * アクションマスタのモデルクラス
+ * アクションテーブルのモデルクラス
  */
-class MstActionModel extends BaseModel {
+class TblActionModel extends BaseModel {
     constructor() {
         super();
         /** @type {number} id */
