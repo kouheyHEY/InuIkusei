@@ -2,8 +2,16 @@
  * フッターを管理するクラス（メニューウインドウ、メインウインドウ）
  */
 class FooterManager {
-    constructor(scene) {
+    /**
+     * コンストラクタ
+     * @param {Phaser.Scene} scene シーン
+     * @param {Object} param 遷移元から受け取ったパラメータ
+     */
+    constructor(scene, param) {
         this.scene = scene;
+
+        /** @type {Object} 遷移元から受け取ったパラメータ */
+        this.param = param;
 
         /** @type {TextWindow} 画面左下のメニューウインドウ */
         this.windowMenu = new TextWindow({
@@ -21,7 +29,11 @@ class FooterManager {
         this.dispCttMenu = new DispContent(true, false, true, C_COMMON.WINDOW_CONTENT_TYPE_MENU, this.scene);
 
         // コンテンツを設定
-        this.dispCttMenu.addContentList(this.scene.mstMenuDao.getByMenuId(C_DB.M_MENU.MENUID_IKUSEISCENE));
+        if (this.param != null && this.param.fieldId != null) {
+            this.dispCttMenu.addContentList(this.scene.mstMenuDao.getByMenuId(C_DB.M_MENU.MENUID_BATTLESCENE));
+        } else {
+            this.dispCttMenu.addContentList(this.scene.mstMenuDao.getByMenuId(C_DB.M_MENU.MENUID_IKUSEISCENE));
+        }
         this.windowMenu.setDispContent(this.dispCttMenu);
 
         /** @type {TextWindow} 画面下のメインウインドウ */
@@ -106,19 +118,6 @@ class FooterManager {
                     this.windowTextMain.menuColNum = C_COMMON.WINDOW_TEXT_MAIN_COL_NUM;
                     // メインウインドウの表示コンテンツをセット
                     this.windowTextMain.setDispContent(this.dispCttTextMain);
-                } else if (
-                    pressedMenu.childMenuId == C_DB.M_MENU.CHILDMENUID_TOBATTLE
-                ) {
-                    // 「出発」押下時
-                    // 遷移パラメータを設定
-                    this.nextSceneParam = {
-                        scene: C_COMMON.SCENE_BATTLESCENE,
-                        param: this.paramToBattle,
-                    };
-                    // シーン遷移の準備ができたことを通知
-                    this.isReadyNextScene = true;
-                    console.log("Ready Next Scene");
-
                 } else {
                     // 子メニューの表示を行う場合
                     // 子メニューを取得し、そのまま表示コンテンツとして設定
@@ -157,9 +156,15 @@ class FooterManager {
                         // フィールドの場合
                         this.paramToBattle.fieldId = this.windowTextMain.pressedObj.id;
 
-                        // フォーカスをメニューウインドウに戻す
-                        this.windowTextMain.setActive(false, true);
-                        this.windowMenu.setActive(true, false);
+                        // 遷移パラメータを設定
+                        this.nextSceneParam = {
+                            scene: C_COMMON.SCENE_BATTLESCENE,
+                            param: this.paramToBattle,
+                        };
+
+                        // シーン遷移の準備ができたことを通知
+                        this.isReadyNextScene = true;
+                        console.log("Ready Next Scene");
                     } else {
                         // TODO: キャラに効果を適用
                         this.effectParam.effect = this.dispCttTextMain.getEffectObj();

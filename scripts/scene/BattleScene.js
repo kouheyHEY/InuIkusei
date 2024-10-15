@@ -1,6 +1,7 @@
 class BattleScene extends BaseScene {
     constructor() {
         super(C_COMMON.SCENE_BATTLESCENE);
+
     }
 
     /**
@@ -70,6 +71,9 @@ class BattleScene extends BaseScene {
         this.chara1ActionObj = null;
         /* キャラ2の行動内容 */
         this.chara2ActionObj = null;
+
+        /* フィールド */
+        this.fieldId = this.param.fieldId;
     }
 
     /** 画面上の各オブジェクトを表示する
@@ -115,7 +119,9 @@ class BattleScene extends BaseScene {
         }
 
         // フッターの生成
-        this.footerManager = new FooterManager(this);
+        this.footerManager = new FooterManager(this, this.param);
+
+        console.log('[BattleScene.initArea]START BattleScene');
     }
 
     /**

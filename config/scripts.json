@@ -68,7 +68,8 @@
             "category": "サービスクラス",
             "files": [
                 "scripts/service/BaseService.js",
-                "scripts/service/TblSptCharaService.js"
+                "scripts/service/TblSptCharaService.js",
+                "scripts/service/MstFieldService.js"
             ]
         },
         {

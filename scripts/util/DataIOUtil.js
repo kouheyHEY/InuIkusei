@@ -34,7 +34,7 @@ class DataIOUtil {
                 childObjType = C_COMMON.WINDOW_CONTENT_TYPE_ITEM;
             } else if (parentObj.childMenuId == C_DB.M_MENU.CHILDMENUID_FIELD) {
                 // フィールドの場合
-                childObjList = scene.mstFieldDao.getAll();
+                childObjList = MstFieldService.getRandomN(2, scene);
                 childObjType = C_COMMON.WINDOW_CONTENT_TYPE_FIELD;
             } else if (parentObj.childMenuId == C_DB.M_MENU.CHILDMENUID_TRAINING) {
                 // 鍛練メニューの場合

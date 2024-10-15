@@ -11,6 +11,14 @@ class BaseScene extends Phaser.Scene {
     }
 
     /**
+     * シーン遷移時のパラメータを受け取る
+     * @param {Object} param 遷移元から受け取ったパラメータ
+     */
+    init(param) {
+        this.param = param;
+    }
+
+    /**
      * 以下の流れで実行。
      * ０．インスタンス変数の初期化
      *      this.initInstVal
