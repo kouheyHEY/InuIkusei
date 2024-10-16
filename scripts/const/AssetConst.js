@@ -20,5 +20,7 @@ C_ASSET = {
     FILENAME_DB_T_SPT_CHARA: 'TblSptChara.csv',
     /** ファイル名 敵キャラテーブル */
     FILENAME_DB_T_ENEMY: 'TblEnemy.csv',
+    /** ファイル名 アクションテーブル */
+    FILENAME_DB_T_ACTION: 'TblAction.csv',
 
 }

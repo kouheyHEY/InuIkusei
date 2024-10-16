@@ -20,7 +20,7 @@ const C_DB = {
         /** テーブル名 敵キャラテーブル */
         T_ENEMY: "TblEnemy",
         /** テーブル名 アクションテーブル */
-        TBL_ACTION: "TblAction",
+        T_ACTION: "TblAction",
     },
 
     /** 項目名 共通 ID */

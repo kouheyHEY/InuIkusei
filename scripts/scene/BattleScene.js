@@ -56,6 +56,8 @@ class BattleScene extends BaseScene {
         this.tblItemDao = new TblItemDao(this);
         /** @type {TblSptCharaDao} 味方キャラテーブルDao */
         this.tblSptCharaDao = new TblSptCharaDao(this);
+        /** @type {TblActionDao} アクションテーブルDao */
+        this.tblActionDao = new TblActionDao(this);
 
         /** @type {CharaManager} キャラマネージャ */
         this.charaManager = new CharaManager(this);
@@ -131,16 +133,16 @@ class BattleScene extends BaseScene {
     updateCharaStt(charaIdx) {
         /** @type {TextWindow} */
         let window = null;
-        let charaModel;
+        let charaModel = null;
 
         if (charaIdx === C_DB.T_SPT_CHARA.ID_SPRT1) {
             // キャラ１の場合
             window = this.windowChara1Stt;
-            charaModel = this.chara1Model;
+            charaModel = this.charaManager.getCharacter(C_DB.T_SPT_CHARA.ID_SPRT1);
         } else if (charaIdx === C_DB.T_SPT_CHARA.ID_SPRT2) {
             // キャラ２の場合
             window = this.windowChara2Stt;
-            charaModel = this.chara2Model;
+            charaModel = this.charaManager.getCharacter(C_DB.T_SPT_CHARA.ID_SPRT2);
         }
 
         if (window != null && charaModel != null) {
@@ -149,6 +151,7 @@ class BattleScene extends BaseScene {
             dispCtt.addContentList(TblSptCharaService.getBattleDispProps(charaModel, window.hSize, this));
             window.setDispContent(dispCtt);
         }
+        console.log('[BattleScene.updateCharaStt]END updateCharaStt');
     }
 
 }

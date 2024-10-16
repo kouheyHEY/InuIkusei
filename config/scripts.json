@@ -33,7 +33,8 @@
                 "scripts/model/MstTextModel.js",
                 "scripts/model/TblEnemyModel.js",
                 "scripts/model/TblItemModel.js",
-                "scripts/model/TblSptCharaModel.js"
+                "scripts/model/TblSptCharaModel.js",
+                "scripts/model/TblActionModel.js"
             ]
         },
         {
@@ -48,7 +49,8 @@
                 "scripts/dao/MstTextDao.js",
                 "scripts/dao/TblEnemyDao.js",
                 "scripts/dao/TblItemDao.js",
-                "scripts/dao/TblSptCharaDao.js"
+                "scripts/dao/TblSptCharaDao.js",
+                "scripts/dao/TblActionDao.js"
             ]
         },
         {
