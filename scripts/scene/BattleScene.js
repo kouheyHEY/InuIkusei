@@ -58,7 +58,10 @@ class BattleScene extends BaseScene {
         this.tblSptCharaDao = new TblSptCharaDao(this);
         /** @type {TblActionDao} アクションテーブルDao */
         this.tblActionDao = new TblActionDao(this);
+        /** @type {TblEnemyDao} 敵テーブルDao */
+        this.tblEnemyDao = new TblEnemyDao(this);
 
+        // キャラの管理用マネージャの生成
         /** @type {CharaManager} キャラマネージャ */
         this.charaManager = new CharaManager(this);
 

@@ -49,9 +49,6 @@ class DataIOUtil {
                 // 有効なバトルアクションを取得
                 childObjList = scene.tblActionDao.getByType(C_DB.M_ACTION.TYPE_BATTLEACT);
                 childObjType = C_COMMON.WINDOW_CONTENT_TYPE_BATTLEACTION;
-
-                // デフォルトで「攻撃アクション」を追加
-                childObjList.push(C_DB.M_ACTION.TYPE_BATTLEACT);
             } else {
                 // メニューの場合
                 childObjList = scene.mstMenuDao.getByMenuId(parentObj.childMenuId);
@@ -66,6 +63,14 @@ class DataIOUtil {
             // 現在の表示がアイテムリスト、鍛練メニュー、生活メニューの場合
             // キャラリストを取得
             childObjList = scene.charaManager.getAllCharacters();
+            // 子メニューのタイプをキャラリストに設定
+            childObjType = C_COMMON.WINDOW_CONTENT_TYPE_CHARA;
+        } else if (
+            parentType == C_COMMON.WINDOW_CONTENT_TYPE_BATTLEACTION
+        ) {
+            // 現在の表示がバトル行動の場合
+            // 敵キャラリストを取得
+            childObjList = scene.tblEnemyDao.getAll();
             // 子メニューのタイプをキャラリストに設定
             childObjType = C_COMMON.WINDOW_CONTENT_TYPE_CHARA;
         }

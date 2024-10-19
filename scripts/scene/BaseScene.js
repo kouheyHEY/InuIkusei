@@ -50,7 +50,6 @@ class BaseScene extends Phaser.Scene {
         throw new Error(
             `[${this.constructor.name}.initInstVal]${C_COMMON.MSG_ERR_NOIMPL}`);
     }
-
     /**
      * 子クラスで実装。
      * 各アエリアの初期描画

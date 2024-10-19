@@ -7,3 +7,4 @@ id,name,type,trgtCols,efctVals,needCols,needVals,expl
 6,ごはん,2,hp|yp,99|99,,,ワンの体力とやる気が全回復（１回きり）
 8,散歩,2,yp,99,,,ワンのやる気が全回復
 9,ワンぱんち,3,atkDmg,atk,,,通常攻撃
+10,丸くなる,3,defDmg,-1,,,身体を丸くしてダメージを1減らす
