@@ -95,7 +95,7 @@ const C_DB = {
         ID_SPRT2: 2,
 
         /** キャラ名 未登場 */
-        NAME_NULL: "---",
+        NAME_NULL: "-",
     },
 
 

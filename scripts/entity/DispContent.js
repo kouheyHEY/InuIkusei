@@ -219,7 +219,7 @@ class DispContent {
             type == C_COMMON.WINDOW_CONTENT_TYPE_CHARA ||
             type == C_COMMON.WINDOW_CONTENT_TYPE_FIELD
         ) {
-            // 現在の表示がキャラリスト、フィールドリストの場合、1を返す
+            // 次の選択肢がない場合は1を返す
             childObj = C_COMMON.CHILDMENU_NULL_NEXT;
             return childObj;
 

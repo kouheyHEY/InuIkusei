@@ -89,7 +89,7 @@ class FooterManager {
     /** フッターの更新処理を行う */
     updateFooter() {
 
-        /* メニューがアクティブの時の更新処理 */
+        /* メニューウインドウがアクティブの時の更新処理 */
         if (this.windowMenu.isActive) {
 
             /* メニュー選択時の処理 */
@@ -138,6 +138,7 @@ class FooterManager {
 
                 if (this.windowTextMain.pressedObj == C_COMMON.WINDOW_MENU_BACK) {
                     // 戻る押下時
+
                     if (childObj == C_COMMON.CHILDMENU_NULL_BACK) {
                         // 表示履歴がない場合
                         // フォーカスをメニューウインドウに戻す
@@ -150,7 +151,7 @@ class FooterManager {
                         this.windowTextMain.setDispContent(this.dispCttTextMain);
                     }
                 } else if (childObj == C_COMMON.CHILDMENU_NULL_NEXT) {
-                    // 「戻る」以外押下かつ次表示要素がない場合
+                    // 「戻る」以外押下かつ次の表示要素がない場合
 
                     if (this.windowTextMain.pressedObj instanceof MstFieldModel) {
                         // フィールドの場合
@@ -165,8 +166,12 @@ class FooterManager {
                         // シーン遷移の準備ができたことを通知
                         this.isReadyNextScene = true;
                         console.log("Ready Next Scene");
-                    } else {
-                        // TODO: キャラに効果を適用
+                    } else if (
+                        this.windowTextMain.pressedObj instanceof TblItemModel ||
+                        this.windowTextMain.pressedObj instanceof TblActionModel
+                    ) {
+                        // アイテム、アクションの場合
+                        // ターゲットに効果を適用する
                         this.effectParam.effect = this.dispCttTextMain.getEffectObj();
                         this.effectParam.targetId = this.windowTextMain.pressedObj.id;
 
@@ -178,7 +183,7 @@ class FooterManager {
                             this.effectParam.type = C_COMMON.EFFECT_TYPE_ACTION;
                         }
 
-                        // 効果適用フラグを有効にする
+                        // 効果適用可能フラグを有効にする
                         this.isEffect = true;
 
                         // ひとつ前の選択肢に戻す
